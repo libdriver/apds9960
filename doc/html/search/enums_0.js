@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['apds9960_5fals_5fcolor_5fgain_5ft_697',['apds9960_als_color_gain_t',['../group__apds9960__basic__driver.html#gaecd5fc7347ebcad312ec7db8caf68274',1,'driver_apds9960.h']]],
+  ['apds9960_5fals_5finterrupt_5fcycle_5ft_698',['apds9960_als_interrupt_cycle_t',['../group__apds9960__basic__driver.html#gab6aff13ecff33c427fb0ef4bc4df5711',1,'driver_apds9960.h']]],
+  ['apds9960_5fbool_5ft_699',['apds9960_bool_t',['../group__apds9960__basic__driver.html#ga89cdfa1d1dc79f83bcab7dfcf2cdd4d1',1,'driver_apds9960.h']]],
+  ['apds9960_5fconf_5ft_700',['apds9960_conf_t',['../group__apds9960__basic__driver.html#gad3f14ea12bc38ec6814b9ce37679c91b',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fdimension_5fselect_5ft_701',['apds9960_gesture_dimension_select_t',['../group__apds9960__basic__driver.html#ga4d021a3f25106d2d7f99f57ff01d3df1',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fexit_5fpersistence_5ft_702',['apds9960_gesture_exit_persistence_t',['../group__apds9960__basic__driver.html#gaae91d809662499ca430c696bce79d987',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5ffifo_5fthreshold_5ft_703',['apds9960_gesture_fifo_threshold_t',['../group__apds9960__basic__driver.html#gaef03985731f9c94a409a7b2af885f070',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fgain_5fcontrol_5ft_704',['apds9960_gesture_gain_control_t',['../group__apds9960__basic__driver.html#gabc3a7f124f2624fa5a77b5c4244dd750',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fled_5fcurrent_5ft_705',['apds9960_gesture_led_current_t',['../group__apds9960__basic__driver.html#ga1b81d0912d07e77e1c8bc71bd35a426d',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fpulse_5flength_5ft_706',['apds9960_gesture_pulse_length_t',['../group__apds9960__basic__driver.html#ga7262d205c2b3892703719e428303d531',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fstatus_5ft_707',['apds9960_gesture_status_t',['../group__apds9960__basic__driver.html#gaa4fdfdf86efdf27d75c32570bafa287c',1,'driver_apds9960.h']]],
+  ['apds9960_5fgesture_5fwait_5ftime_5ft_708',['apds9960_gesture_wait_time_t',['../group__apds9960__basic__driver.html#ga875703538da33b85ca79de031175f8ac',1,'driver_apds9960.h']]],
+  ['apds9960_5finterrupt_5fstatus_5ft_709',['apds9960_interrupt_status_t',['../group__apds9960__basic__driver.html#ga2adfe5035f20626af9cb97d49e9ece7d',1,'driver_apds9960.h']]],
+  ['apds9960_5fled_5fboost_5ft_710',['apds9960_led_boost_t',['../group__apds9960__basic__driver.html#ga072aefe41377b47f1425b81f566bb81e',1,'driver_apds9960.h']]],
+  ['apds9960_5fled_5fcurrent_5ft_711',['apds9960_led_current_t',['../group__apds9960__basic__driver.html#gae8a83ca2f3110d6ccfafe91a70c37d5a',1,'driver_apds9960.h']]],
+  ['apds9960_5fproximity_5fgain_5ft_712',['apds9960_proximity_gain_t',['../group__apds9960__basic__driver.html#ga46b85a7043a501d9e61aca5e31de54f5',1,'driver_apds9960.h']]],
+  ['apds9960_5fproximity_5finterrupt_5fcycle_5ft_713',['apds9960_proximity_interrupt_cycle_t',['../group__apds9960__basic__driver.html#ga37c55d6453fce3109d3f353fac221368',1,'driver_apds9960.h']]],
+  ['apds9960_5fproximity_5fmask_5ft_714',['apds9960_proximity_mask_t',['../group__apds9960__basic__driver.html#gaae598f98ecf0f32232fcb6e86a873055',1,'driver_apds9960.h']]],
+  ['apds9960_5fproximity_5fpulse_5flength_5ft_715',['apds9960_proximity_pulse_length_t',['../group__apds9960__basic__driver.html#gae655aba4d0797013fc897741abbb4348',1,'driver_apds9960.h']]],
+  ['apds9960_5fsaturation_5finterrupt_5ft_716',['apds9960_saturation_interrupt_t',['../group__apds9960__basic__driver.html#gacbd89215828085a9f38b045c97151765',1,'driver_apds9960.h']]],
+  ['apds9960_5fstatus_5ft_717',['apds9960_status_t',['../group__apds9960__basic__driver.html#gad000f682f560e4994814793e4f55a7f8',1,'driver_apds9960.h']]]
+];

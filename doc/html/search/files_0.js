@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['driver_5fapds9960_2ec_518',['driver_apds9960.c',['../driver__apds9960_8c.html',1,'']]],
+  ['driver_5fapds9960_2eh_519',['driver_apds9960.h',['../driver__apds9960_8h.html',1,'']]],
+  ['driver_5fapds9960_5fbasic_2ec_520',['driver_apds9960_basic.c',['../driver__apds9960__basic_8c.html',1,'']]],
+  ['driver_5fapds9960_5fbasic_2eh_521',['driver_apds9960_basic.h',['../driver__apds9960__basic_8h.html',1,'']]],
+  ['driver_5fapds9960_5fgesture_2ec_522',['driver_apds9960_gesture.c',['../driver__apds9960__gesture_8c.html',1,'']]],
+  ['driver_5fapds9960_5fgesture_2eh_523',['driver_apds9960_gesture.h',['../driver__apds9960__gesture_8h.html',1,'']]],
+  ['driver_5fapds9960_5fgesture_5ftest_2ec_524',['driver_apds9960_gesture_test.c',['../driver__apds9960__gesture__test_8c.html',1,'']]],
+  ['driver_5fapds9960_5fgesture_5ftest_2eh_525',['driver_apds9960_gesture_test.h',['../driver__apds9960__gesture__test_8h.html',1,'']]],
+  ['driver_5fapds9960_5finterface_2eh_526',['driver_apds9960_interface.h',['../driver__apds9960__interface_8h.html',1,'']]],
+  ['driver_5fapds9960_5finterface_5ftemplate_2ec_527',['driver_apds9960_interface_template.c',['../driver__apds9960__interface__template_8c.html',1,'']]],
+  ['driver_5fapds9960_5finterrupt_2ec_528',['driver_apds9960_interrupt.c',['../driver__apds9960__interrupt_8c.html',1,'']]],
+  ['driver_5fapds9960_5finterrupt_2eh_529',['driver_apds9960_interrupt.h',['../driver__apds9960__interrupt_8h.html',1,'']]],
+  ['driver_5fapds9960_5finterrupt_5ftest_2ec_530',['driver_apds9960_interrupt_test.c',['../driver__apds9960__interrupt__test_8c.html',1,'']]],
+  ['driver_5fapds9960_5finterrupt_5ftest_2eh_531',['driver_apds9960_interrupt_test.h',['../driver__apds9960__interrupt__test_8h.html',1,'']]],
+  ['driver_5fapds9960_5fread_5ftest_2ec_532',['driver_apds9960_read_test.c',['../driver__apds9960__read__test_8c.html',1,'']]],
+  ['driver_5fapds9960_5fread_5ftest_2eh_533',['driver_apds9960_read_test.h',['../driver__apds9960__read__test_8h.html',1,'']]],
+  ['driver_5fapds9960_5fregister_5ftest_2ec_534',['driver_apds9960_register_test.c',['../driver__apds9960__register__test_8c.html',1,'']]],
+  ['driver_5fapds9960_5fregister_5ftest_2eh_535',['driver_apds9960_register_test.h',['../driver__apds9960__register__test_8h.html',1,'']]]
+];
