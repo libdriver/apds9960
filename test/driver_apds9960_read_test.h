@@ -44,7 +44,7 @@ extern "C"{
 #endif
 
 /**
- * @addtogroup apds996045_test_driver
+ * @addtogroup apds9960_test_driver
  * @{
  */
 

@@ -44,7 +44,7 @@ extern "C"{
 #endif
 
 /**
- * @defgroup apds996045_test_driver apds9960 test driver function
+ * @defgroup apds9960_test_driver apds9960 test driver function
  * @brief    apds9960 test driver modules
  * @ingroup  apds9960_driver
  * @{
