@@ -48,18 +48,18 @@ static apds9960_handle_t gs_handle;        /**< apds9960 handle */
  */
 uint8_t apds9960_register_test(void)
 {
-    volatile uint8_t res;
-    volatile uint8_t integration_time, integration_time_check;
-    volatile uint8_t wait_time, wait_time_check;
-    volatile uint16_t threshold, threshold_check;
-    volatile uint8_t reg, reg_check;
-    volatile uint16_t count, count_check;
-    volatile int8_t offset, offset_check;
-    volatile uint8_t mask, mask_check;
-    volatile uint8_t status;
-    volatile uint8_t level;
-    volatile float ms, ms_check;
-    volatile int32_t sensitivity, sensitivity_check;
+    uint8_t res;
+    uint8_t integration_time, integration_time_check;
+    uint8_t wait_time, wait_time_check;
+    uint16_t threshold, threshold_check;
+    uint8_t reg, reg_check;
+    uint16_t count, count_check;
+    int8_t offset, offset_check;
+    uint8_t mask, mask_check;
+    uint8_t status;
+    uint8_t level;
+    float ms, ms_check;
+    int32_t sensitivity, sensitivity_check;
     apds9960_info_t info;
     apds9960_bool_t enable;
     apds9960_proximity_interrupt_cycle_t cycle;
@@ -75,7 +75,7 @@ uint8_t apds9960_register_test(void)
     apds9960_gesture_led_current_t gesture_current;
     apds9960_gesture_wait_time_t gesture_wait_time;
     apds9960_gesture_pulse_length_t gesture_len;
-    apds9960_gesture_dimension_select_t select;
+    apds9960_gesture_dimension_select_t s;
     
     /* link interface function */
     DRIVER_APDS9960_LINK_INIT(&gs_handle, apds9960_handle_t);
@@ -89,7 +89,7 @@ uint8_t apds9960_register_test(void)
     
     /* get information */
     res = apds9960_info(&info);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get info failed.\n");
        
@@ -114,7 +114,7 @@ uint8_t apds9960_register_test(void)
     
     /* init the apds9960 */
     res = apds9960_init(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: init failed.\n");
        
@@ -126,19 +126,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable power on */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_POWER_ON, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable power on.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_POWER_ON, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -146,19 +146,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable power on */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_POWER_ON, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable power on.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_POWER_ON, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -166,19 +166,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable gesture */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_GESTURE_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable gesture.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_GESTURE_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -186,19 +186,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable gesture */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_GESTURE_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable gesture.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_GESTURE_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -206,19 +206,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity interrupt */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_PROXIMITY_INTERRUPT_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity interrupt.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_PROXIMITY_INTERRUPT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -226,19 +226,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity interrupt */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_PROXIMITY_INTERRUPT_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity interrupt.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_PROXIMITY_INTERRUPT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -246,19 +246,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable als interrupt */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_ALS_INTERRUPT_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable als interrupt.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_ALS_INTERRUPT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -266,19 +266,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable als interrupt */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_ALS_INTERRUPT_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable als interrupt.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_ALS_INTERRUPT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -286,19 +286,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable wait */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_WAIT_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable wait.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_WAIT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -306,19 +306,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable wait */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_WAIT_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable wait.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_WAIT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -326,19 +326,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity detect */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_PROXIMITY_DETECT_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity detect.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_PROXIMITY_DETECT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -346,19 +346,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity detect */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_PROXIMITY_DETECT_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity detect.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_PROXIMITY_DETECT_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -366,19 +366,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable als */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_ALS_ENABLE, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable als.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_ALS_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -386,19 +386,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable als */
     res = apds9960_set_conf(&gs_handle, APDS9960_CONF_ALS_ENABLE, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable als.\n");
     res = apds9960_get_conf(&gs_handle, APDS9960_CONF_ALS_ENABLE, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get conf failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -409,19 +409,19 @@ uint8_t apds9960_register_test(void)
     
     integration_time = rand() % 256;
     res = apds9960_set_adc_integration_time(&gs_handle, integration_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set adc integration time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set adc integration time 0x%02X.\n", integration_time);
     res = apds9960_get_adc_integration_time(&gs_handle, (uint8_t *)&integration_time_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get adc integration time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -432,19 +432,19 @@ uint8_t apds9960_register_test(void)
     
     wait_time = rand() % 256;
     res = apds9960_set_wait_time(&gs_handle, wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set wait time 0x%02X.\n", wait_time);
     res = apds9960_get_wait_time(&gs_handle, (uint8_t *)&wait_time_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -455,19 +455,19 @@ uint8_t apds9960_register_test(void)
     
     threshold = rand() % 65536;
     res = apds9960_set_als_interrupt_low_threshold(&gs_handle, threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt low threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt low threshold 0x%04X.\n", threshold);
     res = apds9960_get_als_interrupt_low_threshold(&gs_handle, (uint16_t *)&threshold_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt low threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -478,19 +478,19 @@ uint8_t apds9960_register_test(void)
     
     threshold = rand() % 65536;
     res = apds9960_set_als_interrupt_high_threshold(&gs_handle, threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt high threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt high threshold 0x%04X.\n", threshold);
     res = apds9960_get_als_interrupt_high_threshold(&gs_handle, (uint16_t *)&threshold_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt high threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -501,19 +501,19 @@ uint8_t apds9960_register_test(void)
     
     reg = rand() % 256;
     res = apds9960_set_proximity_interrupt_low_threshold(&gs_handle, reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt low threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt low threshold 0x%02X.\n", reg);
     res = apds9960_get_proximity_interrupt_low_threshold(&gs_handle, (uint8_t *)&reg_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt low threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -524,19 +524,19 @@ uint8_t apds9960_register_test(void)
     
     reg = rand() % 256;
     res = apds9960_set_proximity_interrupt_high_threshold(&gs_handle, reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt high threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt high threshold 0x%02X.\n", reg);
     res = apds9960_get_proximity_interrupt_high_threshold(&gs_handle, (uint8_t *)&reg_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt high threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -547,19 +547,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt every cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_EVERY);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt every cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -567,19 +567,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt any cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_ANY);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt any cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -587,19 +587,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 2 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_2);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 2 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -607,19 +607,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 3 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_3);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 3 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -627,19 +627,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 4 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_4);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 4 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -647,19 +647,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 5 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_5);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 5 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -667,19 +667,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 6 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_6);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 6 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -687,19 +687,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 7 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_7);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 7 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -707,19 +707,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 8 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_8);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 8 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -727,19 +727,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 9 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_9);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 9 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -747,19 +747,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 10 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_10);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 10 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -767,19 +767,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 11 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_11);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 11 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -787,19 +787,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 12 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_12);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 12 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -807,19 +807,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 13 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_13);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 13 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -827,19 +827,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 14 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_14);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 14 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -847,19 +847,19 @@ uint8_t apds9960_register_test(void)
     
     /* set proximity interrupt 15 cycle */
     res = apds9960_set_proximity_interrupt_cycle(&gs_handle, APDS9960_PROXIMITY_INTERRUPT_CYCLE_15);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity interrupt 15 cycle.\n");
     res = apds9960_get_proximity_interrupt_cycle(&gs_handle, &cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -870,19 +870,19 @@ uint8_t apds9960_register_test(void)
     
     /* every als cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_EVERY);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt every cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -890,19 +890,19 @@ uint8_t apds9960_register_test(void)
     
     /* als any cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_ANY);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt any cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -910,19 +910,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 2 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_2);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 2 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -930,19 +930,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 3 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_3);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 3 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -950,19 +950,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 5 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_5);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 5 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -970,19 +970,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 10 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_10);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 10 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -990,19 +990,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 15 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_15);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 15 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1010,19 +1010,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 20 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_20);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 20 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1030,19 +1030,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 25 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_25);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 25 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1050,19 +1050,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 30 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_30);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 30 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1070,19 +1070,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 35 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_35);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 35 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1090,19 +1090,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 40 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_40);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 40 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1110,19 +1110,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 45 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_45);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 45 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1130,19 +1130,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 50 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_50);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 50 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1150,19 +1150,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 55 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_55);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 55 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1170,19 +1170,19 @@ uint8_t apds9960_register_test(void)
     
     /* als 60 cycle */
     res = apds9960_set_als_interrupt_cycle(&gs_handle, APDS9960_ALS_INTERRUPT_CYCLE_60);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als interrupt 60 cycle.\n");
     res = apds9960_get_als_interrupt_cycle(&gs_handle, &als_cycle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als interrupt cycle failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1193,19 +1193,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable wait long */
     res = apds9960_set_wait_long(&gs_handle, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set wait long failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable wait long.\n");
     res = apds9960_get_wait_long(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get wait long failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1213,19 +1213,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable wait long */
     res = apds9960_set_wait_long(&gs_handle, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set wait long failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable wait long.\n");
     res = apds9960_get_wait_long(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get wait long failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1236,19 +1236,19 @@ uint8_t apds9960_register_test(void)
     
     /* proximity pulse length 4 us */
     res = apds9960_set_proximity_pulse_length(&gs_handle, APDS9960_PROXIMITY_PULSE_LENGTH_4_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: proximity pulse length 4 us.\n");
     res = apds9960_get_proximity_pulse_length(&gs_handle, &len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1256,19 +1256,19 @@ uint8_t apds9960_register_test(void)
     
     /* proximity pulse length 8 us */
     res = apds9960_set_proximity_pulse_length(&gs_handle, APDS9960_PROXIMITY_PULSE_LENGTH_8_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: proximity pulse length 8 us.\n");
     res = apds9960_get_proximity_pulse_length(&gs_handle, &len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1276,19 +1276,19 @@ uint8_t apds9960_register_test(void)
     
     /* proximity pulse length 16 us */
     res = apds9960_set_proximity_pulse_length(&gs_handle, APDS9960_PROXIMITY_PULSE_LENGTH_16_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: proximity pulse length 16 us.\n");
     res = apds9960_get_proximity_pulse_length(&gs_handle, &len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1296,19 +1296,19 @@ uint8_t apds9960_register_test(void)
     
     /* proximity pulse length 32 us */
     res = apds9960_set_proximity_pulse_length(&gs_handle, APDS9960_PROXIMITY_PULSE_LENGTH_32_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: proximity pulse length 32 us.\n");
     res = apds9960_get_proximity_pulse_length(&gs_handle, &len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1319,19 +1319,19 @@ uint8_t apds9960_register_test(void)
     
     count = rand() % 0x3F;
     res = apds9960_set_proximity_pulse_count(&gs_handle, count);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity pulse count failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity pulse count %d.\n", count);
     res = apds9960_get_proximity_pulse_count(&gs_handle, (uint16_t *)&count_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity pulse count failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1342,19 +1342,19 @@ uint8_t apds9960_register_test(void)
     
     /* 100 mA */
     res = apds9960_set_led_current(&gs_handle, APDS9960_LED_CURRENT_100_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led current 100 mA.\n");
     res = apds9960_get_led_current(&gs_handle, &current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1362,19 +1362,19 @@ uint8_t apds9960_register_test(void)
     
     /* 50 mA */
     res = apds9960_set_led_current(&gs_handle, APDS9960_LED_CURRENT_50_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led current 50 mA.\n");
     res = apds9960_get_led_current(&gs_handle, &current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1382,19 +1382,19 @@ uint8_t apds9960_register_test(void)
     
     /* 25 mA */
     res = apds9960_set_led_current(&gs_handle, APDS9960_LED_CURRENT_25_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led current 25 mA.\n");
     res = apds9960_get_led_current(&gs_handle, &current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1402,19 +1402,19 @@ uint8_t apds9960_register_test(void)
     
     /* 12.5 mA */
     res = apds9960_set_led_current(&gs_handle, APDS9960_LED_CURRENT_12P5_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led current 12.5 mA.\n");
     res = apds9960_get_led_current(&gs_handle, &current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1425,19 +1425,19 @@ uint8_t apds9960_register_test(void)
     
     /* gain 1x */
     res = apds9960_set_proximity_gain(&gs_handle, APDS9960_PROXIMITY_GAIN_1X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity gain 1x.\n");
     res = apds9960_get_proximity_gain(&gs_handle, &proximity_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1445,19 +1445,19 @@ uint8_t apds9960_register_test(void)
     
     /* gain 2x */
     res = apds9960_set_proximity_gain(&gs_handle, APDS9960_PROXIMITY_GAIN_2X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity gain 2x.\n");
     res = apds9960_get_proximity_gain(&gs_handle, &proximity_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1465,19 +1465,19 @@ uint8_t apds9960_register_test(void)
     
     /* gain 4x */
     res = apds9960_set_proximity_gain(&gs_handle, APDS9960_PROXIMITY_GAIN_4X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity gain 4x.\n");
     res = apds9960_get_proximity_gain(&gs_handle, &proximity_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1485,19 +1485,19 @@ uint8_t apds9960_register_test(void)
     
     /* gain 8x */
     res = apds9960_set_proximity_gain(&gs_handle, APDS9960_PROXIMITY_GAIN_8X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity gain 8x.\n");
     res = apds9960_get_proximity_gain(&gs_handle, &proximity_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1507,80 +1507,80 @@ uint8_t apds9960_register_test(void)
     apds9960_interface_debug_print("apds9960: apds9960_set_als_color_gain/apds9960_get_als_color_gain test.\n");
     
     /* gain 1x */
-    apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_1X);
-    if (res)
+    res = apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_1X);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als color gain 1x.\n");
-    apds9960_get_als_color_gain(&gs_handle, &als_gain);
-    if (res)
+    res = apds9960_get_als_color_gain(&gs_handle, &als_gain);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: check als color gain %s.\n", als_gain == APDS9960_ALS_COLOR_GAIN_1X ? "ok" : "error");
     
     /* gain 4x */
-    apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_4X);
-    if (res)
+    res = apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_4X);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als color gain 4x.\n");
-    apds9960_get_als_color_gain(&gs_handle, &als_gain);
-    if (res)
+    res = apds9960_get_als_color_gain(&gs_handle, &als_gain);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: check als color gain %s.\n", als_gain == APDS9960_ALS_COLOR_GAIN_4X ? "ok" : "error");
     
     /* gain 16x */
-    apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_16X);
-    if (res)
+    res = apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_16X);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als color gain 16x.\n");
-    apds9960_get_als_color_gain(&gs_handle, &als_gain);
-    if (res)
+    res = apds9960_get_als_color_gain(&gs_handle, &als_gain);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: check als color gain %s.\n", als_gain == APDS9960_ALS_COLOR_GAIN_16X ? "ok" : "error");
     
     /* gain 64x */
-    apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_64X);
-    if (res)
+    res = apds9960_set_als_color_gain(&gs_handle, APDS9960_ALS_COLOR_GAIN_64X);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set als color gain 64x.\n");
-    apds9960_get_als_color_gain(&gs_handle, &als_gain);
-    if (res)
+    res = apds9960_get_als_color_gain(&gs_handle, &als_gain);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get als color gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1591,19 +1591,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1611,19 +1611,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1631,19 +1631,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable clear photodiode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable clear photodiode saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1651,19 +1651,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable clear photodiode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable clear photodiode saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get saturation interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1674,19 +1674,19 @@ uint8_t apds9960_register_test(void)
     
     /* 100% */
     res = apds9960_set_led_boost(&gs_handle, APDS9960_LED_BOOST_100_PERCENTAGE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led boost 100%%.\n");
     res = apds9960_get_led_boost(&gs_handle, &boost);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1694,19 +1694,19 @@ uint8_t apds9960_register_test(void)
     
     /* 150% */
     res = apds9960_set_led_boost(&gs_handle, APDS9960_LED_BOOST_150_PERCENTAGE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led boost 150%%.\n");
     res = apds9960_get_led_boost(&gs_handle, &boost);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1714,19 +1714,19 @@ uint8_t apds9960_register_test(void)
     
     /* 200% */
     res = apds9960_set_led_boost(&gs_handle, APDS9960_LED_BOOST_200_PERCENTAGE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led boost 200%%.\n");
     res = apds9960_get_led_boost(&gs_handle, &boost);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1734,19 +1734,19 @@ uint8_t apds9960_register_test(void)
     
     /* 300% */
     res = apds9960_set_led_boost(&gs_handle, APDS9960_LED_BOOST_300_PERCENTAGE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set led boost 300%%.\n");
     res = apds9960_get_led_boost(&gs_handle, &boost);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get led boost failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1757,19 +1757,19 @@ uint8_t apds9960_register_test(void)
     
     offset = rand() % 128;
     res = apds9960_set_proximity_up_right_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity up right offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity up right offset %d.\n", offset);
     res = apds9960_get_proximity_up_right_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity up right offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1780,19 +1780,19 @@ uint8_t apds9960_register_test(void)
     
     offset = -(rand() % 128);
     res = apds9960_set_proximity_down_left_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity down left offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set proximity down left offset %d.\n", offset);
     res = apds9960_get_proximity_down_left_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity down left offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1803,19 +1803,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable */
     res = apds9960_set_proximity_gain_compensation(&gs_handle, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain compensation failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity gain compensation.\n");
     res = apds9960_get_proximity_gain_compensation(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain compensation failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1823,19 +1823,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable */
     res = apds9960_set_proximity_gain_compensation(&gs_handle, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity gain compensation failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity gain compensation.\n");
     res = apds9960_get_proximity_gain_compensation(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity gain compensation failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1846,19 +1846,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable */
     res = apds9960_set_sleep_after_interrupt(&gs_handle, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set sleep after interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable sleep after interrupt.\n");
     res = apds9960_get_sleep_after_interrupt(&gs_handle, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get sleep after interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1866,19 +1866,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable */
     res = apds9960_set_sleep_after_interrupt(&gs_handle, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set sleep after interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable sleep after interrupt.\n");
     res = apds9960_get_sleep_after_interrupt(&gs_handle, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get sleep after interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1889,19 +1889,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity mask up */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_UP, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity mask up.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_UP, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1909,19 +1909,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity mask up */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_UP, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity mask up.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_UP, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1929,19 +1929,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity mask down */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_DOWN, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity mask down.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_DOWN, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1949,19 +1949,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity mask down */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_DOWN, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity mask down.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_DOWN, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1969,19 +1969,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity mask left */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_LEFT, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity mask left.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_LEFT, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -1989,19 +1989,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity mask left */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_LEFT, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity mask left.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_LEFT, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2009,19 +2009,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable proximity mask right */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_RIGHT, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable proximity mask right.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_RIGHT, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2029,19 +2029,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable proximity mask right */
     res = apds9960_set_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_RIGHT, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable proximity mask right.\n");
     res = apds9960_get_proximity_mask(&gs_handle, APDS9960_PROXIMITY_MASK_RIGHT, (apds9960_bool_t *)&enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get proximity mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2052,19 +2052,19 @@ uint8_t apds9960_register_test(void)
     
     reg  = rand() % 256;
     res = apds9960_set_gesture_proximity_enter_threshold(&gs_handle, reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture proximity enter threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture proximity enter threshold 0x%02X.\n", reg);
     res = apds9960_get_gesture_proximity_enter_threshold(&gs_handle, (uint8_t *)&reg_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture proximity enter threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2075,19 +2075,19 @@ uint8_t apds9960_register_test(void)
     
     reg  = rand() % 256;
     res = apds9960_set_gesture_proximity_exit_threshold(&gs_handle, reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture proximity exit threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture proximity exit threshold 0x%02X.\n", reg);
     res = apds9960_get_gesture_proximity_exit_threshold(&gs_handle, (uint8_t *)&reg_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture proximity exit threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2098,19 +2098,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture fifo threshold 1 dataset */
     res = apds9960_set_gesture_fifo_threshold(&gs_handle, APDS9960_GESTURE_FIFO_THRESHOLD_1_DATASET);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture fifo threshold 1 dataset.\n");
     res = apds9960_get_gesture_fifo_threshold(&gs_handle, &fifo_threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2118,19 +2118,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture fifo threshold 4 dataset */
     res = apds9960_set_gesture_fifo_threshold(&gs_handle, APDS9960_GESTURE_FIFO_THRESHOLD_4_DATASET);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture fifo threshold 4 dataset.\n");
     res = apds9960_get_gesture_fifo_threshold(&gs_handle, &fifo_threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2138,19 +2138,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture fifo threshold 8 dataset */
     res = apds9960_set_gesture_fifo_threshold(&gs_handle, APDS9960_GESTURE_FIFO_THRESHOLD_8_DATASET);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture fifo threshold 8 dataset.\n");
     res = apds9960_get_gesture_fifo_threshold(&gs_handle, &fifo_threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2158,19 +2158,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture fifo threshold 16 dataset */
     res = apds9960_set_gesture_fifo_threshold(&gs_handle, APDS9960_GESTURE_FIFO_THRESHOLD_16_DATASET);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture fifo threshold 16 dataset.\n");
     res = apds9960_get_gesture_fifo_threshold(&gs_handle, &fifo_threshold);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture fifo threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2181,19 +2181,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture exit persistence 1st */
     res = apds9960_set_gesture_exit_persistence(&gs_handle, APDS9960_GESTURE_EXIT_PERSISTENCE_1ST);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture exit persistence 1st.\n");
     res = apds9960_get_gesture_exit_persistence(&gs_handle, &persistence);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2201,19 +2201,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture exit persistence 2nd */
     res = apds9960_set_gesture_exit_persistence(&gs_handle, APDS9960_GESTURE_EXIT_PERSISTENCE_2ND);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture exit persistence 2nd.\n");
     res = apds9960_get_gesture_exit_persistence(&gs_handle, &persistence);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2221,19 +2221,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture exit persistence 4th */
     res = apds9960_set_gesture_exit_persistence(&gs_handle, APDS9960_GESTURE_EXIT_PERSISTENCE_4TH);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture exit persistence 4th.\n");
     res = apds9960_get_gesture_exit_persistence(&gs_handle, &persistence);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2241,19 +2241,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture exit persistence 7th */
     res = apds9960_set_gesture_exit_persistence(&gs_handle, APDS9960_GESTURE_EXIT_PERSISTENCE_7TH);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture exit persistence 7th.\n");
     res = apds9960_get_gesture_exit_persistence(&gs_handle, &persistence);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture exit persistence failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2264,19 +2264,19 @@ uint8_t apds9960_register_test(void)
     
     mask = rand() % 0xF;
     res = apds9960_set_gesture_exit_mask(&gs_handle, mask);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture exit mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture exit mask 0x%01X.\n", mask);
     res = apds9960_get_gesture_exit_mask(&gs_handle, (uint8_t *)&mask_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture exit mask failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2287,19 +2287,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture gain 1x */
     res = apds9960_set_gesture_gain(&gs_handle, APDS9960_GESTURE_GAIN_1X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture gain 1x.\n");
     res = apds9960_get_gesture_gain(&gs_handle, &gesture_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2307,19 +2307,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture gain 2x */
     res = apds9960_set_gesture_gain(&gs_handle, APDS9960_GESTURE_GAIN_2X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture gain 2x.\n");
     res = apds9960_get_gesture_gain(&gs_handle, &gesture_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2327,19 +2327,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture gain 4x */
     res = apds9960_set_gesture_gain(&gs_handle, APDS9960_GESTURE_GAIN_4X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture gain 4x.\n");
     res = apds9960_get_gesture_gain(&gs_handle, &gesture_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2347,19 +2347,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture gain 8x */
     res = apds9960_set_gesture_gain(&gs_handle, APDS9960_GESTURE_GAIN_8X);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture gain 8x.\n");
     res = apds9960_get_gesture_gain(&gs_handle, &gesture_gain);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture gain failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2370,19 +2370,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture led current 100 mA */
     res = apds9960_set_gesture_led_current(&gs_handle, APDS9960_GESTURE_LED_CURRENT_100_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture led current 100 mA.\n");
     res = apds9960_get_gesture_led_current(&gs_handle, &gesture_current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2390,19 +2390,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture led current 50 mA */
     res = apds9960_set_gesture_led_current(&gs_handle, APDS9960_GESTURE_LED_CURRENT_50_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture led current 50 mA.\n");
     res = apds9960_get_gesture_led_current(&gs_handle, &gesture_current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2410,19 +2410,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture led current 25 mA */
     res = apds9960_set_gesture_led_current(&gs_handle, APDS9960_GESTURE_LED_CURRENT_25_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture led current 25 mA.\n");
     res = apds9960_get_gesture_led_current(&gs_handle, &gesture_current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2430,19 +2430,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture led current 12.5 mA */
     res = apds9960_set_gesture_led_current(&gs_handle, APDS9960_GESTURE_LED_CURRENT_12P5_MA);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture led current 12.5 mA.\n");
     res = apds9960_get_gesture_led_current(&gs_handle, &gesture_current);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture led current failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2453,19 +2453,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 0 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_0_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 0 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2473,19 +2473,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 2.8 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_2P8_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 2.8 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2493,19 +2493,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 5.6 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_5P6_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 5.6 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2513,19 +2513,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 8.4 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_8P4_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 8.4 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2533,19 +2533,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 14 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_14_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 14 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2553,19 +2553,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 22.4 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_22P4_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 22.4 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2573,19 +2573,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 30.8 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_30P8_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 30.8 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2593,19 +2593,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture wait time 39.2 ms */
     res = apds9960_set_gesture_wait_time(&gs_handle, APDS9960_GESTURE_WAIT_TIME_39P2_MS);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture wait time 39.2 ms.\n");
     res = apds9960_get_gesture_wait_time(&gs_handle, &gesture_wait_time);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture wait time failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2616,19 +2616,19 @@ uint8_t apds9960_register_test(void)
     
     offset = rand() % 128;
     res = apds9960_set_gesture_up_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture up offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture up offset %d.\n", offset);
     res = apds9960_get_gesture_up_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture up offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2639,19 +2639,19 @@ uint8_t apds9960_register_test(void)
     
     offset = -(rand() % 128);
     res = apds9960_set_gesture_down_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture down offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture down offset %d.\n", offset);
     res = apds9960_get_gesture_down_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture down offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2662,19 +2662,19 @@ uint8_t apds9960_register_test(void)
     
     offset = rand() % 128;
     res = apds9960_set_gesture_left_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture left offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture left offset %d.\n", offset);
     res = apds9960_get_gesture_left_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture left offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2685,19 +2685,19 @@ uint8_t apds9960_register_test(void)
     
     offset = -(rand() % 128);
     res = apds9960_set_gesture_right_offset(&gs_handle, offset);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture right offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture right offset %d.\n", offset);
     res = apds9960_get_gesture_right_offset(&gs_handle, (int8_t *)&offset_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture right offset failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2708,19 +2708,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture pulse length 4 us */
     res = apds9960_set_gesture_pulse_length(&gs_handle, APDS9960_GESTURE_PULSE_LENGTH_4_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture pulse length 4 us.\n");
     res = apds9960_get_gesture_pulse_length(&gs_handle, &gesture_len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2728,19 +2728,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture pulse length 8 us */
     res = apds9960_set_gesture_pulse_length(&gs_handle, APDS9960_GESTURE_PULSE_LENGTH_8_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture pulse length 8 us.\n");
     res = apds9960_get_gesture_pulse_length(&gs_handle, &gesture_len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2748,19 +2748,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture pulse length 16 us */
     res = apds9960_set_gesture_pulse_length(&gs_handle, APDS9960_GESTURE_PULSE_LENGTH_16_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture pulse length 16 us.\n");
     res = apds9960_get_gesture_pulse_length(&gs_handle, &gesture_len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2768,19 +2768,19 @@ uint8_t apds9960_register_test(void)
     
     /* set gesture pulse length 32 us */
     res = apds9960_set_gesture_pulse_length(&gs_handle, APDS9960_GESTURE_PULSE_LENGTH_32_US);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture pulse length 32 us.\n");
     res = apds9960_get_gesture_pulse_length(&gs_handle, &gesture_len);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture pulse length failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2791,19 +2791,19 @@ uint8_t apds9960_register_test(void)
     
     count = rand() % 0x3F;
     res = apds9960_set_gesture_pulse_count(&gs_handle, count);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture pulse count failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture pulse count %d.\n", count);
     res = apds9960_get_gesture_pulse_count(&gs_handle, (uint16_t *)&count_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture pulse count failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2814,82 +2814,82 @@ uint8_t apds9960_register_test(void)
     
     /* set both pairs active */
     res = apds9960_set_gesture_dimension(&gs_handle, APDS9960_GESTURE_DIMENSION_SELECT_BOTH_PAIRS_ACTIVE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set both pairs active.\n");
-    res = apds9960_get_gesture_dimension_select(&gs_handle, &select);
-    if (res)
+    res = apds9960_get_gesture_dimension_select(&gs_handle, &s);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", select == APDS9960_GESTURE_DIMENSION_SELECT_BOTH_PAIRS_ACTIVE ? "ok" : "error");
+    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", s == APDS9960_GESTURE_DIMENSION_SELECT_BOTH_PAIRS_ACTIVE ? "ok" : "error");
     
     /* set only up down pair active */
     res = apds9960_set_gesture_dimension(&gs_handle, APDS9960_GESTURE_DIMENSION_SELECT_ONLY_UP_DOWN_PAIRS_ACTIVE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set only up down pair active.\n");
-    res = apds9960_get_gesture_dimension_select(&gs_handle, &select);
-    if (res)
+    res = apds9960_get_gesture_dimension_select(&gs_handle, &s);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", select == APDS9960_GESTURE_DIMENSION_SELECT_ONLY_UP_DOWN_PAIRS_ACTIVE ? "ok" : "error");
+    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", s == APDS9960_GESTURE_DIMENSION_SELECT_ONLY_UP_DOWN_PAIRS_ACTIVE ? "ok" : "error");
     
     /* set only left right pair active */
     res = apds9960_set_gesture_dimension(&gs_handle, APDS9960_GESTURE_DIMENSION_SELECT_ONLY_LEFT_RIGHT_PAIRS_ACTIVE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set only left right pair active.\n");
-    res = apds9960_get_gesture_dimension_select(&gs_handle, &select);
-    if (res)
+    res = apds9960_get_gesture_dimension_select(&gs_handle, &s);
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture dimension failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", select == APDS9960_GESTURE_DIMENSION_SELECT_ONLY_LEFT_RIGHT_PAIRS_ACTIVE ? "ok" : "error");
+    apds9960_interface_debug_print("apds9960: check gesture dimension select %s.\n", s == APDS9960_GESTURE_DIMENSION_SELECT_ONLY_LEFT_RIGHT_PAIRS_ACTIVE ? "ok" : "error");
     
     /* apds9960_set_gesture_interrupt/apds9960_get_gesture_interrupt test */
     apds9960_interface_debug_print("apds9960: apds9960_set_gesture_interrupt/apds9960_get_gesture_interrupt test.\n");
     
     /* enable gesture interrupt */
     res = apds9960_set_gesture_interrupt(&gs_handle, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable gesture interrupt.\n");
     res = apds9960_get_gesture_interrupt(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2897,19 +2897,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable gesture interrupt */
     res = apds9960_set_gesture_interrupt(&gs_handle, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable gesture interrupt.\n");
     res = apds9960_get_gesture_interrupt(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2920,19 +2920,19 @@ uint8_t apds9960_register_test(void)
     
     /* enable gesture mode */
     res = apds9960_set_gesture_mode(&gs_handle, APDS9960_BOOL_TRUE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture mode failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: enable gesture mode.\n");
     res = apds9960_get_gesture_mode(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture mode failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2940,19 +2940,19 @@ uint8_t apds9960_register_test(void)
     
     /* disable gesture mode */
     res = apds9960_set_gesture_mode(&gs_handle, APDS9960_BOOL_FALSE);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture mode failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: disable gesture mode.\n");
     res = apds9960_get_gesture_mode(&gs_handle, &enable);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture mode failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2963,19 +2963,19 @@ uint8_t apds9960_register_test(void)
     
     reg = rand() % 256;
     res = apds9960_set_gesture_decode_threshold(&gs_handle, reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture decode threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture decode threshold 0x%02X.\n", reg);
     res = apds9960_get_gesture_decode_threshold(&gs_handle, (uint8_t *)&reg_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture decode threshold failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -2986,19 +2986,19 @@ uint8_t apds9960_register_test(void)
     
     sensitivity = rand() % 65536;
     res = apds9960_set_gesture_decode_sensitivity_1(&gs_handle, sensitivity);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture decode sensitivity 1 failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture decode sensitivity 1 %d.\n", sensitivity);
     res = apds9960_get_gesture_decode_sensitivity_1(&gs_handle, (int32_t *)&sensitivity_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture decode sensitivity 1 failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3009,19 +3009,19 @@ uint8_t apds9960_register_test(void)
     
     sensitivity = rand() % 65536;
     res = apds9960_set_gesture_decode_sensitivity_2(&gs_handle, sensitivity);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: set gesture decode sensitivity 2 failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set gesture decode sensitivity 2 %d.\n", sensitivity);
     res = apds9960_get_gesture_decode_sensitivity_2(&gs_handle, (int32_t *)&sensitivity_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture decode sensitivity 2 failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3032,19 +3032,19 @@ uint8_t apds9960_register_test(void)
     
     ms = (float)(rand() % 1000 )/ 10.0f;
     res = apds9960_adc_integration_time_convert_to_register(&gs_handle, ms, (uint8_t *)&reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: adc integration time convert to register failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set adc integration time %0.2f.\n", ms);
     res = apds9960_adc_integration_time_convert_to_data(&gs_handle, reg, (float *)&ms_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: adc integration time convert to data failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3055,19 +3055,19 @@ uint8_t apds9960_register_test(void)
     
     ms = (float)(rand() % 1000 )/ 10.0f;
     res = apds9960_wait_time_convert_to_register(&gs_handle, ms, (uint8_t *)&reg);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: wait time convert to register failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
     apds9960_interface_debug_print("apds9960: set wait time %0.2f.\n", ms);
     res = apds9960_wait_time_convert_to_data(&gs_handle, reg, (float *)&ms_check);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: wait time convert to data failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3078,10 +3078,10 @@ uint8_t apds9960_register_test(void)
     
     /* get status */
     res = apds9960_get_status(&gs_handle, (uint8_t *)&status);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get status failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3092,10 +3092,10 @@ uint8_t apds9960_register_test(void)
     
     /* get gesture fifo level */
     res = apds9960_get_gesture_fifo_level(&gs_handle, (uint8_t *)&level);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture fifo level failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3106,10 +3106,10 @@ uint8_t apds9960_register_test(void)
     
     /* get gesture status */
     res = apds9960_get_gesture_status(&gs_handle, (uint8_t *)&status);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: get gesture status failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3120,10 +3120,10 @@ uint8_t apds9960_register_test(void)
     
     /* gesture fifo clear */
     res = apds9960_gesture_fifo_clear(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: gesture fifo clear failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3134,10 +3134,10 @@ uint8_t apds9960_register_test(void)
     
     /* force interrupt */
     res = apds9960_force_interrupt(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: force interrupt failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3148,10 +3148,10 @@ uint8_t apds9960_register_test(void)
     
     /* proximity interrupt clear */
     res = apds9960_proximity_interrupt_clear(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: proximity interrupt clear failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3162,10 +3162,10 @@ uint8_t apds9960_register_test(void)
     
     /* als interrupt clear */
     res = apds9960_als_interrupt_clear(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: als interrupt clear failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3176,10 +3176,10 @@ uint8_t apds9960_register_test(void)
     
     /* all non gesture interrupt clear */
     res = apds9960_all_non_gesture_interrupt_clear(&gs_handle);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: all non gesture interrupt clear failed.\n");
-        apds9960_deinit(&gs_handle);
+        (void)apds9960_deinit(&gs_handle);
         
         return 1;
     }
@@ -3187,7 +3187,7 @@ uint8_t apds9960_register_test(void)
     
     /* finish register test */
     apds9960_interface_debug_print("apds9960: finish register test.\n");
-    apds9960_deinit(&gs_handle);
+    (void)apds9960_deinit(&gs_handle);
     
     return 0;
 }

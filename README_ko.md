@@ -8,46 +8,46 @@
 
 [![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
-The Broadcom APDS-9960 is a digital RGB, ambient light, proximity and gesture sensor device in a single 8-pin package. The device has an I2C compatible interface providing red, green, blue, clear (RGBC), proximity and gesture sensing with IR LED. The RGB and ambient light sensing feature detects light intensity under various lighting conditions and through various attentuation materials including darkened glass. In addition, the integrated UV-IR blocking filter enables accurate ambient light and correlated color temperature sensing.The proximity and gesture feature is factory-trimmed and calibrated to 100mm proximity detection distance without requiring customer calibrations. Gesture detection utilizes four directional photodiodes, integrated with visible blocking filter, to accurately sense simple UP-DOWN-RIGHT-LEFT gestures or more complex gestures. The addition of micro-optics lenses within the module provides high efficient transmission and reception of infrared energy. An internal state machine allows the device to be put into a low power state between RGBC, proximity and gesture measurements providing very low power consumption.It can be used in display backlight control,correlated color temperature sensing,cell phone touch-screen disable,digital camera touch-screen disable,mechanical switch replacement,gesture detection and so on.
+Broadcom APDS-9960은 단일 8핀 패키지의 디지털 RGB, 주변광, 근접 및 제스처 센서 장치입니다. 이 장치는 IR LED를 사용하여 RGBC(빨간색, 녹색, 파란색), 근접성 및 제스처 감지를 제공하는 I2C 호환 인터페이스를 갖추고 있습니다. RGB 및 주변광 감지 기능은 다양한 조명 조건과 어두운 유리를 포함한 다양한 감쇠 재료를 통해 빛의 강도를 감지합니다. 또한 통합된 UV-IR 차단 필터는 정확한 주변광 및 상관 색온도 감지를 가능하게 합니다. 근접 및 제스처 기능은 공장에서 조정되며 고객 보정 없이도 100mm 근접 감지 거리로 보정됩니다. 제스처 감지는 가시적 차단 필터와 통합된 4개의 지향성 포토다이오드를 사용하여 간단한 위-아래-오른쪽-왼쪽 제스처 또는 더 복잡한 제스처를 정확하게 감지합니다. 모듈 내에 마이크로 광학 렌즈를 추가하여 적외선 에너지의 고효율 전송 및 수신을 제공합니다. 내부 상태 기계를 사용하면 장치를 RGBC, 근접 및 제스처 측정 사이에서 저전력 상태로 전환하여 매우 낮은 전력 소비를 제공할 수 있습니다. 디스플레이 백라이트 제어, 상관 색온도 감지, 휴대 전화 터치 스크린 비활성화, 디지털에 사용할 수 있습니다. 카메라 터치 스크린 비활성화, 기계적 스위치 교체, 제스처 감지 등.
 
-LibDriver APDS9960 is the full function driver of APDS9960 launched by LibDriver.LibDriver APDS9960 provides rgbc reading function, proximity reading function, gesture decoding function and other functions. LibDriver is MISRA compliant.
+LibDriver APDS9960은 LibDriver에서 출시한 APDS9960의 전체 기능 드라이버입니다. LibDriver APDS9960은 rgbc 읽기 기능, 근접 읽기 기능, 제스처 디코딩 기능 및 기타 기능을 제공합니다. LibDriver는 MISRA를 준수합니다.
 
-### Table of Contents
+### 콘텐츠
 
-  - [Instruction](#Instruction)
-  - [Install](#Install)
-  - [Usage](#Usage)
+  - [설명](#설명)
+  - [설치](#설치)
+  - [사용](#사용)
     - [example basic](#example-basic)
     - [example gesture](#example-gesture)
     - [example interrupt](#example-interrupt)
-  - [Document](#Document)
-  - [Contributing](#Contributing)
-  - [License](#License)
-  - [Contact Us](#Contact-Us)
+  - [문서](#문서)
+  - [기고](#기고)
+  - [저작권](#저작권)
+  - [문의하기](#문의하기)
 
-### Instruction
+### 설명
 
-/src includes LibDriver APDS9960 source files.
+/src 디렉토리에는 LibDriver APDS9960의 소스 파일이 포함되어 있습니다.
 
-/interface includes LibDriver APDS9960 IIC platform independent template。
+/interface 디렉토리에는 LibDriver APDS9960용 플랫폼 독립적인 IIC버스 템플릿이 포함되어 있습니다.
 
-/test includes LibDriver APDS9960 driver test code and this code can test the chip necessary function simply。
+/test 디렉토리에는 LibDriver APDS9960드라이버 테스트 프로그램이 포함되어 있어 칩의 필요한 기능을 간단히 테스트할 수 있습니다.
 
-/example includes LibDriver APDS9960 sample code.
+/example 디렉토리에는 LibDriver APDS9960프로그래밍 예제가 포함되어 있습니다.
 
-/doc includes LibDriver APDS9960 offline document.
+/doc 디렉토리에는 LibDriver APDS9960오프라인 문서가 포함되어 있습니다.
 
-/datasheet includes APDS9960 datasheet。
+/datasheet 디렉토리에는 APDS9960데이터시트가 있습니다.
 
-/project includes the common Linux and MCU development board sample code. All projects use the shell script to debug the driver and the detail instruction can be found in each project's README.md.
+/project 디렉토리에는 일반적으로 사용되는 Linux 및 마이크로컨트롤러 개발 보드의 프로젝트 샘플이 포함되어 있습니다. 모든 프로젝트는 디버깅 방법으로 셸 스크립트를 사용하며, 자세한 내용은 각 프로젝트의 README.md를 참조하십시오.
 
-### Install
+### 설치
 
-Reference /interface IIC platform independent template and finish your platform IIC driver.
+/interface 디렉토리에서 플랫폼 독립적인IIC 버스 템플릿을 참조하여 지정된 플랫폼에 대한 IIC버스 드라이버를 완성하십시오.
 
-Add /src, /interface and /example to your project.
+/src 디렉토리, /interface 디렉토리 및 /example 디렉토리를 프로젝트에 추가하십시오.
 
-### Usage
+### 사용
 
 #### example basic
 
@@ -110,7 +110,7 @@ return 0;
 
 #### example gesture
 
-```C
+```c
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -447,60 +447,28 @@ g_gpio_irq = NULL;
 return 0;
 ```
 
-### Document
+### 문서
 
-Online documents: https://www.libdriver.com/docs/apds9960/index.html
+온라인 문서: https://www.libdriver.com/docs/apds9960/index.html
 
-Offline documents: /doc/html/index.html
+오프라인 문서: /doc/html/index.html
 
-### Contributing
+### 기고
 
-Please sent an e-mail to lishifenging@outlook.com
+연락주세요lishifenging@outlook.com
 
-### License
+### 저작권
 
-Copyright (c) 2015 - present LibDriver All rights reserved
+저작권 (c) 2015 - 지금 LibDriver 판권 소유
 
+MIT 라이선스(MIT)
 
+이 소프트웨어 및 관련 문서 파일("소프트웨어")의 사본을 얻은 모든 사람은 이에 따라 무제한 사용, 복제, 수정, 통합, 출판, 배포, 2차 라이선스를 포함하여 소프트웨어를 처분할 수 있는 권리가 부여됩니다. 소프트웨어의 사본에 대한 라이선스 및/또는 판매, 그리고 소프트웨어가 위와 같이 배포된 사람의 권리에 대한 2차 라이선스는 다음 조건에 따릅니다.
 
-The MIT License (MIT) 
+위의 저작권 표시 및 이 허가 표시는 이 소프트웨어의 모든 사본 또는 내용에 포함됩니다.
 
+이 소프트웨어는 상품성, 특정 목적에의 적합성 및 비침해에 대한 보증을 포함하되 이에 국한되지 않는 어떠한 종류의 명시적 또는 묵시적 보증 없이 "있는 그대로" 제공됩니다. 어떤 경우에도 저자 또는 저작권 소유자는 계약, 불법 행위 또는 기타 방식에 관계없이 소프트웨어 및 기타 소프트웨어 사용으로 인해 발생하거나 이와 관련하여 발생하는 청구, 손해 또는 기타 책임에 대해 책임을 지지 않습니다.
 
+### 문의하기
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-
-of this software and associated documentation files (the "Software"), to deal
-
-in the Software without restriction, including without limitation the rights
-
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions: 
-
-
-
-The above copyright notice and this permission notice shall be included in all
-
-copies or substantial portions of the Software. 
-
-
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-
-SOFTWARE. 
-
-### Contact Us
-
-Please sent an e-mail to lishifenging@outlook.com
+연락주세요lishifenging@outlook.com

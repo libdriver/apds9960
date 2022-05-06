@@ -120,10 +120,10 @@ var group__apds9960__example__driver =
     [ "apds9960_basic_read_proximity", "group__apds9960__example__driver.html#gade72e44c01ebcf179694333343d951d1", null ],
     [ "apds9960_basic_read_rgbc", "group__apds9960__example__driver.html#gae1bd121bdb88d5a2856b07faf7a352ab", null ],
     [ "apds9960_gesture_deinit", "group__apds9960__example__driver.html#gadd69081ec3640c226e2fe102c77bf030", null ],
-    [ "apds9960_gesture_init", "group__apds9960__example__driver.html#ga031cc7026a785d1a7bdb69781dbf7693", null ],
+    [ "apds9960_gesture_init", "group__apds9960__example__driver.html#gacc9928a43083d1726efb97af0fff3c39", null ],
     [ "apds9960_gesture_irq_handler", "group__apds9960__example__driver.html#ga05ec511817d1090fd5a8b9ac6e6601ef", null ],
     [ "apds9960_interrupt_deinit", "group__apds9960__example__driver.html#gad6057bfb50407b7d5be1e5d4f8611fcc", null ],
-    [ "apds9960_interrupt_init", "group__apds9960__example__driver.html#ga79797e1b20e91cb2f58768689eb3959e", null ],
+    [ "apds9960_interrupt_init", "group__apds9960__example__driver.html#ga6632310dadd9aeb1fa1a6be6f50ce9ac", null ],
     [ "apds9960_interrupt_irq_handler", "group__apds9960__example__driver.html#ga3ec09f44e291e1174f51fc64e02910e5", null ],
     [ "apds9960_interrupt_read_proximity", "group__apds9960__example__driver.html#gabbac647506885abf59e737b1de8a6f68", null ],
     [ "apds9960_interrupt_read_rgbc", "group__apds9960__example__driver.html#ga422a001887546640432bf5c1d2f0626c", null ]

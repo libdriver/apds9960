@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_APDS9960_REGISTER_TEST_H_
-#define _DRIVER_APDS9960_REGISTER_TEST_H_
+#ifndef DRIVER_APDS9960_REGISTER_TEST_H
+#define DRIVER_APDS9960_REGISTER_TEST_H
 
 #include "driver_apds9960_interface.h"
 

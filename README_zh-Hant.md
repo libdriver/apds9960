@@ -1,4 +1,4 @@
-[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md) | [日本語](/README_ja.md) | [Deutsch](/README_de.md) | [한국어](/README_ko.md)
 
 <div align=center>
 <img src="/doc/image/logo.png"/>
@@ -6,11 +6,11 @@
 
 ## LibDriver APDS9960
 
-[![API](https://img.shields.io/badge/api-reference-blue)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
+[![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
 Broadcom APDS-9960 是一款採用單個 8 引腳封裝的數字 RGB、環境光、近程和手勢傳感器裝置。該裝置具有與 I2C 兼容的接口，為紅色、綠色、藍色、透明 (RGBC)，近程和手勢感測配有紅外 LED。 RGB 和環境光感測功能可在多種光條件下以及通過多種減振材料包括深色玻璃的情況下，檢測出光強度。此外，集成 UV-IR 遮光濾光片可實現精準的環境光和相關色溫感測。近程和手勢功能經工廠調整和校準至 100 毫米的近程檢測距離，無需客戶校準。利用四個定向二極管，與可見光遮光濾光片集成，手勢檢測能準確地感應“上下左右”以及更複雜的動作。模塊內增加的微光學透鏡能提供高效的傳輸和紅外能量的接收。內部狀態機能夠將該裝置處於 RGBC、近程和手勢測量之間的低功耗狀態，提供極低的功耗。它可用於顯示屏背光控制、色溫感應、手機觸摸屏禁用、數字攝像頭觸屏禁用、機械開關更換、手勢檢測等。
 
-LibDriver APDS9960是LibDriver推出的APDS9960全功能驅動。 LibDriver APDS9960提供rgbc讀取、接近讀取、手勢解碼等功能。
+LibDriver APDS9960是LibDriver推出的APDS9960全功能驅動。 LibDriver APDS9960提供rgbc讀取、接近讀取、手勢解碼等功能並且它符合MISRA標準。
 
 ### 目錄
 
@@ -52,12 +52,12 @@ LibDriver APDS9960是LibDriver推出的APDS9960全功能驅動。 LibDriver APDS
 #### example basic
 
 ```C
-volatile uint8_t res;
-volatile uint32_t i, times;
+uint8_t res;
+uint32_t i, times;
 
 times = 3;
 res = apds9960_basic_init();
-if (res)
+if (res != 0)
 {
     return 1;
 }
@@ -67,25 +67,25 @@ apds9960_interface_delay_ms(1000);
 
 for (i = 0; i < times; i++)
 {
-    volatile uint8_t proximity;
-    volatile uint16_t red, green, blue, clear;
+    uint8_t proximity;
+    uint16_t red, green, blue, clear;
 
     /* read rgbc */
     res = apds9960_basic_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
-        apds9960_basic_deinit();
+        (void)apds9960_basic_deinit();
 
         return 1;
     }
 
     /* read proximity */
     res = apds9960_basic_read_proximity((uint8_t *)&proximity);
-    if (res)
+    if (res != 0)
     {
         apds9960_interface_debug_print("apds9960: read proximity failed.\n");
-        apds9960_basic_deinit();
+        (void)apds9960_basic_deinit();
 
         return 1;
     }
@@ -103,7 +103,7 @@ for (i = 0; i < times; i++)
 }
 
 /* deinit */
-apds9960_basic_deinit();
+(void)apds9960_basic_deinit();
 
 return 0;
 ```
@@ -113,10 +113,10 @@ return 0;
 ```C
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
-volatile uint8_t res;
-volatile uint32_t i, times;
+uint8_t res;
+uint32_t i, times;
 
-static uint8_t _gesture_callback(uint8_t type)
+static void a_gesture_callback(uint8_t type)
 {
     switch (type)
     {
@@ -215,25 +215,25 @@ static uint8_t _gesture_callback(uint8_t type)
         default :
         {
             apds9960_interface_debug_print("apds9960: irq unknown.\n");
+            
+            break;
         }
     }
-    
-    return 0;
 }
 
 times = 3;
 
 /* gpio interrupt init */
 g_gpio_irq = apds9960_gesture_irq_handler;
-if (gpio_interrupt_init())
+if (gpio_interrupt_init() != 0)
 {
     g_gpio_irq = NULL;
 }
 
-res = apds9960_gesture_init(_gesture_callback);
-if (res)
+res = apds9960_gesture_init(a_gesture_callback);
+if (res != 0)
 {
-    gpio_interrupt_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
@@ -242,26 +242,26 @@ if (res)
 gs_flag = 0;
 for (i = 0; i < times; i++)
 {
-    start_gesture:
-
-    if (gs_flag)
+    if (gs_flag != 0)
     {
         gs_flag = 0;
 
         /* 1000 ms */
         apds9960_interface_delay_ms(100);
+
+        break;
     }
     else
     {
         /* 1000 ms */
         apds9960_interface_delay_ms(100); 
 
-        goto start_gesture;
+        continue;
     }
 }
 
-apds9960_gesture_deinit();
-gpio_interrupt_deinit();
+(void)apds9960_gesture_deinit();
+(void)gpio_interrupt_deinit();
 g_gpio_irq = NULL;
 
 return 0;
@@ -272,10 +272,10 @@ return 0;
 ```C
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
-volatile uint8_t res;
-volatile uint32_t i, times;
+uint8_t res;
+uint32_t i, times;
 
-static uint8_t _interrupt_callback(uint8_t type)
+static void a_interrupt_callback(uint8_t type)
 {
     switch (type)
     {
@@ -341,16 +341,14 @@ static uint8_t _interrupt_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_PINT :
         {
-            volatile uint8_t res;
-            volatile uint8_t proximity;
+            uint8_t res;
+            uint8_t proximity;
             
             /* read proximity */
             res = apds9960_interrupt_read_proximity((uint8_t *)&proximity);
-            if (res)
+            if (res != 0)
             {
                 apds9960_interface_debug_print("apds9960: read proximity failed.\n");
-                
-                return 1;
             }
             apds9960_interface_debug_print("apds9960: proximity is 0x%02X.\n", proximity);
             gs_flag = 1;
@@ -359,12 +357,12 @@ static uint8_t _interrupt_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_AINT :
         {
-            volatile uint8_t res;
-            volatile uint16_t red, green, blue, clear;
+            uint8_t res;
+            uint16_t red, green, blue, clear;
             
             /* read rgbc */
             res = apds9960_interrupt_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
-            if (res)
+            if (res != 0)
             {
                 apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
                 
@@ -396,26 +394,26 @@ static uint8_t _interrupt_callback(uint8_t type)
         default :
         {
             apds9960_interface_debug_print("apds9960: irq unknown.\n");
+            
+            break;
         }
     }
-    
-    return 0;
 }
                
 times = 3;
 
 /* gpio interrupt init */
 g_gpio_irq = apds9960_interrupt_irq_handler;
-if (gpio_interrupt_init())
+if (gpio_interrupt_init() != 0)
 {
     g_gpio_irq = NULL;
 }
 
 /* run interrupt function */
 if (apds9960_interrupt_init(_interrupt_callback, 1,
-                            2000, 1, 150))
+                            2000, 1, 150) != 0)
 {
-    gpio_interrupt_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
@@ -424,26 +422,26 @@ if (apds9960_interrupt_init(_interrupt_callback, 1,
 gs_flag = 0;
 for (i = 0; i < times; i++)
 {
-    start_int:
-
-    if (gs_flag)
+    if (gs_flag != 0)
     {
         gs_flag = 0;
 
         /* 1000 ms */
         apds9960_interface_delay_ms(100);
+
+        break;
     }
     else
     {
         /* 1000 ms */
         apds9960_interface_delay_ms(100); 
 
-        goto start_int;
+        continue;
     }
 }
 
-apds9960_interrupt_deinit();
-gpio_interrupt_deinit();
+(void)apds9960_interrupt_deinit();
+(void)gpio_interrupt_deinit();
 g_gpio_irq = NULL;
 
 return 0;

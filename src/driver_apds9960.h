@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_APDS9960_H_
-#define _DRIVER_APDS9960_H_
+#ifndef DRIVER_APDS9960_H
+#define DRIVER_APDS9960_H
 
 #include <stdio.h>
 #include <stdint.h>
@@ -350,8 +350,8 @@ typedef struct apds9960_handle_s
     uint8_t (*iic_read)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);         /**< point to a iic_read function address */
     uint8_t (*iic_write)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);        /**< point to a iic_write function address */
     void (*delay_ms)(uint32_t ms);                                                      /**< point to a delay_ms function address */
-    uint16_t (*debug_print)(char *fmt, ...);                                            /**< point to a debug_print function address */
-    uint8_t (*receive_callback)(uint8_t type);                                          /**< point to a receive_callback function address */
+    void (*debug_print)(const char *const fmt, ...);                                    /**< point to a debug_print function address */
+    void (*receive_callback)(uint8_t type);                                             /**< point to a receive_callback function address */
     uint8_t inited;                                                                     /**< inited flag */
     uint8_t gesture_status;                                                             /**< gesture status */
     uint8_t gesture_threshold;                                                          /**< gesture threshold */
@@ -1484,7 +1484,7 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
 /**
  * @brief     set the gesture wait time
  * @param[in] *handle points to a apds9960 handle structure
- * @param[in] time is the gesture wait time
+ * @param[in] t is the gesture wait time
  * @return    status code
  *            - 0 success
  *            - 1 set gesture wait time failed
@@ -1492,12 +1492,12 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
  *            - 3 handle is not initialized
  * @note      none
  */
-uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t time);
+uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t t);
 
 /**
  * @brief      get the gesture wait time
  * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *time points to a gesture wait time buffer
+ * @param[out] *t points to a gesture wait time buffer
  * @return     status code
  *             - 0 success
  *             - 1 get gesture wait time failed
@@ -1505,7 +1505,7 @@ uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
  *             - 3 handle is not initialized
  * @note       none
  */
-uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t *time);
+uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t *t);
 
 /**
  * @brief     set the gesture up offset
@@ -1667,7 +1667,7 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
 /**
  * @brief     set the gesture dimension
  * @param[in] *handle points to a apds9960 handle structure
- * @param[in] select is the gesture dimension
+ * @param[in] s is the gesture dimension
  * @return    status code
  *            - 0 success
  *            - 1 set gesture dimension failed
@@ -1675,12 +1675,12 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
  *            - 3 handle is not initialized
  * @note      none
  */
-uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t select);
+uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t s);
 
 /**
  * @brief      get the gesture dimension
  * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *select points to a gesture dimension buffer
+ * @param[out] *s points to a gesture dimension buffer
  * @return     status code
  *             - 0 success
  *             - 1 get gesture dimension failed
@@ -1688,7 +1688,7 @@ uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gestu
  *             - 3 handle is not initialized
  * @note       none
  */
-uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t *select);
+uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t *s);
 
 /**
  * @brief     clear the gesture fifo status

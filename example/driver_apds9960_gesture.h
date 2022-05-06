@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_APDS9960_GESTURE_H_
-#define _DRIVER_APDS9960_GESTURE_H_
+#ifndef DRIVER_APDS9960_GESTURE_H
+#define DRIVER_APDS9960_GESTURE_H
 
 #include "driver_apds9960_interface.h"
 
@@ -53,8 +53,8 @@ extern "C"{
  */
 #define APDS9960_GESTURE_DEFAULT_ADC_INTEGRATION_TIME                  103.0f                                                     /**< 103 ms */
 #define APDS9960_GESTURE_DEFAULT_WAIT_TIME                             10.0f                                                      /**< 10 ms */
-#define APDS9960_GESTURE_DEFAULT_ALS_INTERRUPT_LOW_THRESHOLD           0x0000                                                     /**< 0x0000 */
-#define APDS9960_GESTURE_DEFAULT_ALS_INTERRUPT_HIGH_THRESHOLD          0xFFFF                                                     /**< 0xFFFF */
+#define APDS9960_GESTURE_DEFAULT_ALS_INTERRUPT_LOW_THRESHOLD           0x0000U                                                    /**< 0x0000 */
+#define APDS9960_GESTURE_DEFAULT_ALS_INTERRUPT_HIGH_THRESHOLD          0xFFFFU                                                    /**< 0xFFFF */
 #define APDS9960_GESTURE_DEFAULT_PROXIMITY_INTERRUPT_LOW_THRESHOLD     0x00                                                       /**< 0x00 */
 #define APDS9960_GESTURE_DEFAULT_PROXIMITY_INTERRUPT_HIGH_THRESHOLD    0xFF                                                       /**< 0xFF */
 #define APDS9960_GESTURE_DEFAULT_PROXIMITY_INTERRUPT_CYCLE             APDS9960_PROXIMITY_INTERRUPT_CYCLE_2                       /**< proximity interrupt cycle 2 */
@@ -108,7 +108,7 @@ uint8_t apds9960_gesture_irq_handler(void);
  *            - 1 init failed
  * @note      none
  */
-uint8_t apds9960_gesture_init(uint8_t (*callback)(uint8_t type));
+uint8_t apds9960_gesture_init(void (*callback)(uint8_t type));
 
 /**
  * @brief  gesture example deinit

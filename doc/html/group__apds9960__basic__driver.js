@@ -1,7 +1,7 @@
 var group__apds9960__basic__driver =
 [
     [ "apds9960_handle_s", "structapds9960__handle__s.html", [
-      [ "debug_print", "structapds9960__handle__s.html#a75f9f50c23e87e9407f9ec4e34bb42f2", null ],
+      [ "debug_print", "structapds9960__handle__s.html#a769d5b3a6c14790a0e126e8fe70b384b", null ],
       [ "delay_ms", "structapds9960__handle__s.html#a406c9433252b7366de417b7a60915c81", null ],
       [ "gesture_far_count", "structapds9960__handle__s.html#a742fc07d2fc48fd2541be5930595358a", null ],
       [ "gesture_lr_count", "structapds9960__handle__s.html#ac4a5d6e3088c53d9b29f069527112db9", null ],
@@ -18,7 +18,7 @@ var group__apds9960__basic__driver =
       [ "iic_read", "structapds9960__handle__s.html#af4ef726288b88f51a846483803a1249b", null ],
       [ "iic_write", "structapds9960__handle__s.html#adca3ee7a793bbf510d5267daf0fcf1c5", null ],
       [ "inited", "structapds9960__handle__s.html#a19bedf28d2b9748f6a62d9ae93f4e68f", null ],
-      [ "receive_callback", "structapds9960__handle__s.html#aa2f0ad453e9509af4703f1db48bb16e6", null ]
+      [ "receive_callback", "structapds9960__handle__s.html#a4a9a1af4e28aea769f6d9f02a02e07c3", null ]
     ] ],
     [ "apds9960_info_s", "structapds9960__info__s.html", [
       [ "chip_name", "structapds9960__info__s.html#af890958c72bd715cc6454a10dc846ae6", null ],
@@ -217,7 +217,7 @@ var group__apds9960__basic__driver =
     [ "apds9960_get_gesture_decode_sensitivity_1", "group__apds9960__basic__driver.html#gacd640aa4adf3ce50076de8bed6865102", null ],
     [ "apds9960_get_gesture_decode_sensitivity_2", "group__apds9960__basic__driver.html#gac2ff9b683110f2a1aa26851a5255329a", null ],
     [ "apds9960_get_gesture_decode_threshold", "group__apds9960__basic__driver.html#ga305402bbd1c1a3b27c20af79a23bdef0", null ],
-    [ "apds9960_get_gesture_dimension_select", "group__apds9960__basic__driver.html#gaebf9daada9ccae7357c6767d6199785e", null ],
+    [ "apds9960_get_gesture_dimension_select", "group__apds9960__basic__driver.html#ga7003fb7cd6d9d30caedce0265b3bb3d1", null ],
     [ "apds9960_get_gesture_down_offset", "group__apds9960__basic__driver.html#ga94c348be4186b7521f896132f7141ff3", null ],
     [ "apds9960_get_gesture_exit_mask", "group__apds9960__basic__driver.html#ga2fe8844d24eeed06315e81f23dec1c2d", null ],
     [ "apds9960_get_gesture_exit_persistence", "group__apds9960__basic__driver.html#ga86d5afa750d5323fd854ede133b0d64d", null ],
@@ -235,7 +235,7 @@ var group__apds9960__basic__driver =
     [ "apds9960_get_gesture_right_offset", "group__apds9960__basic__driver.html#gaa2740a1e2970b018b27f13918920b7eb", null ],
     [ "apds9960_get_gesture_status", "group__apds9960__basic__driver.html#ga3bf4ed993f835234f1cd23f591781399", null ],
     [ "apds9960_get_gesture_up_offset", "group__apds9960__basic__driver.html#ga2dfe9c65e878a7039f2e6a181d04b76c", null ],
-    [ "apds9960_get_gesture_wait_time", "group__apds9960__basic__driver.html#gacfa027f5380b84f608f7c62458b9b7a1", null ],
+    [ "apds9960_get_gesture_wait_time", "group__apds9960__basic__driver.html#gae6a87ea5ce0648bd981ab887de39012f", null ],
     [ "apds9960_get_led_boost", "group__apds9960__basic__driver.html#ga967e7733416ac6c16de2f28197a7e9bc", null ],
     [ "apds9960_get_led_current", "group__apds9960__basic__driver.html#ga1c16d187dd6d8f98a899e8afad4f2c62", null ],
     [ "apds9960_get_proximity_down_left_offset", "group__apds9960__basic__driver.html#ga310223ad606489163943b5b33004708a", null ],
@@ -269,7 +269,7 @@ var group__apds9960__basic__driver =
     [ "apds9960_set_gesture_decode_sensitivity_1", "group__apds9960__basic__driver.html#gaf5838c978673d070e8f5f5cf46114dbd", null ],
     [ "apds9960_set_gesture_decode_sensitivity_2", "group__apds9960__basic__driver.html#ga10dfd803495bd3520556fff6110040fb", null ],
     [ "apds9960_set_gesture_decode_threshold", "group__apds9960__basic__driver.html#gac10e3252d603567795b98f70be770e1f", null ],
-    [ "apds9960_set_gesture_dimension", "group__apds9960__basic__driver.html#ga4e2a0254c41ed4708e3fc898f7954675", null ],
+    [ "apds9960_set_gesture_dimension", "group__apds9960__basic__driver.html#ga0614257fb81408b94c90ad91b5b9017f", null ],
     [ "apds9960_set_gesture_down_offset", "group__apds9960__basic__driver.html#gaf910b3b6e299ced9860962b251cd2f54", null ],
     [ "apds9960_set_gesture_exit_mask", "group__apds9960__basic__driver.html#ga884ce8d1977a1cff5b4d590d0b94d98c", null ],
     [ "apds9960_set_gesture_exit_persistence", "group__apds9960__basic__driver.html#ga2011dca23e6d9de59cd5596183b80022", null ],
@@ -285,7 +285,7 @@ var group__apds9960__basic__driver =
     [ "apds9960_set_gesture_pulse_length", "group__apds9960__basic__driver.html#ga65d8189e1ecc1035cf11dfe3731d74a1", null ],
     [ "apds9960_set_gesture_right_offset", "group__apds9960__basic__driver.html#ga5faa2d9bdc47ba38e48a2a1e2ec6c7b1", null ],
     [ "apds9960_set_gesture_up_offset", "group__apds9960__basic__driver.html#gaab6bda00b91810dcda6b76c4c1e12962", null ],
-    [ "apds9960_set_gesture_wait_time", "group__apds9960__basic__driver.html#gaa17cade25e7849b80818f79cc17af429", null ],
+    [ "apds9960_set_gesture_wait_time", "group__apds9960__basic__driver.html#ga1a593023d9673fb948bc7e4a9e398742", null ],
     [ "apds9960_set_led_boost", "group__apds9960__basic__driver.html#ga986b997ca43a81c5f2ab4eedc6279b41", null ],
     [ "apds9960_set_led_current", "group__apds9960__basic__driver.html#gac51a0917a722ffa34ce4439f3287ea0c", null ],
     [ "apds9960_set_proximity_down_left_offset", "group__apds9960__basic__driver.html#ga38f8789a64768333d98dc3c28c64bbaa", null ],

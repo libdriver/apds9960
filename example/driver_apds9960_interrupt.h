@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_APDS9960_INTERRUPT_H_
-#define _DRIVER_APDS9960_INTERRUPT_H_
+#ifndef DRIVER_APDS9960_INTERRUPT_H
+#define DRIVER_APDS9960_INTERRUPT_H
 
 #include "driver_apds9960_interface.h"
 
@@ -109,7 +109,7 @@ uint8_t apds9960_interrupt_irq_handler(void);
  *            - 1 init failed
  * @note      none
  */
-uint8_t apds9960_interrupt_init(uint8_t (*callback)(uint8_t type), uint16_t als_low_threshold, uint16_t als_high_threshold,
+uint8_t apds9960_interrupt_init(void (*callback)(uint8_t type), uint16_t als_low_threshold, uint16_t als_high_threshold,
                                 uint8_t proximity_low_threshold, uint8_t proximity_high_threshold);
 
 /**
