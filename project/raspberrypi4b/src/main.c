@@ -50,12 +50,9 @@ static uint8_t gs_flag;                    /**< flag */
 /**
  * @brief     gesture callback
  * @param[in] type is the interrupt type
- * @return    status code
- *            - 0 success
- *            - 1 run failed
  * @note      none
  */
-static uint8_t _gesture_callback(uint8_t type)
+static void a_gesture_callback(uint8_t type)
 {
     switch (type)
     {
@@ -156,19 +153,14 @@ static uint8_t _gesture_callback(uint8_t type)
             apds9960_interface_debug_print("apds9960: irq unknown.\n");
         }
     }
-    
-    return 0;
 }
 
 /**
  * @brief     interrupt receive callback
  * @param[in] type is the interrupt type
- * @return    status code
- *            - 0 success
- *            - 1 run failed
  * @note      none
  */
-static uint8_t _interrupt_callback(uint8_t type)
+static void a_interrupt_callback(uint8_t type)
 {
     switch (type)
     {
@@ -234,16 +226,14 @@ static uint8_t _interrupt_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_PINT :
         {
-            volatile uint8_t res;
-            volatile uint8_t proximity;
+            uint8_t res;
+            uint8_t proximity;
             
             /* read proximity */
             res = apds9960_interrupt_read_proximity((uint8_t *)&proximity);
-            if (res)
+            if (res != 0)
             {
                 apds9960_interface_debug_print("apds9960: read proximity failed.\n");
-                
-                return 1;
             }
             apds9960_interface_debug_print("apds9960: proximity is 0x%02X.\n", proximity);
             gs_flag = 1;
@@ -252,16 +242,14 @@ static uint8_t _interrupt_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_AINT :
         {
-            volatile uint8_t res;
-            volatile uint16_t red, green, blue, clear;
+            uint8_t res;
+            uint16_t red, green, blue, clear;
             
             /* read rgbc */
             res = apds9960_interrupt_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
-            if (res)
+            if (res != 0)
             {
                 apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
-                
-                return 1;
             }
             /* output */
             apds9960_interface_debug_print("apds9960: red is 0x%04X.\n", red);
@@ -291,8 +279,6 @@ static uint8_t _interrupt_callback(uint8_t type)
             apds9960_interface_debug_print("apds9960: irq unknown.\n");
         }
     }
-    
-    return 0;
 }
 
 /**
@@ -376,7 +362,7 @@ uint8_t apds9960(uint8_t argc, char **argv)
             if (strcmp("reg", argv[2]) == 0)
             {
                 /* run reg test */
-                if (apds9960_register_test())
+                if (apds9960_register_test() != 0)
                 {
                     return 1;
                 }
@@ -405,7 +391,7 @@ uint8_t apds9960(uint8_t argc, char **argv)
             if (strcmp("read", argv[2]) == 0)
             {
                 /* run read test */
-                if (apds9960_read_test(atoi(argv[3])))
+                if (apds9960_read_test(atoi(argv[3])) != 0)
                 {
                     return 1;
                 }
@@ -418,22 +404,22 @@ uint8_t apds9960(uint8_t argc, char **argv)
             {
                 /* gpio interrupt init */
                 g_gpio_irq = apds9960_gesture_test_irq_handler;
-                if (gpio_interrupt_init())
+                if (gpio_interrupt_init() != 0)
                 {
                     g_gpio_irq = NULL;
                 }
                 
                 /* run gesture test */
-                if (apds9960_gesture_test(atoi(argv[3])))
+                if (apds9960_gesture_test(atoi(argv[3])) != 0)
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 1;
                 }
                 else
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 0;
@@ -450,12 +436,12 @@ uint8_t apds9960(uint8_t argc, char **argv)
         {
             if (strcmp("read", argv[2]) == 0)
             {
-                volatile uint8_t res;
-                volatile uint32_t i, times;
+                uint8_t res;
+                uint32_t i, times;
                 
                 times = atoi(argv[3]);
                 res = apds9960_basic_init();
-                if (res)
+                if (res != 0)
                 {
                     return 1;
                 }
@@ -465,25 +451,25 @@ uint8_t apds9960(uint8_t argc, char **argv)
                 
                 for (i = 0; i < times; i++)
                 {
-                    volatile uint8_t proximity;
-                    volatile uint16_t red, green, blue, clear;
+                    uint8_t proximity;
+                    uint16_t red, green, blue, clear;
                     
                     /* read rgbc */
                     res = apds9960_basic_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
-                    if (res)
+                    if (res != 0)
                     {
                         apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
-                        apds9960_basic_deinit();
+                        (void)apds9960_basic_deinit();
                         
                         return 1;
                     }
                     
                     /* read proximity */
                     res = apds9960_basic_read_proximity((uint8_t *)&proximity);
-                    if (res)
+                    if (res != 0)
                     {
                         apds9960_interface_debug_print("apds9960: read proximity failed.\n");
-                        apds9960_basic_deinit();
+                        (void)apds9960_basic_deinit();
                         
                         return 1;
                     }
@@ -501,28 +487,28 @@ uint8_t apds9960(uint8_t argc, char **argv)
                 }
                 
                 /* deinit */
-                apds9960_basic_deinit();
+                (void)apds9960_basic_deinit();
                 
                 return 0;
             }
             else if (strcmp("gesture", argv[2]) == 0)
             {
-                volatile uint8_t res;
-                volatile uint32_t i, times;
+                uint8_t res;
+                uint32_t i, times;
                 
                 times = atoi(argv[3]);
                 
                 /* gpio interrupt init */
                 g_gpio_irq = apds9960_gesture_irq_handler;
-                if (gpio_interrupt_init())
+                if (gpio_interrupt_init() != 0)
                 {
                     g_gpio_irq = NULL;
                 }
                 
-                res = apds9960_gesture_init(_gesture_callback);
-                if (res)
+                res = apds9960_gesture_init(a_gesture_callback);
+                if (res != 0)
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 1;
@@ -531,26 +517,29 @@ uint8_t apds9960(uint8_t argc, char **argv)
                 gs_flag = 0;
                 for (i = 0; i < times; i++)
                 {
-                    start_gesture:
-                    
-                    if (gs_flag)
+                    while (1)
                     {
-                        gs_flag = 0;
-                        
-                        /* 1000 ms */
-                        apds9960_interface_delay_ms(100);
-                    }
-                    else
-                    {
-                        /* 1000 ms */
-                        apds9960_interface_delay_ms(100); 
-                        
-                        goto start_gesture;
+                        if (gs_flag != 0)
+                        {
+                            gs_flag = 0;
+                            
+                            /* 1000 ms */
+                            apds9960_interface_delay_ms(100);
+                            
+                            break;
+                        }
+                        else
+                        {
+                            /* 1000 ms */
+                            apds9960_interface_delay_ms(100); 
+                            
+                            continue;
+                        }
                     }
                 }
                 
-                apds9960_gesture_deinit();
-                gpio_interrupt_deinit();
+                (void)apds9960_gesture_deinit();
+                (void)gpio_interrupt_deinit();
                 g_gpio_irq = NULL;
                 
                 return 0;
@@ -576,23 +565,23 @@ uint8_t apds9960(uint8_t argc, char **argv)
             {
                 /* gpio interrupt init */
                 g_gpio_irq = apds9960_interrupt_test_irq_handler;
-                if (gpio_interrupt_init())
+                if (gpio_interrupt_init() != 0)
                 {
                     g_gpio_irq = NULL;
                 }
                 
                 /* run interrupt test */
-                if (apds9960_interrupt_test(atoi(argv[3]), atoi(argv[4]),
-                                            atoi(argv[5]), atoi(argv[6]), atoi(argv[7])))
+                if (apds9960_interrupt_test(atoi(argv[3]), (uint16_t)atoi(argv[4]),
+                                            (uint16_t)atoi(argv[5]), (uint8_t)atoi(argv[6]), (uint8_t)atoi(argv[7])) != 0)
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 1;
                 }
                 else
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 0;
@@ -609,23 +598,22 @@ uint8_t apds9960(uint8_t argc, char **argv)
         {
             if (strcmp("int", argv[2]) == 0)
             {
-                volatile uint8_t res;
-                volatile uint32_t i, times;
+                uint32_t i, times;
                 
                 times = atoi(argv[3]);
                 
                 /* gpio interrupt init */
                 g_gpio_irq = apds9960_interrupt_irq_handler;
-                if (gpio_interrupt_init())
+                if (gpio_interrupt_init() != 0)
                 {
                     g_gpio_irq = NULL;
                 }
                 
                 /* run interrupt function */
-                if (apds9960_interrupt_init(_interrupt_callback, atoi(argv[4]),
-                                            atoi(argv[5]), atoi(argv[6]), atoi(argv[7])))
+                if (apds9960_interrupt_init(a_interrupt_callback, (uint16_t)atoi(argv[4]),
+                                           (uint16_t)atoi(argv[5]), (uint8_t)atoi(argv[6]), (uint8_t)atoi(argv[7])) != 0)
                 {
-                    gpio_interrupt_deinit();
+                    (void)gpio_interrupt_deinit();
                     g_gpio_irq = NULL;
                     
                     return 1;
@@ -634,26 +622,29 @@ uint8_t apds9960(uint8_t argc, char **argv)
                 gs_flag = 0;
                 for (i = 0; i < times; i++)
                 {
-                    start_int:
-                    
-                    if (gs_flag)
+                    while (1)
                     {
-                        gs_flag = 0;
-                        
-                        /* 1000 ms */
-                        apds9960_interface_delay_ms(100);
-                    }
-                    else
-                    {
-                        /* 1000 ms */
-                        apds9960_interface_delay_ms(100); 
-                        
-                        goto start_int;
+                        if (gs_flag != 0)
+                        {
+                            gs_flag = 0;
+                            
+                            /* 1000 ms */
+                            apds9960_interface_delay_ms(100);
+                            
+                            break;
+                        }
+                        else
+                        {
+                            /* 1000 ms */
+                            apds9960_interface_delay_ms(100); 
+                            
+                            continue;
+                        }
                     }
                 }
                 
-                apds9960_interrupt_deinit();
-                gpio_interrupt_deinit();
+                (void)apds9960_interrupt_deinit();
+                (void)gpio_interrupt_deinit();
                 g_gpio_irq = NULL;
                 
                 return 0;

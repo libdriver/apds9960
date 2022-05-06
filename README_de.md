@@ -6,48 +6,48 @@
 
 ## LibDriver APDS9960
 
-[![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
+[![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE) 
 
-The Broadcom APDS-9960 is a digital RGB, ambient light, proximity and gesture sensor device in a single 8-pin package. The device has an I2C compatible interface providing red, green, blue, clear (RGBC), proximity and gesture sensing with IR LED. The RGB and ambient light sensing feature detects light intensity under various lighting conditions and through various attentuation materials including darkened glass. In addition, the integrated UV-IR blocking filter enables accurate ambient light and correlated color temperature sensing.The proximity and gesture feature is factory-trimmed and calibrated to 100mm proximity detection distance without requiring customer calibrations. Gesture detection utilizes four directional photodiodes, integrated with visible blocking filter, to accurately sense simple UP-DOWN-RIGHT-LEFT gestures or more complex gestures. The addition of micro-optics lenses within the module provides high efficient transmission and reception of infrared energy. An internal state machine allows the device to be put into a low power state between RGBC, proximity and gesture measurements providing very low power consumption.It can be used in display backlight control,correlated color temperature sensing,cell phone touch-screen disable,digital camera touch-screen disable,mechanical switch replacement,gesture detection and so on.
+Das Broadcom APDS-9960 ist ein digitales RGB-, Umgebungslicht-, Näherungs- und Gestensensorgerät in einem einzigen 8-Pin-Gehäuse. Das Gerät verfügt über eine I2C-kompatible Schnittstelle, die Rot-, Grün-, Blau-, Klar- (RGBC), Näherungs- und Gestenerkennung mit IR-LED bereitstellt. Die RGB- und Umgebungslichterkennungsfunktion erkennt die Lichtintensität unter verschiedenen Lichtbedingungen und durch verschiedene Dämpfungsmaterialien, einschließlich abgedunkeltem Glas. Darüber hinaus ermöglicht der integrierte UV-IR-Sperrfilter eine genaue Erfassung des Umgebungslichts und der korrelierten Farbtemperatur. Die Näherungs- und Gestenfunktion ist werkseitig getrimmt und auf 100 mm Näherungserkennungsabstand kalibriert, ohne dass eine Kalibrierung durch den Kunden erforderlich ist. Die Gestenerkennung verwendet vier gerichtete Fotodioden, die in einen sichtbaren Sperrfilter integriert sind, um einfache OBEN-UNTEN-RECHTS-LINKS-Gesten oder komplexere Gesten genau zu erkennen. Das Hinzufügen von mikrooptischen Linsen innerhalb des Moduls sorgt für hocheffiziente Übertragung und Empfang von Infrarotenergie. Eine interne Zustandsmaschine ermöglicht es, das Gerät zwischen RGBC-, Näherungs- und Gestenmessungen in einen Energiesparzustand zu versetzen, was einen sehr geringen Stromverbrauch bietet Kamera-Touchscreen deaktivieren, Austausch mechanischer Schalter, Gestenerkennung und so weiter.
 
-LibDriver APDS9960 is the full function driver of APDS9960 launched by LibDriver.LibDriver APDS9960 provides rgbc reading function, proximity reading function, gesture decoding function and other functions. LibDriver is MISRA compliant.
+LibDriver APDS9960 ist der voll funktionsfähige Treiber von APDS9960, der von LibDriver gestartet wurde. LibDriver ist MISRA-konform.
 
-### Table of Contents
+### Inhaltsverzeichnis
 
-  - [Instruction](#Instruction)
-  - [Install](#Install)
-  - [Usage](#Usage)
+  - [Anweisung](#Anweisung)
+  - [Installieren](#Installieren)
+  - [Nutzung](#Nutzung)
     - [example basic](#example-basic)
     - [example gesture](#example-gesture)
     - [example interrupt](#example-interrupt)
-  - [Document](#Document)
-  - [Contributing](#Contributing)
-  - [License](#License)
-  - [Contact Us](#Contact-Us)
+  - [Dokument](#Dokument)
+  - [Beitrag](#Beitrag)
+  - [Lizenz](#Lizenz)
+  - [Kontaktieren Sie uns](#Kontaktieren-Sie-uns)
 
-### Instruction
+### Anweisung
 
-/src includes LibDriver APDS9960 source files.
+/src enthält LibDriver APDS9960-Quelldateien.
 
-/interface includes LibDriver APDS9960 IIC platform independent template。
+/interface enthält die plattformunabhängige Vorlage LibDriver APDS9960 IIC.
 
-/test includes LibDriver APDS9960 driver test code and this code can test the chip necessary function simply。
+/test enthält den Testcode des LibDriver APDS9960-Treibers und dieser Code kann die erforderliche Funktion des Chips einfach testen.
 
-/example includes LibDriver APDS9960 sample code.
+/example enthält LibDriver APDS9960-Beispielcode.
 
-/doc includes LibDriver APDS9960 offline document.
+/doc enthält das LibDriver APDS9960-Offlinedokument.
 
-/datasheet includes APDS9960 datasheet。
+/Datenblatt enthält APDS9960-Datenblatt.
 
-/project includes the common Linux and MCU development board sample code. All projects use the shell script to debug the driver and the detail instruction can be found in each project's README.md.
+/project enthält den allgemeinen Beispielcode für Linux- und MCU-Entwicklungsboards. Alle Projekte verwenden das Shell-Skript, um den Treiber zu debuggen, und die detaillierten Anweisungen finden Sie in der README.md jedes Projekts.
 
-### Install
+### Installieren
 
-Reference /interface IIC platform independent template and finish your platform IIC driver.
+Verweisen Sie auf eine plattformunabhängige IIC-Schnittstellenvorlage und stellen Sie Ihren Plattform-IIC-Treiber fertig.
 
-Add /src, /interface and /example to your project.
+Fügen Sie /src, /interface und /example zu Ihrem Projekt hinzu.
 
-### Usage
+### Nutzung
 
 #### example basic
 
@@ -110,7 +110,7 @@ return 0;
 
 #### example gesture
 
-```C
+```c
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -447,60 +447,60 @@ g_gpio_irq = NULL;
 return 0;
 ```
 
-### Document
+### Dokument
 
-Online documents: https://www.libdriver.com/docs/apds9960/index.html
+Online-Dokumente: https://www.libdriver.com/docs/apds9960/index.html
 
-Offline documents: /doc/html/index.html
+Offline-Dokumente: /doc/html/index.html
 
-### Contributing
+### Beitrag
 
-Please sent an e-mail to lishifenging@outlook.com
+Bitte senden Sie eine E-Mail an lishifenging@outlook.com
 
-### License
+### Lizenz
 
-Copyright (c) 2015 - present LibDriver All rights reserved
-
-
-
-The MIT License (MIT) 
+Urheberrechte © (c) 2015 - Gegenwart LibDriver Alle Rechte vorbehalten
 
 
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-
-of this software and associated documentation files (the "Software"), to deal
-
-in the Software without restriction, including without limitation the rights
-
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions: 
+Die MIT-Lizenz (MIT)
 
 
 
-The above copyright notice and this permission notice shall be included in all
+Hiermit wird jeder Person kostenlos die Erlaubnis erteilt, eine Kopie zu erhalten
 
-copies or substantial portions of the Software. 
+dieser Software und zugehörigen Dokumentationsdateien (die „Software“) zu behandeln
+
+in der Software ohne Einschränkung, einschließlich, aber nicht beschränkt auf die Rechte
+
+zu verwenden, zu kopieren, zu modifizieren, zusammenzuführen, zu veröffentlichen, zu verteilen, unterzulizenzieren und/oder zu verkaufen
+
+Kopien der Software und Personen, denen die Software gehört, zu gestatten
+
+dazu eingerichtet werden, unter folgenden Bedingungen:
 
 
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+Der obige Urheberrechtshinweis und dieser Genehmigungshinweis müssen in allen enthalten sein
 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+Kopien oder wesentliche Teile der Software.
 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+DIE SOFTWARE WIRD "WIE BESEHEN" BEREITGESTELLT, OHNE JEGLICHE GEWÄHRLEISTUNG, AUSDRÜCKLICH ODER
 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+STILLSCHWEIGEND, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF DIE GEWÄHRLEISTUNG DER MARKTGÄNGIGKEIT,
 
-SOFTWARE. 
+EIGNUNG FÜR EINEN BESTIMMTEN ZWECK UND NICHTVERLETZUNG VON RECHTEN DRITTER. IN KEINEM FALL DARF DAS
 
-### Contact Us
+AUTOREN ODER URHEBERRECHTSINHABER HAFTEN FÜR JEGLICHE ANSPRÜCHE, SCHÄDEN ODER ANDERE
 
-Please sent an e-mail to lishifenging@outlook.com
+HAFTUNG, OB AUS VERTRAG, DELIKT ODER ANDERWEITIG, ENTSTEHEND AUS,
+
+AUS ODER IM ZUSAMMENHANG MIT DER SOFTWARE ODER DER VERWENDUNG ODER ANDEREN HANDLUNGEN MIT DER
+
+SOFTWARE.
+
+### Kontaktieren Sie uns
+
+Bitte senden Sie eine E-Mail an lishifenging@outlook.com

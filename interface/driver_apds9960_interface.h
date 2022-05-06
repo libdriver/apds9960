@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_APDS9960_INTERFACE_H_
-#define _DRIVER_APDS9960_INTERFACE_H_
+#ifndef DRIVER_APDS9960_INTERFACE_H
+#define DRIVER_APDS9960_INTERFACE_H
 
 #include "driver_apds9960.h"
 
@@ -104,20 +104,17 @@ void apds9960_interface_delay_ms(uint32_t ms);
 /**
  * @brief     interface print format data
  * @param[in] fmt is the format data
- * @return    length of the send data
  * @note      none
  */
-uint16_t apds9960_interface_debug_print(char *fmt, ...);
+void apds9960_interface_debug_print(const char *const fmt, ...);
 
 /**
  * @brief     interface receive callback
  * @param[in] type is the interrupt type
- * @return    status code
- *            - 0 success
- *            - 1 run failed
  * @note      none
  */
-uint8_t apds9960_interface_receive_callback(uint8_t type);
+void apds9960_interface_receive_callback(uint8_t type);
+
 /**
  * @}
  */

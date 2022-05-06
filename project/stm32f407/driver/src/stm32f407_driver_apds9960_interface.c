@@ -109,13 +109,12 @@ void apds9960_interface_delay_ms(uint32_t ms)
 /**
  * @brief     interface print format data
  * @param[in] fmt is the format data
- * @return    length of the send data
  * @note      none
  */
-uint16_t apds9960_interface_debug_print(char *fmt, ...)
+void apds9960_interface_debug_print(const char *const fmt, ...)
 {
-    volatile char str[256];
-    volatile uint8_t len;
+    char str[256];
+    uint8_t len;
     va_list args;
     
     memset((char *)str, 0, sizeof(char) * 256); 
@@ -124,25 +123,15 @@ uint16_t apds9960_interface_debug_print(char *fmt, ...)
     va_end(args);
         
     len = strlen((char *)str);
-    if (uart1_write((uint8_t *)str, len))
-    {
-        return 0;
-    }
-    else
-    { 
-        return len;
-    }
+    (void)uart1_write((uint8_t *)str, len);
 }
 
 /**
  * @brief     interface receive callback
  * @param[in] type is the interrupt type
- * @return    status code
- *            - 0 success
- *            - 1 run failed
  * @note      none
  */
-uint8_t apds9960_interface_receive_callback(uint8_t type)
+void apds9960_interface_receive_callback(uint8_t type)
 {
     switch (type)
     {
@@ -239,8 +228,8 @@ uint8_t apds9960_interface_receive_callback(uint8_t type)
         default :
         {
             apds9960_interface_debug_print("apds9960: irq unknown.\n");
+            
+            break;
         }
     }
-    
-    return 0;
 }

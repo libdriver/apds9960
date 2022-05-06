@@ -8,46 +8,46 @@
 
 [![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/apds9960/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
-The Broadcom APDS-9960 is a digital RGB, ambient light, proximity and gesture sensor device in a single 8-pin package. The device has an I2C compatible interface providing red, green, blue, clear (RGBC), proximity and gesture sensing with IR LED. The RGB and ambient light sensing feature detects light intensity under various lighting conditions and through various attentuation materials including darkened glass. In addition, the integrated UV-IR blocking filter enables accurate ambient light and correlated color temperature sensing.The proximity and gesture feature is factory-trimmed and calibrated to 100mm proximity detection distance without requiring customer calibrations. Gesture detection utilizes four directional photodiodes, integrated with visible blocking filter, to accurately sense simple UP-DOWN-RIGHT-LEFT gestures or more complex gestures. The addition of micro-optics lenses within the module provides high efficient transmission and reception of infrared energy. An internal state machine allows the device to be put into a low power state between RGBC, proximity and gesture measurements providing very low power consumption.It can be used in display backlight control,correlated color temperature sensing,cell phone touch-screen disable,digital camera touch-screen disable,mechanical switch replacement,gesture detection and so on.
+Broadcom APDS-9960は、単一の8ピンパッケージに収められたデジタルRGB、環境光、近接およびジェスチャーセンサーデバイスです。このデバイスは、I2C互換のインターフェイスを備えており、赤、緑、青、クリア（RGBC）、近接、およびIRLEDによるジェスチャセンシングを提供します。 RGBおよび周囲光検知機能は、さまざまな照明条件の下で、暗いガラスを含むさまざまな減衰材料を介して光強度を検出します。さらに、統合されたUV-IRブロッキングフィルターにより、正確な周囲光と相関色温度の検出が可能になります。近接およびジェスチャ機能は、お客様のキャリブレーションを必要とせずに、工場でトリミングされ、100mmの近接検出距離にキャリブレーションされます。ジェスチャ検出は、可視ブロッキングフィルタと統合された4つの指向性フォトダイオードを利用して、単純な上下左右のジェスチャまたはより複雑なジェスチャを正確に検出します。モジュール内にマイクロ光学レンズを追加すると、赤外線エネルギーの高効率の送受信が可能になります。内部ステートマシンにより、デバイスをRGBC、近接測定、ジェスチャ測定の間で低電力状態にすることができ、非常に低い消費電力を提供します。ディスプレイのバックライト制御、相関色温度検知、携帯電話のタッチスクリーンの無効化、デジタルで使用できます。カメラのタッチスクリーンの無効化、機械的なスイッチの交換、ジェスチャ検出など。
 
-LibDriver APDS9960 is the full function driver of APDS9960 launched by LibDriver.LibDriver APDS9960 provides rgbc reading function, proximity reading function, gesture decoding function and other functions. LibDriver is MISRA compliant.
+LibDriver APDS9960は、LibDriverによって起動されたAPDS9960の全機能ドライバーです。LibDriverAPDS9960は、rgbc読み取り機能、近接読み取り機能、ジェスチャデコード機能などの機能を提供します。 LibDriverはMISRAに準拠しています。
 
-### Table of Contents
+### 目次
 
-  - [Instruction](#Instruction)
-  - [Install](#Install)
-  - [Usage](#Usage)
+  - [説明](#説明)
+  - [インストール](#インストール)
+  - [使用](#使用)
     - [example basic](#example-basic)
     - [example gesture](#example-gesture)
     - [example interrupt](#example-interrupt)
-  - [Document](#Document)
-  - [Contributing](#Contributing)
-  - [License](#License)
-  - [Contact Us](#Contact-Us)
+  - [ドキュメント](#ドキュメント)
+  - [貢献](#貢献)
+  - [著作権](#著作権)
+  - [連絡して](#連絡して)
 
-### Instruction
+### 説明
 
-/src includes LibDriver APDS9960 source files.
+/ srcディレクトリには、LibDriver APDS9960のソースファイルが含まれています。
 
-/interface includes LibDriver APDS9960 IIC platform independent template。
+/ interfaceディレクトリには、LibDriver APDS9960用のプラットフォームに依存しないIICバステンプレートが含まれています。
 
-/test includes LibDriver APDS9960 driver test code and this code can test the chip necessary function simply。
+/ testディレクトリには、チップの必要な機能を簡単にテストできるLibDriver APDS9960ドライバーテストプログラムが含まれています。
 
-/example includes LibDriver APDS9960 sample code.
+/ exampleディレクトリには、LibDriver APDS9960プログラミング例が含まれています。
 
-/doc includes LibDriver APDS9960 offline document.
+/ docディレクトリには、LibDriver APDS9960オフラインドキュメントが含まれています。
 
-/datasheet includes APDS9960 datasheet。
+/ datasheetディレクトリには、APDS9960データシートが含まれています。
 
-/project includes the common Linux and MCU development board sample code. All projects use the shell script to debug the driver and the detail instruction can be found in each project's README.md.
+/ projectディレクトリには、一般的に使用されるLinuxおよびマイクロコントローラー開発ボードのプロジェクトサンプルが含まれています。 すべてのプロジェクトは、デバッグ方法としてシェルスクリプトを使用しています。詳細については、各プロジェクトのREADME.mdを参照してください。
 
-### Install
+### インストール
 
-Reference /interface IIC platform independent template and finish your platform IIC driver.
+/ interfaceディレクトリにあるプラットフォームに依存しないIICバステンプレートを参照して、指定したプラットフォームのIICバスドライバを完成させます。
 
-Add /src, /interface and /example to your project.
+/ srcディレクトリ、/ interfaceディレクトリ、および/exampleディレクトリをプロジェクトに追加します。
 
-### Usage
+### 使用
 
 #### example basic
 
@@ -110,7 +110,7 @@ return 0;
 
 #### example gesture
 
-```C
+```c
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -447,60 +447,28 @@ g_gpio_irq = NULL;
 return 0;
 ```
 
-### Document
+### ドキュメント
 
-Online documents: https://www.libdriver.com/docs/apds9960/index.html
+オンラインドキュメント: https://www.libdriver.com/docs/apds9960/index.html
 
-Offline documents: /doc/html/index.html
+オフラインドキュメント: /doc/html/index.html
 
-### Contributing
+### 貢献
 
-Please sent an e-mail to lishifenging@outlook.com
+お問い合わせくださいlishifenging@outlook.com
 
-### License
+### 著作権
 
-Copyright (c) 2015 - present LibDriver All rights reserved
+著作権（c）2015-今 LibDriver 全著作権所有
 
+MITライセンス（MIT）
 
+このソフトウェアおよび関連するドキュメントファイル（「ソフトウェア」）のコピーを取得した人は、無制限の使用、複製、変更、組み込み、公開、配布、サブライセンスを含む、ソフトウェアを処分する権利を制限なく付与されます。ソフトウェアのライセンスおよび/またはコピーの販売、および上記のようにソフトウェアが配布された人の権利のサブライセンスは、次の条件に従うものとします。
 
-The MIT License (MIT) 
+上記の著作権表示およびこの許可通知は、このソフトウェアのすべてのコピーまたは実体に含まれるものとします。
 
+このソフトウェアは「現状有姿」で提供され、商品性、特定目的への適合性、および非侵害の保証を含むがこれらに限定されない、明示または黙示を問わず、いかなる種類の保証もありません。 いかなる場合も、作者または著作権所有者は、契約、不法行為、またはその他の方法で、本ソフトウェアおよび本ソフトウェアの使用またはその他の廃棄に起因または関連して、請求、損害、またはその他の責任を負わないものとします。
 
+### 連絡して
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-
-of this software and associated documentation files (the "Software"), to deal
-
-in the Software without restriction, including without limitation the rights
-
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions: 
-
-
-
-The above copyright notice and this permission notice shall be included in all
-
-copies or substantial portions of the Software. 
-
-
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-
-SOFTWARE. 
-
-### Contact Us
-
-Please sent an e-mail to lishifenging@outlook.com
+お問い合わせくださいlishifenging@outlook.com

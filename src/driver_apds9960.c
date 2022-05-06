@@ -118,9 +118,16 @@
  *             - 1 read failed
  * @note       none
  */
-static uint8_t _apds9960_iic_read(apds9960_handle_t *handle, uint8_t reg, uint8_t *data, uint16_t len)
+static uint8_t a_apds9960_iic_read(apds9960_handle_t *handle, uint8_t reg, uint8_t *data, uint16_t len)
 {
-    return handle->iic_read(APDS9960_ADDRESS, reg, data, len);        /* read the register */
+    if (handle->iic_read(APDS9960_ADDRESS, reg, data, len) != 0)        /* read the register */
+    {
+        return 1;                                                       /* return error */
+    }
+    else
+    {
+        return 0;                                                       /* success return 0 */
+    }
 }
 
 /**
@@ -134,9 +141,16 @@ static uint8_t _apds9960_iic_read(apds9960_handle_t *handle, uint8_t reg, uint8_
  *            - 1 write failed
  * @note      none
  */
-static uint8_t _apds9960_iic_write(apds9960_handle_t *handle, uint8_t reg, uint8_t *data, uint16_t len)
+static uint8_t a_apds9960_iic_write(apds9960_handle_t *handle, uint8_t reg, uint8_t *data, uint16_t len)
 {
-    return handle->iic_write(APDS9960_ADDRESS, reg, data, len);        /* write the register */
+    if (handle->iic_write(APDS9960_ADDRESS, reg, data, len) != 0)        /* write the register */
+    {
+        return 1;                                                        /* return error */
+    }
+    else
+    {
+        return 0;                                                        /* success return 0 */
+    }
 }
 
 /**
@@ -153,7 +167,7 @@ static uint8_t _apds9960_iic_write(apds9960_handle_t *handle, uint8_t reg, uint8
  */
 uint8_t apds9960_init(apds9960_handle_t *handle)
 {
-    volatile uint8_t id;
+    uint8_t id;
     
     if (handle == NULL)                                                      /* check handle */
     {
@@ -200,22 +214,23 @@ uint8_t apds9960_init(apds9960_handle_t *handle)
         return 3;                                                            /* return error */
     }
     
-    if (handle->iic_init())                                                  /* iic init */
+    if (handle->iic_init() != 0)                                             /* iic init */
     {
         handle->debug_print("apds9960: iic init failed.\n");                 /* iic init failed */
         
         return 1;                                                            /* return error */
     }
-    if (_apds9960_iic_read(handle, APDS9960_REG_ID, (uint8_t *)&id, 1))      /* read id */
+    if (a_apds9960_iic_read(handle, APDS9960_REG_ID, (uint8_t *)&id, 1) != 0)/* read id */
     {
         handle->debug_print("apds9960: read id failed.\n");                  /* read id failed */
+        (void)handle->iic_deinit();                                          /* iic deinit */
         
         return 4;                                                            /* return error */
     }
     if (id != 0xAB)                                                          /* check id */
     {
         handle->debug_print("apds9960: id is invalid.\n");                   /* id is invalid */
-        handle->iic_deinit();                                                /* iic deinit */
+        (void)handle->iic_deinit();                                          /* iic deinit */
         
         return 5;                                                            /* return error */
     }
@@ -247,7 +262,7 @@ uint8_t apds9960_init(apds9960_handle_t *handle)
  */
 uint8_t apds9960_deinit(apds9960_handle_t *handle)
 {
-    volatile uint8_t res, prev;
+    uint8_t res, prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -258,23 +273,23 @@ uint8_t apds9960_deinit(apds9960_handle_t *handle)
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);         /* read enable register */
-    if (res)                                                                            /* check the result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);        /* read enable register */
+    if (res != 0)                                                                       /* check the result */
     {
         handle->debug_print("apds9960: read enable register failed.\n");                /* read enable register failed */
         
         return 4;                                                                       /* return error */
     }
     prev &= ~(1 << 0);                                                                  /* set power down */
-    res = _apds9960_iic_write(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);        /* write enable register */
-    if (res)                                                                            /* check the result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);       /* write enable register */
+    if (res != 0)                                                                       /* check the result */
     {
         handle->debug_print("apds9960: write enable register failed.\n");               /* write enable register failed */
         
         return 4;                                                                       /* return error */
     }
     res = handle->iic_deinit();                                                         /* iic deinit */
-    if (res)                                                                            /* check the result */
+    if (res != 0)                                                                       /* check the result */
     {
         handle->debug_print("apds9960: iic deinit failed.\n");                          /* iic deinit failed */
         
@@ -300,203 +315,205 @@ uint8_t apds9960_deinit(apds9960_handle_t *handle)
  */
 uint8_t apds9960_irq_handler(apds9960_handle_t *handle)
 {
-    volatile uint8_t res, prev, prev1;
-    volatile uint8_t times;
+    uint8_t res, prev, prev1;
+    uint8_t times;
     
-    if (handle == NULL)                                                                  /* check handle */
+    if (handle == NULL)                                                                      /* check handle */
     {
-        return 2;                                                                        /* return error */
+        return 2;                                                                            /* return error */
     }
-    if (handle->inited != 1)                                                             /* check handle initialization */
+    if (handle->inited != 1)                                                                 /* check handle initialization */
     {
-        return 3;                                                                        /* return error */
+        return 3;                                                                            /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_STATUS, (uint8_t *)&prev, 1);          /* read status */
-    if (res)                                                                             /* check the result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_STATUS, (uint8_t *)&prev, 1);             /* read status */
+    if (res != 0)                                                                            /* check the result */
     {
-        handle->debug_print("apds9960: read status failed.\n");                          /* read status failed */
+        handle->debug_print("apds9960: read status failed.\n");                              /* read status failed */
         
-        return 1;                                                                        /* return error */
+        return 1;                                                                            /* return error */
     }
-    res = _apds9960_iic_read(handle, APDS9960_REG_GSTATUS, (uint8_t *)&prev1, 1);        /* read gesture status */
-    if (res)                                                                             /* check the result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GSTATUS, (uint8_t *)&prev1, 1);           /* read gesture status */
+    if (res != 0)                                                                            /* check the result */
     {
-        handle->debug_print("apds9960: read gesture status failed.\n");                  /* read gesture status failed */
+        handle->debug_print("apds9960: read gesture status failed.\n");                      /* read gesture status failed */
         
-        return 1;                                                                        /* return error */
+        return 1;                                                                            /* return error */
     }
     
-    if (prev & (1 << APDS9960_STATUS_CPSAT))                                             /* check clear photodiode saturation */
+    if ((prev & (1 << APDS9960_STATUS_CPSAT)) != 0)                                          /* check clear photodiode saturation */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_CPSAT);                   /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_CPSAT);                       /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_PGSAT))                                             /* check analog saturation */
+    if ((prev & (1 << APDS9960_STATUS_PGSAT)) != 0)                                          /* check analog saturation */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PGSAT);                   /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PGSAT);                       /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_PINT))                                              /* check proximity interrupt */
+    if ((prev & (1 << APDS9960_STATUS_PINT)) != 0)                                           /* check proximity interrupt */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PINT);                    /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PINT);                        /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_AINT))                                              /* check als interrupt */
+    if ((prev & (1 << APDS9960_STATUS_AINT)) != 0)                                           /* check als interrupt */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_AINT);                    /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_AINT);                        /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_GINT))                                              /* gesture interrupt */
+    if ((prev & (1 << APDS9960_STATUS_GINT)) != 0)                                           /* gesture interrupt */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GINT);                    /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GINT);                        /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_PVALID))                                            /* check proximity valid */
+    if ((prev & (1 << APDS9960_STATUS_PVALID)) != 0)                                         /* check proximity valid */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PVALID);                  /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_PVALID);                      /* run the callback */
         }
     }
-    if (prev & (1 << APDS9960_STATUS_AVALID))                                            /* check als valid */
+    if ((prev & (1 << APDS9960_STATUS_AVALID)) != 0)                                         /* check als valid */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_AVALID);                  /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_AVALID);                      /* run the callback */
         }
     }
-    if (prev1 & (1 << APDS9960_GESTURE_STATUS_FIFO_OVERFLOW))                            /* check gesture fifo overflow */
+    if ((prev1 & (1 << APDS9960_GESTURE_STATUS_FIFO_OVERFLOW)) != 0)                         /* check gesture fifo overflow */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GFOV);                    /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GFOV);                        /* run the callback */
         }
     }
-    if (prev1 & (1 << APDS9960_GESTURE_STATUS_FIFO_VALID))                               /* check gesture fifo data */
+    if ((prev1 & (1 << APDS9960_GESTURE_STATUS_FIFO_VALID)) != 0)                            /* check gesture fifo data */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GVALID);                  /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GVALID);                      /* run the callback */
         }
     }
     
-    times = 3;                                                                           /* set retry times */
-    
-    retry:                                                                               /* retry label */
-    
-    prev = 0xFF;                                                                         /* set 0xFF */
-    res = _apds9960_iic_write(handle, APDS9960_REG_AICLEAR, (uint8_t *)&prev, 1);        /* clear all non-gesture interrupts */
-    if (res)                                                                             /* check result */
+    times = 3;                                                                               /* set retry times */
+    while (1)                                                                                /* retry label */
     {
-        if (times)                                                                       /* check retry times */
+        prev = 0xFF;                                                                         /* set 0xFF */
+        res = a_apds9960_iic_write(handle, APDS9960_REG_AICLEAR, (uint8_t *)&prev, 1);       /* clear all non-gesture interrupts */
+        if (res != 0)                                                                        /* check result */
         {
-            times--;                                                                     /* times-- */
+            if (times != 0)                                                                  /* check retry times */
+            {
+                times--;                                                                     /* times-- */
+                
+                continue;                                                                    /* continue */
+            }
             
-            goto retry;                                                                  /* goto retry */
+            handle->debug_print("apds9960: clear all non-gesture interrupts failed.\n");     /* clear all non-gesture interrupts failed */
+           
+            return 1;                                                                        /* return error */
         }
         
-        handle->debug_print("apds9960: clear all non-gesture interrupts failed.\n");     /* clear all non-gesture interrupts failed */
-       
-        return 1;                                                                        /* return error */
+        res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
+        if (res != 0)                                                                        /* check result */
+        {
+            if (times != 0)                                                                  /* check retry times */
+            {
+                times--;                                                                     /* times-- */
+                
+                continue;                                                                    /* continue */
+            }
+            
+            handle->debug_print("apds9960: get gesture conf 4 register failed.\n");          /* get gesture conf 4 register failed */
+           
+            return 1;                                                                        /* return error */
+        }
+        prev &= ~(1 << 2);                                                                   /* clear config */
+        prev |= 1 << 2;                                                                      /* set config */
+        res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* set gesture conf 4 register */
+        if (res != 0)                                                                        /* check result */
+        {
+            if (times != 0)                                                                  /* check retry times */
+            {
+                times--;                                                                     /* times-- */
+                
+                continue;                                                                    /* continue */
+            }
+            
+            handle->debug_print("apds9960: set gesture conf 4 register failed.\n");          /* set gesture conf 4 register failed */
+           
+            return 1;                                                                        /* return error */
+        }
+        
+        break;                                                                               /* break */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);          /* get gesture conf 4 register */
-    if (res)                                                                             /* check result */
+    prev = handle->gesture_status;                                                           /* get the gesture status */
+    if ((prev & (1 << 0)) != 0)                                                              /* check far */
     {
-        if (times)                                                                       /* check retry times */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            times--;                                                                     /* times-- */
-            
-            goto retry;                                                                  /* goto retry */
-        }
-        
-        handle->debug_print("apds9960: get gesture conf 4 register failed.\n");          /* get gesture conf 4 register failed */
-       
-        return 1;                                                                        /* return error */
-    }
-    prev &= ~(1 << 2);                                                                   /* clear config */
-    prev |= 1 << 2;                                                                      /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* set gesture conf 4 register */
-    if (res)                                                                             /* check result */
-    {
-        if (times)                                                                       /* check retry times */
-        {
-            times--;                                                                     /* times-- */
-            
-            goto retry;                                                                  /* goto retry */
-        }
-        
-        handle->debug_print("apds9960: set gesture conf 4 register failed.\n");          /* set gesture conf 4 register failed */
-       
-        return 1;                                                                        /* return error */
-    }
-    
-    prev = handle->gesture_status;                                                       /* get the gesture status */
-    if (prev & (1 << 0))                                                                 /* check far */
-    {
-        if (handle->receive_callback)                                                    /* if valid */
-        {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_FAR);             /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_FAR);                 /* run the callback */
         }
     }
-    if (prev & (1 << 1))                                                                 /* check near */
+    if ((prev & (1 << 1)) != 0)                                                              /* check near */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_NEAR);            /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_NEAR);                /* run the callback */
         }
     }
-    if (prev & (1 << 2))                                                                 /* check down */
+    if ((prev & (1 << 2)) != 0)                                                              /* check down */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_DOWN);            /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_DOWN);                /* run the callback */
         }
     }
-    if (prev & (1 << 3))                                                                 /* check up */
+    if ((prev & (1 << 3)) != 0)                                                              /* check up */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_UP);              /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_UP);                  /* run the callback */
         }
     }
-    if (prev & (1 << 4))                                                                 /* check right */
+    if ((prev & (1 << 4)) != 0)                                                              /* check right */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_RIGHT);           /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_RIGHT);               /* run the callback */
         }
     }
-    if (prev & (1 << 5))                                                                 /* check left */
+    if ((prev & (1 << 5)) != 0)                                                              /* check left */
     {
-        if (handle->receive_callback)                                                    /* if valid */
+        if (handle->receive_callback != NULL)                                                /* if valid */
         {
-            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_LEFT);            /* run the callback */
+            handle->receive_callback(APDS9960_INTERRUPT_STATUS_GESTURE_LEFT);                /* run the callback */
         }
     }
-    handle->gesture_status = 0;                                                          /* clear the gesture status */
-    if (prev)                                                                            /* if find gesture */
+    handle->gesture_status = 0;                                                              /* clear the gesture status */
+    if (prev != 0)                                                                           /* if find gesture */
     {
-        handle->gesture_ud_delta = 0;                                                    /* set gesture_ud_delta 0 */
-        handle->gesture_lr_delta = 0;                                                    /* set gesture_lr_delta 0 */
-        handle->gesture_ud_count = 0;                                                    /* set gesture_ud_count 0 */
-        handle->gesture_lr_count = 0;                                                    /* set gesture_lr_count 0 */
-        handle->gesture_near_count = 0;                                                  /* set gesture_near_count 0 */
-        handle->gesture_far_count = 0;                                                   /* set gesture_far_count 0 */
+        handle->gesture_ud_delta = 0;                                                        /* set gesture_ud_delta 0 */
+        handle->gesture_lr_delta = 0;                                                        /* set gesture_lr_delta 0 */
+        handle->gesture_ud_count = 0;                                                        /* set gesture_ud_count 0 */
+        handle->gesture_lr_count = 0;                                                        /* set gesture_lr_count 0 */
+        handle->gesture_near_count = 0;                                                      /* set gesture_near_count 0 */
+        handle->gesture_far_count = 0;                                                       /* set gesture_far_count 0 */
     }
 
-    return 0;                                                                            /* success return 0 */
+    return 0;                                                                                /* success return 0 */
 }
 
 /**
@@ -514,12 +531,11 @@ uint8_t apds9960_irq_handler(apds9960_handle_t *handle)
  */
 uint8_t apds9960_gesture_decode(apds9960_handle_t *handle, uint8_t (*data)[4], uint8_t len)
 {
-    volatile uint8_t res;
-    volatile int8_t i;
-    volatile uint8_t u_first, d_first, l_first, r_first;
-    volatile uint8_t u_last, d_last, l_last, r_last;
-    volatile int32_t ud_ratio_first, lr_ratio_first, ud_ratio_last, lr_ratio_last;
-    volatile int32_t ud_delta, lr_delta;
+    int8_t i;
+    uint8_t u_first, d_first, l_first, r_first;
+    uint8_t u_last, d_last, l_last, r_last;
+    int32_t ud_ratio_first, lr_ratio_first, ud_ratio_last, lr_ratio_last;
+    int32_t ud_delta, lr_delta;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -630,6 +646,10 @@ uint8_t apds9960_gesture_decode(apds9960_handle_t *handle, uint8_t (*data)[4], u
             else if ((ud_delta != 0) || (lr_delta != 0))                                 /* if ud_delta != 0 && lr_delta != 0 */
             {
                 handle->gesture_far_count++;                                             /* gesture_far_count++ */
+            }
+            else
+            {
+                
             }
             if ((handle->gesture_near_count >= 10) &&                                    /* check gesture_near_count */
                 (handle->gesture_far_count >= 2))                                        /* check gesture_far_count */
@@ -914,8 +934,8 @@ uint8_t apds9960_get_gesture_decode_sensitivity_2(apds9960_handle_t *handle, int
  */
 uint8_t apds9960_set_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -926,8 +946,8 @@ uint8_t apds9960_set_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);         /* get enable */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);        /* get enable */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get enable failed.\n");                          /* get enable failed */
        
@@ -935,8 +955,8 @@ uint8_t apds9960_set_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
     }
     prev &= ~(1 << conf);                                                               /* clear conf */
     prev |= enable << conf;                                                             /* set conf */
-    res = _apds9960_iic_write(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);        /* set enable */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);       /* set enable */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: set enable failed.\n");                          /* set enable failed */
        
@@ -960,8 +980,8 @@ uint8_t apds9960_set_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
  */
 uint8_t apds9960_get_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                /* check handle */
     {
@@ -972,8 +992,8 @@ uint8_t apds9960_get_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
         return 3;                                                                      /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);        /* get enable */
-    if (res)                                                                           /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_ENABLE, (uint8_t *)&prev, 1);       /* get enable */
+    if (res != 0)                                                                      /* check result */
     {
         handle->debug_print("apds9960: get enable failed.\n");                         /* get enable failed */
        
@@ -997,8 +1017,8 @@ uint8_t apds9960_get_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
  */
 uint8_t apds9960_set_adc_integration_time(apds9960_handle_t *handle, uint8_t integration_time)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                /* check handle */
     {
@@ -1010,8 +1030,8 @@ uint8_t apds9960_set_adc_integration_time(apds9960_handle_t *handle, uint8_t int
     }
     
     prev = integration_time;                                                           /* set integration time */
-    res = _apds9960_iic_write(handle, APDS9960_REG_ATIME, (uint8_t *)&prev, 1);        /* set atime */
-    if (res)                                                                           /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_ATIME, (uint8_t *)&prev, 1);       /* set atime */
+    if (res != 0)                                                                      /* check result */
     {
         handle->debug_print("apds9960: set atime failed.\n");                          /* set atime failed */
        
@@ -1034,8 +1054,8 @@ uint8_t apds9960_set_adc_integration_time(apds9960_handle_t *handle, uint8_t int
  */
 uint8_t apds9960_get_adc_integration_time(apds9960_handle_t *handle, uint8_t *integration_time)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1046,8 +1066,8 @@ uint8_t apds9960_get_adc_integration_time(apds9960_handle_t *handle, uint8_t *in
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_ATIME, (uint8_t *)&prev, 1);        /* get atime */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_ATIME, (uint8_t *)&prev, 1);       /* get atime */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get atime failed.\n");                         /* get atime failed */
        
@@ -1080,7 +1100,7 @@ uint8_t apds9960_adc_integration_time_convert_to_register(apds9960_handle_t *han
         return 3;                              /* return error */
     }
     
-    *reg = (uint8_t)(256 - ms / 2.78f);        /* convert real data to register data */
+    *reg = (uint8_t)(256.0f - ms / 2.78f);     /* convert real data to register data */
     
     return 0;                                  /* success return 0 */
 }
@@ -1125,8 +1145,8 @@ uint8_t apds9960_adc_integration_time_convert_to_data(apds9960_handle_t *handle,
  */
 uint8_t apds9960_set_wait_time(apds9960_handle_t *handle, uint8_t wait_time)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                /* check handle */
     {
@@ -1138,8 +1158,8 @@ uint8_t apds9960_set_wait_time(apds9960_handle_t *handle, uint8_t wait_time)
     }
     
     prev = wait_time;                                                                  /* set wait time */
-    res = _apds9960_iic_write(handle, APDS9960_REG_WTIME, (uint8_t *)&prev, 1);        /* set wtime */
-    if (res)                                                                           /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_WTIME, (uint8_t *)&prev, 1);       /* set wtime */
+    if (res != 0)                                                                      /* check result */
     {
         handle->debug_print("apds9960: set wtime failed.\n");                          /* set wtime failed */
        
@@ -1162,8 +1182,8 @@ uint8_t apds9960_set_wait_time(apds9960_handle_t *handle, uint8_t wait_time)
  */
 uint8_t apds9960_get_wait_time(apds9960_handle_t *handle, uint8_t *wait_time)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1174,8 +1194,8 @@ uint8_t apds9960_get_wait_time(apds9960_handle_t *handle, uint8_t *wait_time)
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_WTIME, (uint8_t *)&prev, 1);        /* get wtime */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_WTIME, (uint8_t *)&prev, 1);       /* get wtime */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get wtime failed.\n");                         /* get wtime failed */
        
@@ -1200,8 +1220,8 @@ uint8_t apds9960_get_wait_time(apds9960_handle_t *handle, uint8_t *wait_time)
  */
 uint8_t apds9960_wait_time_convert_to_register(apds9960_handle_t *handle, float ms, uint8_t *reg)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -1212,21 +1232,21 @@ uint8_t apds9960_wait_time_convert_to_register(apds9960_handle_t *handle, float 
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);         /* get configuration register 1 */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);        /* get configuration register 1 */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get configuration register 1 failed.\n");         /* get configuration register 1 failed */
        
         return 1;                                                                        /* return error */
     }
     
-    if (prev & (1 << 1))                                                                 /* check wait long */
+    if ((prev & (1 << 1)) != 0)                                                          /* check wait long */
     {
-        *reg = (uint8_t)(256 - ms / (2.78f * 12.0f));                                    /* convert real data to register data */
+        *reg = (uint8_t)(256.0f - ms / (2.78f * 12.0f));                                 /* convert real data to register data */
     }
     else
     {
-        *reg = (uint8_t)(256 - ms / 2.78f);                                              /* convert real data to register data */
+        *reg = (uint8_t)(256.0f - ms / 2.78f);                                           /* convert real data to register data */
     }
     
     return 0;                                                                            /* success return 0 */
@@ -1246,8 +1266,8 @@ uint8_t apds9960_wait_time_convert_to_register(apds9960_handle_t *handle, float 
  */
 uint8_t apds9960_wait_time_convert_to_data(apds9960_handle_t *handle, uint8_t reg, float *ms)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -1258,15 +1278,15 @@ uint8_t apds9960_wait_time_convert_to_data(apds9960_handle_t *handle, uint8_t re
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);         /* get configuration register 1 */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);        /* get configuration register 1 */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get configuration register 1 failed.\n");         /* get configuration register 1 failed */
        
         return 1;                                                                        /* return error */
     }
     
-    if (prev & (1 << 1))                                                                 /* check wait long */
+    if ((prev & (1 << 1)) != 0)                                                          /* check wait long */
     {
         *ms = (float)(256 - reg) * 2.78f * 12.0f;                                        /* convert raw data to real data */
     }
@@ -1291,8 +1311,8 @@ uint8_t apds9960_wait_time_convert_to_data(apds9960_handle_t *handle, uint8_t re
  */
 uint8_t apds9960_set_als_interrupt_low_threshold(apds9960_handle_t *handle, uint16_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t buf[2];
+    uint8_t res;
+    uint8_t buf[2];
     
     if (handle == NULL)                                                              /* check handle */
     {
@@ -1305,8 +1325,8 @@ uint8_t apds9960_set_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
     
     buf[0] = (threshold >> 0) & 0xFF;                                                /* set lsb */
     buf[1] = (threshold >> 8) & 0xFF;                                                /* set msb */
-    res = _apds9960_iic_write(handle, APDS9960_REG_AILTL, (uint8_t *)buf, 2);        /* set ailtl */
-    if (res)                                                                         /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_AILTL, (uint8_t *)buf, 2);       /* set ailtl */
+    if (res != 0)                                                                    /* check result */
     {
         handle->debug_print("apds9960: set ailtl failed.\n");                        /* set ailtl failed */
        
@@ -1329,8 +1349,8 @@ uint8_t apds9960_set_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
  */
 uint8_t apds9960_get_als_interrupt_low_threshold(apds9960_handle_t *handle, uint16_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t buf[2];
+    uint8_t res;
+    uint8_t buf[2];
     
     if (handle == NULL)                                                             /* check handle */
     {
@@ -1341,8 +1361,8 @@ uint8_t apds9960_get_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
         return 3;                                                                   /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_AILTL, (uint8_t *)buf, 2);        /* get ailtl */
-    if (res)                                                                        /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_AILTL, (uint8_t *)buf, 2);       /* get ailtl */
+    if (res != 0)                                                                   /* check result */
     {
         handle->debug_print("apds9960: get ailtl failed.\n");                       /* get ailtl failed */
        
@@ -1366,8 +1386,8 @@ uint8_t apds9960_get_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
  */
 uint8_t apds9960_set_als_interrupt_high_threshold(apds9960_handle_t *handle, uint16_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t buf[2];
+    uint8_t res;
+    uint8_t buf[2];
     
     if (handle == NULL)                                                              /* check handle */
     {
@@ -1380,8 +1400,8 @@ uint8_t apds9960_set_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
     
     buf[0] = (threshold >> 0) & 0xFF;                                                /* set lsb */
     buf[1] = (threshold >> 8) & 0xFF;                                                /* set msb */
-    res = _apds9960_iic_write(handle, APDS9960_REG_AIHTL, (uint8_t *)buf, 2);        /* set aihtl */
-    if (res)                                                                         /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_AIHTL, (uint8_t *)buf, 2);       /* set aihtl */
+    if (res != 0)                                                                    /* check result */
     {
         handle->debug_print("apds9960: set aihtl failed.\n");                        /* set aihtl failed */
        
@@ -1404,8 +1424,8 @@ uint8_t apds9960_set_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
  */
 uint8_t apds9960_get_als_interrupt_high_threshold(apds9960_handle_t *handle, uint16_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t buf[2];
+    uint8_t res;
+    uint8_t buf[2];
     
     if (handle == NULL)                                                             /* check handle */
     {
@@ -1416,8 +1436,8 @@ uint8_t apds9960_get_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
         return 3;                                                                   /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_AIHTL, (uint8_t *)buf, 2);        /* get aihtl */
-    if (res)                                                                        /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_AIHTL, (uint8_t *)buf, 2);       /* get aihtl */
+    if (res != 0)                                                                   /* check result */
     {
         handle->debug_print("apds9960: get aihtl failed.\n");                       /* get aihtl failed */
        
@@ -1441,8 +1461,8 @@ uint8_t apds9960_get_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
  */
 uint8_t apds9960_set_proximity_interrupt_low_threshold(apds9960_handle_t *handle, uint8_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1454,8 +1474,8 @@ uint8_t apds9960_set_proximity_interrupt_low_threshold(apds9960_handle_t *handle
     }
     
     prev = threshold;                                                                 /* set low threshold */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PILT, (uint8_t *)&prev, 1);        /* set pilt */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PILT, (uint8_t *)&prev, 1);       /* set pilt */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: set pilt failed.\n");                          /* set pilt failed */
        
@@ -1478,8 +1498,8 @@ uint8_t apds9960_set_proximity_interrupt_low_threshold(apds9960_handle_t *handle
  */
 uint8_t apds9960_get_proximity_interrupt_low_threshold(apds9960_handle_t *handle, uint8_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                              /* check handle */
     {
@@ -1490,8 +1510,8 @@ uint8_t apds9960_get_proximity_interrupt_low_threshold(apds9960_handle_t *handle
         return 3;                                                                    /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PILT, (uint8_t *)&prev, 1);        /* get pilt */
-    if (res)                                                                         /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PILT, (uint8_t *)&prev, 1);       /* get pilt */
+    if (res != 0)                                                                    /* check result */
     {
         handle->debug_print("apds9960: get pilt failed.\n");                         /* get pilt failed */
        
@@ -1515,8 +1535,8 @@ uint8_t apds9960_get_proximity_interrupt_low_threshold(apds9960_handle_t *handle
  */
 uint8_t apds9960_set_proximity_interrupt_high_threshold(apds9960_handle_t *handle, uint8_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1528,8 +1548,8 @@ uint8_t apds9960_set_proximity_interrupt_high_threshold(apds9960_handle_t *handl
     }
     
     prev = threshold;                                                                 /* set high threshold */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PIHT, (uint8_t *)&prev, 1);        /* set piht */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PIHT, (uint8_t *)&prev, 1);       /* set piht */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: set piht failed.\n");                          /* set piht failed */
        
@@ -1552,8 +1572,8 @@ uint8_t apds9960_set_proximity_interrupt_high_threshold(apds9960_handle_t *handl
  */
 uint8_t apds9960_get_proximity_interrupt_high_threshold(apds9960_handle_t *handle, uint8_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                              /* check handle */
     {
@@ -1564,8 +1584,8 @@ uint8_t apds9960_get_proximity_interrupt_high_threshold(apds9960_handle_t *handl
         return 3;                                                                    /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PIHT, (uint8_t *)&prev, 1);        /* get piht */
-    if (res)                                                                         /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PIHT, (uint8_t *)&prev, 1);       /* get piht */
+    if (res != 0)                                                                    /* check result */
     {
         handle->debug_print("apds9960: get piht failed.\n");                         /* get piht failed */
        
@@ -1589,8 +1609,8 @@ uint8_t apds9960_get_proximity_interrupt_high_threshold(apds9960_handle_t *handl
  */
 uint8_t apds9960_set_proximity_interrupt_cycle(apds9960_handle_t *handle, apds9960_proximity_interrupt_cycle_t cycle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1601,8 +1621,8 @@ uint8_t apds9960_set_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);         /* get persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* get persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get persistence register failed.\n");          /* get persistence register failed */
        
@@ -1610,8 +1630,8 @@ uint8_t apds9960_set_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
     }
     prev &= ~(0xF << 4);                                                              /* clear config */
     prev |= cycle << 4;                                                               /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* set persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);       /* set persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: set persistence register failed.\n");          /* set persistence register failed */
        
@@ -1634,8 +1654,8 @@ uint8_t apds9960_set_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
  */
 uint8_t apds9960_get_proximity_interrupt_cycle(apds9960_handle_t *handle, apds9960_proximity_interrupt_cycle_t *cycle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1646,8 +1666,8 @@ uint8_t apds9960_get_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);         /* get persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* get persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get persistence register failed.\n");          /* get persistence register failed */
        
@@ -1671,8 +1691,8 @@ uint8_t apds9960_get_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
  */
 uint8_t apds9960_set_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als_interrupt_cycle_t cycle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1683,8 +1703,8 @@ uint8_t apds9960_set_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);         /* get persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* get persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get persistence register failed.\n");          /* get persistence register failed */
        
@@ -1692,8 +1712,8 @@ uint8_t apds9960_set_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
     }
     prev &= ~(0xF << 0);                                                              /* clear config */
     prev |= cycle << 0;                                                               /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* set persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);       /* set persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: set persistence register failed.\n");          /* set persistence register failed */
        
@@ -1716,8 +1736,8 @@ uint8_t apds9960_set_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
  */
 uint8_t apds9960_get_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als_interrupt_cycle_t *cycle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                               /* check handle */
     {
@@ -1728,8 +1748,8 @@ uint8_t apds9960_get_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
         return 3;                                                                     /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);         /* get persistence register */
-    if (res)                                                                          /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PERS, (uint8_t *)&prev, 1);        /* get persistence register */
+    if (res != 0)                                                                     /* check result */
     {
         handle->debug_print("apds9960: get persistence register failed.\n");          /* get persistence register failed */
        
@@ -1753,8 +1773,8 @@ uint8_t apds9960_get_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
  */
 uint8_t apds9960_set_wait_long(apds9960_handle_t *handle, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -1765,8 +1785,8 @@ uint8_t apds9960_set_wait_long(apds9960_handle_t *handle, apds9960_bool_t enable
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);         /* get configuration register 1 */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);        /* get configuration register 1 */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get configuration register 1 failed.\n");         /* get configuration register 1 failed */
        
@@ -1774,8 +1794,8 @@ uint8_t apds9960_set_wait_long(apds9960_handle_t *handle, apds9960_bool_t enable
     }
     prev &= ~(1 << 1);                                                                   /* clear config */
     prev |= enable << 1;                                                                 /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);        /* set configuration register 1 */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);       /* set configuration register 1 */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: set configuration register 1 failed.\n");         /* set configuration register 1 failed */
        
@@ -1798,8 +1818,8 @@ uint8_t apds9960_set_wait_long(apds9960_handle_t *handle, apds9960_bool_t enable
  */
 uint8_t apds9960_get_wait_long(apds9960_handle_t *handle, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -1810,8 +1830,8 @@ uint8_t apds9960_get_wait_long(apds9960_handle_t *handle, apds9960_bool_t *enabl
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);         /* get configuration register 1 */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG1, (uint8_t *)&prev, 1);        /* get configuration register 1 */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get configuration register 1 failed.\n");         /* get configuration register 1 failed */
        
@@ -1835,8 +1855,8 @@ uint8_t apds9960_get_wait_long(apds9960_handle_t *handle, apds9960_bool_t *enabl
  */
 uint8_t apds9960_set_proximity_pulse_length(apds9960_handle_t *handle, apds9960_proximity_pulse_length_t len)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                       /* check handle */
     {
@@ -1847,8 +1867,8 @@ uint8_t apds9960_set_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
         return 3;                                                                             /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);               /* get proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* get proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: get proximity pulse count register failed.\n");        /* get proximity pulse count register failed */
        
@@ -1856,8 +1876,8 @@ uint8_t apds9960_set_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
     }
     prev &= ~(3 << 6);                                                                        /* clear config */
     prev |= len << 6;                                                                         /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* set proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);             /* set proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: set proximity pulse count register failed.\n");        /* set proximity pulse count register failed */
        
@@ -1880,8 +1900,8 @@ uint8_t apds9960_set_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
  */
 uint8_t apds9960_get_proximity_pulse_length(apds9960_handle_t *handle, apds9960_proximity_pulse_length_t *len)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                       /* check handle */
     {
@@ -1892,8 +1912,8 @@ uint8_t apds9960_get_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
         return 3;                                                                             /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);               /* get proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* get proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: get proximity pulse count register failed.\n");        /* get proximity pulse count register failed */
        
@@ -1918,8 +1938,8 @@ uint8_t apds9960_get_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
  */
 uint8_t apds9960_set_proximity_pulse_count(apds9960_handle_t *handle, uint16_t count)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                       /* check handle */
     {
@@ -1936,8 +1956,8 @@ uint8_t apds9960_set_proximity_pulse_count(apds9960_handle_t *handle, uint16_t c
         return 4;                                                                             /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);               /* get proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* get proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: get proximity pulse count register failed.\n");        /* get proximity pulse count register failed */
        
@@ -1945,8 +1965,8 @@ uint8_t apds9960_set_proximity_pulse_count(apds9960_handle_t *handle, uint16_t c
     }
     prev &= ~(0x3F << 0);                                                                     /* clear config */
     prev |= (count & 0x3F) << 0;                                                              /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* set proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);             /* set proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: set proximity pulse count register failed.\n");        /* set proximity pulse count register failed */
        
@@ -1969,8 +1989,8 @@ uint8_t apds9960_set_proximity_pulse_count(apds9960_handle_t *handle, uint16_t c
  */
 uint8_t apds9960_get_proximity_pulse_count(apds9960_handle_t *handle, uint16_t *count)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                       /* check handle */
     {
@@ -1981,8 +2001,8 @@ uint8_t apds9960_get_proximity_pulse_count(apds9960_handle_t *handle, uint16_t *
         return 3;                                                                             /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);               /* get proximity pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PPULSE, (uint8_t *)&prev, 1);              /* get proximity pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: get proximity pulse count register failed.\n");        /* get proximity pulse count register failed */
        
@@ -2006,8 +2026,8 @@ uint8_t apds9960_get_proximity_pulse_count(apds9960_handle_t *handle, uint16_t *
  */
 uint8_t apds9960_set_led_current(apds9960_handle_t *handle, apds9960_led_current_t current)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2018,8 +2038,8 @@ uint8_t apds9960_set_led_current(apds9960_handle_t *handle, apds9960_led_current
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2027,8 +2047,8 @@ uint8_t apds9960_set_led_current(apds9960_handle_t *handle, apds9960_led_current
     }
     prev &= ~(0x3 << 6);                                                                 /* clear config */
     prev |= current << 6;                                                                /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* set contorl register register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);       /* set contorl register register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: set contorl register register failed.\n");        /* set contorl register failed */
        
@@ -2051,8 +2071,8 @@ uint8_t apds9960_set_led_current(apds9960_handle_t *handle, apds9960_led_current
  */
 uint8_t apds9960_get_led_current(apds9960_handle_t *handle, apds9960_led_current_t *current)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2063,8 +2083,8 @@ uint8_t apds9960_get_led_current(apds9960_handle_t *handle, apds9960_led_current
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2088,8 +2108,8 @@ uint8_t apds9960_get_led_current(apds9960_handle_t *handle, apds9960_led_current
  */
 uint8_t apds9960_set_proximity_gain(apds9960_handle_t *handle, apds9960_proximity_gain_t gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2100,8 +2120,8 @@ uint8_t apds9960_set_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2109,8 +2129,8 @@ uint8_t apds9960_set_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
     }
     prev &= ~(0x3 << 2);                                                                 /* clear config */
     prev |= gain << 2;                                                                   /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* set contorl register register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);       /* set contorl register register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: set contorl register register failed.\n");        /* set contorl register failed */
        
@@ -2133,8 +2153,8 @@ uint8_t apds9960_set_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
  */
 uint8_t apds9960_get_proximity_gain(apds9960_handle_t *handle, apds9960_proximity_gain_t *gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2145,8 +2165,8 @@ uint8_t apds9960_get_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2170,8 +2190,8 @@ uint8_t apds9960_get_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
  */
 uint8_t apds9960_set_als_color_gain(apds9960_handle_t *handle, apds9960_als_color_gain_t gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2182,8 +2202,8 @@ uint8_t apds9960_set_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2191,8 +2211,8 @@ uint8_t apds9960_set_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
     }
     prev &= ~(0x3 << 0);                                                                 /* clear config */
     prev |= gain << 0;                                                                   /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* set contorl register register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);       /* set contorl register register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: set contorl register register failed.\n");        /* set contorl register failed */
        
@@ -2215,8 +2235,8 @@ uint8_t apds9960_set_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
  */
 uint8_t apds9960_get_als_color_gain(apds9960_handle_t *handle, apds9960_als_color_gain_t *gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2227,8 +2247,8 @@ uint8_t apds9960_get_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);         /* get contorl register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONTROL, (uint8_t *)&prev, 1);        /* get contorl register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get control register failed.\n");                 /* get control register failed */
        
@@ -2253,8 +2273,8 @@ uint8_t apds9960_get_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
  */
 uint8_t apds9960_set_saturation_interrupt(apds9960_handle_t *handle, apds9960_saturation_interrupt_t saturation, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2265,8 +2285,8 @@ uint8_t apds9960_set_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);           /* get contorl 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* get contorl 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 2 register failed.\n");                 /* get control 2 register failed */
        
@@ -2274,8 +2294,8 @@ uint8_t apds9960_set_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
     }
     prev &= ~(1 << saturation);                                                            /* clear config */
     prev |= enable << saturation;                                                          /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* set contorl register 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);         /* set contorl register 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set contorl 2 register register failed.\n");        /* set contorl 2 register failed */
        
@@ -2299,8 +2319,8 @@ uint8_t apds9960_set_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
  */
 uint8_t apds9960_get_saturation_interrupt(apds9960_handle_t *handle, apds9960_saturation_interrupt_t saturation, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2311,8 +2331,8 @@ uint8_t apds9960_get_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);           /* get contorl 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* get contorl 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 2 register failed.\n");                 /* get control 2 register failed */
        
@@ -2336,8 +2356,8 @@ uint8_t apds9960_get_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
  */
 uint8_t apds9960_set_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t boost)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2348,8 +2368,8 @@ uint8_t apds9960_set_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t b
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);           /* get contorl 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* get contorl 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 2 register failed.\n");                 /* get control 2 register failed */
        
@@ -2357,8 +2377,8 @@ uint8_t apds9960_set_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t b
     }
     prev &= ~(0x3 << 4);                                                                   /* clear config */
     prev |= boost << 4;                                                                    /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* set contorl register 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);         /* set contorl register 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set contorl 2 register register failed.\n");        /* set contorl 2 register failed */
        
@@ -2381,8 +2401,8 @@ uint8_t apds9960_set_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t b
  */
 uint8_t apds9960_get_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t *boost)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2393,8 +2413,8 @@ uint8_t apds9960_get_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t *
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);           /* get contorl 2 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG2, (uint8_t *)&prev, 1);          /* get contorl 2 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 2 register failed.\n");                 /* get control 2 register failed */
        
@@ -2418,8 +2438,8 @@ uint8_t apds9960_get_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t *
  */
 uint8_t apds9960_get_status(apds9960_handle_t *handle, uint8_t *status)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                /* check handle */
     {
@@ -2430,8 +2450,8 @@ uint8_t apds9960_get_status(apds9960_handle_t *handle, uint8_t *status)
         return 3;                                                                      /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_STATUS, (uint8_t *)&prev, 1);        /* get status register */
-    if (res)                                                                           /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_STATUS, (uint8_t *)&prev, 1);       /* get status register */
+    if (res != 0)                                                                      /* check result */
     {
         handle->debug_print("apds9960: get status register failed.\n");                /* get status register failed */
        
@@ -2458,8 +2478,8 @@ uint8_t apds9960_get_status(apds9960_handle_t *handle, uint8_t *status)
  */
 uint8_t apds9960_read_rgbc(apds9960_handle_t *handle, uint16_t *red, uint16_t *green, uint16_t *blue, uint16_t *clear)
 {
-    volatile uint8_t res;
-    volatile uint8_t buf[8];
+    uint8_t res;
+    uint8_t buf[8];
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -2470,29 +2490,29 @@ uint8_t apds9960_read_rgbc(apds9960_handle_t *handle, uint16_t *red, uint16_t *g
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CDATAL, (uint8_t *)&buf[0], 2);        /* get cdatal register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CDATAL, (uint8_t *)&buf[0], 2);       /* get cdatal register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get cdatal register failed.\n");                  /* get cdatal register failed */
        
         return 1;                                                                        /* return error */
     }
-    res = _apds9960_iic_read(handle, APDS9960_REG_RDATAL, (uint8_t *)&buf[2], 2);        /* get rdatal register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_RDATAL, (uint8_t *)&buf[2], 2);       /* get rdatal register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get rdatal register failed.\n");                  /* get rdatal register failed */
        
         return 1;                                                                        /* return error */
     }
-    res = _apds9960_iic_read(handle, APDS9960_REG_GDATAL, (uint8_t *)&buf[4], 2);        /* get gdatal register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GDATAL, (uint8_t *)&buf[4], 2);       /* get gdatal register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get gdatal register failed.\n");                  /* get gdatal register failed */
        
         return 1;                                                                        /* return error */
     }
-    res = _apds9960_iic_read(handle, APDS9960_REG_BDATAL, (uint8_t *)&buf[6], 2);        /* get bdatal register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_BDATAL, (uint8_t *)&buf[6], 2);       /* get bdatal register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get bdatal register failed.\n");                  /* get bdatal register failed */
        
@@ -2519,8 +2539,8 @@ uint8_t apds9960_read_rgbc(apds9960_handle_t *handle, uint16_t *red, uint16_t *g
  */
 uint8_t apds9960_read_proximity(apds9960_handle_t *handle, uint8_t *proximity)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                /* check handle */
     {
@@ -2531,8 +2551,8 @@ uint8_t apds9960_read_proximity(apds9960_handle_t *handle, uint8_t *proximity)
         return 3;                                                                      /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_PDATA, (uint8_t *)&prev, 1);         /* get proximity data register */
-    if (res)                                                                           /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_PDATA, (uint8_t *)&prev, 1);        /* get proximity data register */
+    if (res != 0)                                                                      /* check result */
     {
         handle->debug_print("apds9960: get proximity data register failed.\n");        /* get proximity data register failed */
        
@@ -2556,8 +2576,8 @@ uint8_t apds9960_read_proximity(apds9960_handle_t *handle, uint8_t *proximity)
  */
 uint8_t apds9960_set_proximity_up_right_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                           /* check handle */
     {
@@ -2577,8 +2597,8 @@ uint8_t apds9960_set_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
         prev = 0x80;                                                                              /* set the 0x80 */
         prev |= (-offset);                                                                        /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_POFFSET_UR, (uint8_t *)&prev, 1);              /* set proximity offset up right register */
-    if (res)                                                                                      /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_POFFSET_UR, (uint8_t *)&prev, 1);             /* set proximity offset up right register */
+    if (res != 0)                                                                                 /* check result */
     {
         handle->debug_print("apds9960: set proximity offset up right register failed.\n");        /* set proximity offset up right register failed */
        
@@ -2601,8 +2621,8 @@ uint8_t apds9960_set_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
  */
 uint8_t apds9960_get_proximity_up_right_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                          /* check handle */
     {
@@ -2613,14 +2633,14 @@ uint8_t apds9960_get_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
         return 3;                                                                                /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_POFFSET_UR, (uint8_t *)&prev, 1);              /* get proximity offset up right register */
-    if (res)                                                                                     /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_POFFSET_UR, (uint8_t *)&prev, 1);             /* get proximity offset up right register */
+    if (res != 0)                                                                                /* check result */
     {
         handle->debug_print("apds9960: get proximity offset up right register failed.\n");       /* get proximity offset up right register failed */
        
         return 1;                                                                                /* return error */
     }
-    if (prev & 0x80)                                                                             /* if < 0 */
+    if ((prev & 0x80) != 0)                                                                      /* if < 0 */
     {
         prev &= ~0x80;                                                                           /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                               /* set the offset */
@@ -2646,8 +2666,8 @@ uint8_t apds9960_get_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
  */
 uint8_t apds9960_set_proximity_down_left_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                           /* check handle */
     {
@@ -2667,8 +2687,8 @@ uint8_t apds9960_set_proximity_down_left_offset(apds9960_handle_t *handle, int8_
         prev = 0x80;                                                                               /* set the 0x80 */
         prev |= (-offset);                                                                         /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_POFFSET_DL, (uint8_t *)&prev, 1);               /* set proximity offset down left register */
-    if (res)                                                                                       /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_POFFSET_DL, (uint8_t *)&prev, 1);              /* set proximity offset down left register */
+    if (res != 0)                                                                                  /* check result */
     {
         handle->debug_print("apds9960: set proximity offset down left register failed.\n");        /* set proximity offset down left register failed */
        
@@ -2691,8 +2711,8 @@ uint8_t apds9960_set_proximity_down_left_offset(apds9960_handle_t *handle, int8_
  */
 uint8_t apds9960_get_proximity_down_left_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                           /* check handle */
     {
@@ -2703,14 +2723,14 @@ uint8_t apds9960_get_proximity_down_left_offset(apds9960_handle_t *handle, int8_
         return 3;                                                                                 /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_POFFSET_DL, (uint8_t *)&prev, 1);               /* get proximity offset down left register */
-    if (res)                                                                                      /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_POFFSET_DL, (uint8_t *)&prev, 1);              /* get proximity offset down left register */
+    if (res != 0)                                                                                 /* check result */
     {
         handle->debug_print("apds9960: get proximity offset down left register failed.\n");       /* get proximity offset down left register failed */
        
         return 1;                                                                                 /* return error */
     }
-    if (prev & 0x80)                                                                              /* if < 0 */
+    if ((prev & 0x80) != 0)                                                                       /* if < 0 */
     {
         prev &= ~0x80;                                                                            /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                                /* set the offset */
@@ -2736,8 +2756,8 @@ uint8_t apds9960_get_proximity_down_left_offset(apds9960_handle_t *handle, int8_
  */
 uint8_t apds9960_set_proximity_gain_compensation(apds9960_handle_t *handle, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2748,8 +2768,8 @@ uint8_t apds9960_set_proximity_gain_compensation(apds9960_handle_t *handle, apds
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);           /* get contorl 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* get contorl 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");                 /* get control 3 register failed */
        
@@ -2757,8 +2777,8 @@ uint8_t apds9960_set_proximity_gain_compensation(apds9960_handle_t *handle, apds
     }
     prev &= ~(1 << 5);                                                                     /* clear config */
     prev |= enable << 5;                                                                   /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* set contorl register 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);         /* set contorl register 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set contorl 3 register register failed.\n");        /* set contorl 3 register failed */
        
@@ -2781,8 +2801,8 @@ uint8_t apds9960_set_proximity_gain_compensation(apds9960_handle_t *handle, apds
  */
 uint8_t apds9960_get_proximity_gain_compensation(apds9960_handle_t *handle, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2793,8 +2813,8 @@ uint8_t apds9960_get_proximity_gain_compensation(apds9960_handle_t *handle, apds
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);           /* get contorl 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* get contorl 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");                 /* get control 3 register failed */
        
@@ -2818,8 +2838,8 @@ uint8_t apds9960_get_proximity_gain_compensation(apds9960_handle_t *handle, apds
  */
 uint8_t apds9960_set_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2830,8 +2850,8 @@ uint8_t apds9960_set_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);           /* get contorl 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* get contorl 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");                 /* get control 3 register failed */
        
@@ -2839,8 +2859,8 @@ uint8_t apds9960_set_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
     }
     prev &= ~(1 << 4);                                                                     /* clear config */
     prev |= enable << 4;                                                                   /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* set contorl register 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);         /* set contorl register 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set contorl 3 register register failed.\n");        /* set contorl 3 register failed */
        
@@ -2863,8 +2883,8 @@ uint8_t apds9960_set_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
  */
 uint8_t apds9960_get_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2875,8 +2895,8 @@ uint8_t apds9960_get_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);           /* get contorl 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* get contorl 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");                 /* get control 3 register failed */
        
@@ -2901,8 +2921,8 @@ uint8_t apds9960_get_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
  */
 uint8_t apds9960_set_proximity_mask(apds9960_handle_t *handle, apds9960_proximity_mask_t mask, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -2913,8 +2933,8 @@ uint8_t apds9960_set_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);           /* get contorl 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* get contorl 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");                 /* get control 3 register failed */
        
@@ -2922,8 +2942,8 @@ uint8_t apds9960_set_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
     }
     prev &= ~(1 << mask);                                                                  /* clear config */
     prev |= enable << mask;                                                                /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);          /* set contorl register 3 register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);         /* set contorl register 3 register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set contorl 3 register register failed.\n");        /* set contorl 3 register failed */
        
@@ -2947,8 +2967,8 @@ uint8_t apds9960_set_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
  */
 uint8_t apds9960_get_proximity_mask(apds9960_handle_t *handle, apds9960_proximity_mask_t mask, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -2959,8 +2979,8 @@ uint8_t apds9960_get_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);        /* get contorl 3 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_CONFIG3, (uint8_t *)&prev, 1);       /* get contorl 3 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get control 3 register failed.\n");              /* get control 3 register failed */
        
@@ -2984,8 +3004,8 @@ uint8_t apds9960_get_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
  */
 uint8_t apds9960_set_gesture_proximity_enter_threshold(apds9960_handle_t *handle, uint8_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -2997,8 +3017,8 @@ uint8_t apds9960_set_gesture_proximity_enter_threshold(apds9960_handle_t *handle
     }
     
     prev = threshold;                                                                                     /* set threshold */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GPENTH, (uint8_t *)&prev, 1);                          /* set gesture proximity enter threshold register */
-    if (res)                                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GPENTH, (uint8_t *)&prev, 1);                         /* set gesture proximity enter threshold register */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture proximity enter threshold register failed.\n");        /* set gesture proximity enter threshold register failed */
        
@@ -3021,8 +3041,8 @@ uint8_t apds9960_set_gesture_proximity_enter_threshold(apds9960_handle_t *handle
  */
 uint8_t apds9960_get_gesture_proximity_enter_threshold(apds9960_handle_t *handle, uint8_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -3033,8 +3053,8 @@ uint8_t apds9960_get_gesture_proximity_enter_threshold(apds9960_handle_t *handle
         return 3;                                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GPENTH, (uint8_t *)&prev, 1);                           /* get gesture proximity enter threshold register */
-    if (res)                                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GPENTH, (uint8_t *)&prev, 1);                          /* get gesture proximity enter threshold register */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture proximity enter threshold register failed.\n");        /* get gesture proximity enter threshold register failed */
        
@@ -3058,8 +3078,8 @@ uint8_t apds9960_get_gesture_proximity_enter_threshold(apds9960_handle_t *handle
  */
 uint8_t apds9960_set_gesture_proximity_exit_threshold(apds9960_handle_t *handle, uint8_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                  /* check handle */
     {
@@ -3071,8 +3091,8 @@ uint8_t apds9960_set_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
     }
     
     prev = threshold;                                                                                    /* set threshold */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GEXTH, (uint8_t *)&prev, 1);                          /* set gesture proximity exit threshold register */
-    if (res)                                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GEXTH, (uint8_t *)&prev, 1);                         /* set gesture proximity exit threshold register */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("apds9960: set gesture proximity exit threshold register failed.\n");        /* set gesture proximity exit threshold register failed */
        
@@ -3095,8 +3115,8 @@ uint8_t apds9960_set_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
  */
 uint8_t apds9960_get_gesture_proximity_exit_threshold(apds9960_handle_t *handle, uint8_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                  /* check handle */
     {
@@ -3107,8 +3127,8 @@ uint8_t apds9960_get_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
         return 3;                                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GEXTH, (uint8_t *)&prev, 1);                           /* get gesture proximity exit threshold register */
-    if (res)                                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GEXTH, (uint8_t *)&prev, 1);                          /* get gesture proximity exit threshold register */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("apds9960: get gesture proximity exit threshold register failed.\n");        /* get gesture proximity exit threshold register failed */
        
@@ -3132,8 +3152,8 @@ uint8_t apds9960_get_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
  */
 uint8_t apds9960_set_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_gesture_fifo_threshold_t threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3144,8 +3164,8 @@ uint8_t apds9960_set_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3153,8 +3173,8 @@ uint8_t apds9960_set_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
     }
     prev &= ~(3 << 6);                                                                    /* clear config */
     prev |= threshold << 6;                                                               /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* set gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);         /* set gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 1 register failed.\n");        /* set gesture contorl 1 register failed */
        
@@ -3177,8 +3197,8 @@ uint8_t apds9960_set_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
  */
 uint8_t apds9960_get_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_gesture_fifo_threshold_t *threshold)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3189,8 +3209,8 @@ uint8_t apds9960_get_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3214,8 +3234,8 @@ uint8_t apds9960_get_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
  */
 uint8_t apds9960_set_gesture_exit_persistence(apds9960_handle_t *handle, apds9960_gesture_exit_persistence_t persistence)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3226,8 +3246,8 @@ uint8_t apds9960_set_gesture_exit_persistence(apds9960_handle_t *handle, apds996
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3235,8 +3255,8 @@ uint8_t apds9960_set_gesture_exit_persistence(apds9960_handle_t *handle, apds996
     }
     prev &= ~(3 << 0);                                                                    /* clear config */
     prev |= persistence << 0;                                                             /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* set gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);         /* set gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 1 register failed.\n");        /* set gesture contorl 1 register failed */
        
@@ -3259,8 +3279,8 @@ uint8_t apds9960_set_gesture_exit_persistence(apds9960_handle_t *handle, apds996
  */
 uint8_t apds9960_get_gesture_exit_persistence(apds9960_handle_t *handle, apds9960_gesture_exit_persistence_t *persistence)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3271,8 +3291,8 @@ uint8_t apds9960_get_gesture_exit_persistence(apds9960_handle_t *handle, apds996
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3297,8 +3317,8 @@ uint8_t apds9960_get_gesture_exit_persistence(apds9960_handle_t *handle, apds996
  */
 uint8_t apds9960_set_gesture_exit_mask(apds9960_handle_t *handle, uint8_t mask)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3315,8 +3335,8 @@ uint8_t apds9960_set_gesture_exit_mask(apds9960_handle_t *handle, uint8_t mask)
         return 4;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3324,8 +3344,8 @@ uint8_t apds9960_set_gesture_exit_mask(apds9960_handle_t *handle, uint8_t mask)
     }
     prev &= ~(0xF << 2);                                                                  /* clear config */
     prev |= (mask & 0xF) << 2;                                                            /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* set gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);         /* set gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 1 register failed.\n");        /* set gesture contorl 1 register failed */
        
@@ -3348,8 +3368,8 @@ uint8_t apds9960_set_gesture_exit_mask(apds9960_handle_t *handle, uint8_t mask)
  */
 uint8_t apds9960_get_gesture_exit_mask(apds9960_handle_t *handle, uint8_t *mask)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3360,8 +3380,8 @@ uint8_t apds9960_get_gesture_exit_mask(apds9960_handle_t *handle, uint8_t *mask)
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);           /* get gesture contorl 1 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF1, (uint8_t *)&prev, 1);          /* get gesture contorl 1 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 1 register failed.\n");        /* get gesture control 1 register failed */
        
@@ -3385,8 +3405,8 @@ uint8_t apds9960_get_gesture_exit_mask(apds9960_handle_t *handle, uint8_t *mask)
  */
 uint8_t apds9960_set_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_gain_control_t gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3397,8 +3417,8 @@ uint8_t apds9960_set_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
@@ -3406,8 +3426,8 @@ uint8_t apds9960_set_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
     }
     prev &= ~(0x3 << 5);                                                                  /* clear config */
     prev |= gain << 5;                                                                    /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* set gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);         /* set gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 2 register failed.\n");        /* set gesture contorl 2 register failed */
        
@@ -3430,8 +3450,8 @@ uint8_t apds9960_set_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
  */
 uint8_t apds9960_get_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_gain_control_t *gain)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3442,8 +3462,8 @@ uint8_t apds9960_get_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
@@ -3467,8 +3487,8 @@ uint8_t apds9960_get_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
  */
 uint8_t apds9960_set_gesture_led_current(apds9960_handle_t *handle, apds9960_gesture_led_current_t current)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3479,8 +3499,8 @@ uint8_t apds9960_set_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
@@ -3488,8 +3508,8 @@ uint8_t apds9960_set_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
     }
     prev &= ~(0x3 << 3);                                                                  /* clear config */
     prev |= current << 3;                                                                 /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* set gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);         /* set gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 2 register failed.\n");        /* set gesture contorl 2 register failed */
        
@@ -3512,8 +3532,8 @@ uint8_t apds9960_set_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
  */
 uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_gesture_led_current_t *current)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3524,8 +3544,8 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
@@ -3539,7 +3559,7 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
 /**
  * @brief     set the gesture wait time
  * @param[in] *handle points to a apds9960 handle structure
- * @param[in] time is the gesture wait time
+ * @param[in] t is the gesture wait time
  * @return    status code
  *            - 0 success
  *            - 1 set gesture wait time failed
@@ -3547,10 +3567,10 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
  *            - 3 handle is not initialized
  * @note      none
  */
-uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t time)
+uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t t)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3561,17 +3581,17 @@ uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
         return 1;                                                                         /* return error */
     }
     prev &= ~(0x7 << 0);                                                                  /* clear config */
-    prev |= time << 0;                                                                    /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* set gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    prev |= t << 0;                                                                       /* set config */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);         /* set gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: set gesture contorl 2 register failed.\n");        /* set gesture contorl 2 register failed */
        
@@ -3584,7 +3604,7 @@ uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
 /**
  * @brief      get the gesture wait time
  * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *time points to a gesture wait time buffer
+ * @param[out] *t points to a gesture wait time buffer
  * @return     status code
  *             - 0 success
  *             - 1 get gesture wait time failed
@@ -3592,10 +3612,10 @@ uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
  *             - 3 handle is not initialized
  * @note       none
  */
-uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t *time)
+uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gesture_wait_time_t *t)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3606,14 +3626,14 @@ uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);           /* get gesture contorl 2 register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF2, (uint8_t *)&prev, 1);          /* get gesture contorl 2 register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture control 2 register failed.\n");        /* get gesture control 2 register failed */
        
         return 1;                                                                         /* return error */
     }
-    *time = (apds9960_gesture_wait_time_t)((prev >> 0) & 0x7);                            /* set the wait time */
+    *t = (apds9960_gesture_wait_time_t)((prev >> 0) & 0x7);                               /* set the wait time */
     
     return 0;                                                                             /* success return 0 */
 }
@@ -3631,8 +3651,8 @@ uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
  */
 uint8_t apds9960_set_gesture_up_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -3652,8 +3672,8 @@ uint8_t apds9960_set_gesture_up_offset(apds9960_handle_t *handle, int8_t offset)
         prev = 0x80;                                                                       /* set the 0x80 */
         prev |= (-offset);                                                                 /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_GOFFSET_U, (uint8_t *)&prev, 1);        /* set gesture up offset register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GOFFSET_U, (uint8_t *)&prev, 1);       /* set gesture up offset register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set gesture up offset register failed.\n");         /* set gesture up offset register failed */
        
@@ -3676,8 +3696,8 @@ uint8_t apds9960_set_gesture_up_offset(apds9960_handle_t *handle, int8_t offset)
  */
 uint8_t apds9960_get_gesture_up_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3688,14 +3708,14 @@ uint8_t apds9960_get_gesture_up_offset(apds9960_handle_t *handle, int8_t *offset
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GOFFSET_U, (uint8_t *)&prev, 1);        /* get gesture up offset register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GOFFSET_U, (uint8_t *)&prev, 1);       /* get gesture up offset register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture up offset register failed.\n");        /* get gesture up offset register failed */
        
         return 1;                                                                         /* return error */
     }
-    if (prev & 0x80)                                                                      /* if < 0 */
+    if ((prev & 0x80) != 0)                                                               /* if < 0 */
     {
         prev &= ~0x80;                                                                    /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                        /* set the offset */
@@ -3721,8 +3741,8 @@ uint8_t apds9960_get_gesture_up_offset(apds9960_handle_t *handle, int8_t *offset
  */
 uint8_t apds9960_set_gesture_down_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -3742,8 +3762,8 @@ uint8_t apds9960_set_gesture_down_offset(apds9960_handle_t *handle, int8_t offse
         prev = 0x80;                                                                       /* set the 0x80 */
         prev |= (-offset);                                                                 /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_GOFFSET_D, (uint8_t *)&prev, 1);        /* set gesture down offset register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GOFFSET_D, (uint8_t *)&prev, 1);       /* set gesture down offset register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set gesture down offset register failed.\n");       /* set gesture down offset register failed */
        
@@ -3766,8 +3786,8 @@ uint8_t apds9960_set_gesture_down_offset(apds9960_handle_t *handle, int8_t offse
  */
 uint8_t apds9960_get_gesture_down_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3778,14 +3798,14 @@ uint8_t apds9960_get_gesture_down_offset(apds9960_handle_t *handle, int8_t *offs
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GOFFSET_D, (uint8_t *)&prev, 1);        /* get gesture down offset register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GOFFSET_D, (uint8_t *)&prev, 1);       /* get gesture down offset register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture down offset register failed.\n");      /* get gesture down offset register failed */
        
         return 1;                                                                         /* return error */
     }
-    if (prev & 0x80)                                                                      /* if < 0 */
+    if ((prev & 0x80) != 0)                                                               /* if < 0 */
     {
         prev &= ~0x80;                                                                    /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                        /* set the offset */
@@ -3811,8 +3831,8 @@ uint8_t apds9960_get_gesture_down_offset(apds9960_handle_t *handle, int8_t *offs
  */
 uint8_t apds9960_set_gesture_left_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -3832,8 +3852,8 @@ uint8_t apds9960_set_gesture_left_offset(apds9960_handle_t *handle, int8_t offse
         prev = 0x80;                                                                       /* set the 0x80 */
         prev |= (-offset);                                                                 /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_GOFFSET_L, (uint8_t *)&prev, 1);        /* set gesture left offset register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GOFFSET_L, (uint8_t *)&prev, 1);       /* set gesture left offset register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set gesture left offset register failed.\n");       /* set gesture left offset register failed */
        
@@ -3856,8 +3876,8 @@ uint8_t apds9960_set_gesture_left_offset(apds9960_handle_t *handle, int8_t offse
  */
 uint8_t apds9960_get_gesture_left_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3868,14 +3888,14 @@ uint8_t apds9960_get_gesture_left_offset(apds9960_handle_t *handle, int8_t *offs
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GOFFSET_L, (uint8_t *)&prev, 1);        /* get gesture left offset register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GOFFSET_L, (uint8_t *)&prev, 1);       /* get gesture left offset register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture left offset register failed.\n");      /* get gesture left offset register failed */
        
         return 1;                                                                         /* return error */
     }
-    if (prev & 0x80)                                                                      /* if < 0 */
+    if ((prev & 0x80) != 0)                                                               /* if < 0 */
     {
         prev &= ~0x80;                                                                    /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                        /* set the offset */
@@ -3901,8 +3921,8 @@ uint8_t apds9960_get_gesture_left_offset(apds9960_handle_t *handle, int8_t *offs
  */
 uint8_t apds9960_set_gesture_right_offset(apds9960_handle_t *handle, int8_t offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -3922,8 +3942,8 @@ uint8_t apds9960_set_gesture_right_offset(apds9960_handle_t *handle, int8_t offs
         prev = 0x80;                                                                       /* set the 0x80 */
         prev |= (-offset);                                                                 /* set the negtive */
     }
-    res = _apds9960_iic_write(handle, APDS9960_REG_GOFFSET_R, (uint8_t *)&prev, 1);        /* set gesture right offset register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GOFFSET_R, (uint8_t *)&prev, 1);       /* set gesture right offset register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: set gesture right offset register failed.\n");      /* set gesture right offset register failed */
        
@@ -3946,8 +3966,8 @@ uint8_t apds9960_set_gesture_right_offset(apds9960_handle_t *handle, int8_t offs
  */
 uint8_t apds9960_get_gesture_right_offset(apds9960_handle_t *handle, int8_t *offset)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                   /* check handle */
     {
@@ -3958,14 +3978,14 @@ uint8_t apds9960_get_gesture_right_offset(apds9960_handle_t *handle, int8_t *off
         return 3;                                                                         /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GOFFSET_R, (uint8_t *)&prev, 1);        /* get gesture right offset register */
-    if (res)                                                                              /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GOFFSET_R, (uint8_t *)&prev, 1);       /* get gesture right offset register */
+    if (res != 0)                                                                         /* check result */
     {
         handle->debug_print("apds9960: get gesture right offset register failed.\n");     /* get gesture right offset register failed */
        
         return 1;                                                                         /* return error */
     }
-    if (prev & 0x80)                                                                      /* if < 0 */
+    if ((prev & 0x80) != 0)                                                               /* if < 0 */
     {
         prev &= ~0x80;                                                                    /* clear 0x80 */
         *offset = -(int8_t)(prev);                                                        /* set the offset */
@@ -3991,8 +4011,8 @@ uint8_t apds9960_get_gesture_right_offset(apds9960_handle_t *handle, int8_t *off
  */
 uint8_t apds9960_set_gesture_pulse_length(apds9960_handle_t *handle, apds9960_gesture_pulse_length_t len)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                       /* check handle */
     {
@@ -4003,8 +4023,8 @@ uint8_t apds9960_set_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
         return 3;                                                                             /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);               /* get gesture pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);              /* get gesture pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: get gesture pulse count register failed.\n");          /* get gesture pulse count register failed */
        
@@ -4012,8 +4032,8 @@ uint8_t apds9960_set_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
     }
     prev &= ~(3 << 6);                                                                        /* clear config */
     prev |= len << 6;                                                                         /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);              /* set gesture pulse count register */
-    if (res)                                                                                  /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);             /* set gesture pulse count register */
+    if (res != 0)                                                                             /* check result */
     {
         handle->debug_print("apds9960: set gesture pulse count register failed.\n");          /* set gesture pulse count register failed */
        
@@ -4036,8 +4056,8 @@ uint8_t apds9960_set_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
  */
 uint8_t apds9960_get_gesture_pulse_length(apds9960_handle_t *handle, apds9960_gesture_pulse_length_t *len)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                     /* check handle */
     {
@@ -4048,8 +4068,8 @@ uint8_t apds9960_get_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
         return 3;                                                                           /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);             /* get gesture pulse count register */
-    if (res)                                                                                /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);            /* get gesture pulse count register */
+    if (res != 0)                                                                           /* check result */
     {
         handle->debug_print("apds9960: get gesture pulse count register failed.\n");        /* get gesture pulse count register failed */
        
@@ -4074,8 +4094,8 @@ uint8_t apds9960_get_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
  */
 uint8_t apds9960_set_gesture_pulse_count(apds9960_handle_t *handle, uint16_t count)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                     /* check handle */
     {
@@ -4092,8 +4112,8 @@ uint8_t apds9960_set_gesture_pulse_count(apds9960_handle_t *handle, uint16_t cou
         return 4;                                                                           /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);             /* get gesture pulse count register */
-    if (res)                                                                                /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);            /* get gesture pulse count register */
+    if (res != 0)                                                                           /* check result */
     {
         handle->debug_print("apds9960: get gesture pulse count register failed.\n");        /* get gesture pulse count register failed */
        
@@ -4101,8 +4121,8 @@ uint8_t apds9960_set_gesture_pulse_count(apds9960_handle_t *handle, uint16_t cou
     }
     prev &= ~(0x3F << 0);                                                                   /* clear config */
     prev |= (count & 0x3F) << 0;                                                            /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);            /* set gesture pulse count register */
-    if (res)                                                                                /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);           /* set gesture pulse count register */
+    if (res != 0)                                                                           /* check result */
     {
         handle->debug_print("apds9960: set gesture pulse count register failed.\n");        /* set gesture pulse count register failed */
        
@@ -4125,8 +4145,8 @@ uint8_t apds9960_set_gesture_pulse_count(apds9960_handle_t *handle, uint16_t cou
  */
 uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *count)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                     /* check handle */
     {
@@ -4137,8 +4157,8 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
         return 3;                                                                           /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);             /* get gesture pulse count register */
-    if (res)                                                                                /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GPULSE, (uint8_t *)&prev, 1);            /* get gesture pulse count register */
+    if (res != 0)                                                                           /* check result */
     {
         handle->debug_print("apds9960: get gesture pulse count register failed.\n");        /* get gesture pulse count register failed */
        
@@ -4152,7 +4172,7 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
 /**
  * @brief     set the gesture dimension
  * @param[in] *handle points to a apds9960 handle structure
- * @param[in] select is the gesture dimension
+ * @param[in] s is the gesture dimension
  * @return    status code
  *            - 0 success
  *            - 1 set gesture dimension failed
@@ -4160,10 +4180,10 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
  *            - 3 handle is not initialized
  * @note      none
  */
-uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t select)
+uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t s)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4174,17 +4194,17 @@ uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gestu
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);         /* get gesture conf 3 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);        /* get gesture conf 3 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 3 register failed.\n");         /* get gesture conf 3 register failed */
        
         return 1;                                                                       /* return error */
     }
     prev &= ~(3 << 0);                                                                  /* clear config */
-    prev |= select << 0;                                                                /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);        /* set gesture conf 3 register */
-    if (res)                                                                            /* check result */
+    prev |= s << 0;                                                                     /* set config */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);       /* set gesture conf 3 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: set gesture conf 3 register failed.\n");         /* set gesture conf 3 register failed */
        
@@ -4197,7 +4217,7 @@ uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gestu
 /**
  * @brief      get the gesture dimension
  * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *select points to a gesture dimension buffer
+ * @param[out] *s points to a gesture dimension buffer
  * @return     status code
  *             - 0 success
  *             - 1 get gesture dimension failed
@@ -4205,10 +4225,10 @@ uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gestu
  *             - 3 handle is not initialized
  * @note       none
  */
-uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t *select)
+uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds9960_gesture_dimension_select_t *s)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4219,14 +4239,14 @@ uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds996
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);         /* get gesture conf 3 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF3, (uint8_t *)&prev, 1);        /* get gesture conf 3 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 3 register failed.\n");         /* get gesture conf 3 register failed */
        
         return 1;                                                                       /* return error */
     }
-    *select = (apds9960_gesture_dimension_select_t)(prev & 0x3);                        /* get the select */
+    *s = (apds9960_gesture_dimension_select_t)(prev & 0x3);                             /* get the select */
     
     return 0;                                                                           /* success return 0 */
 }
@@ -4243,8 +4263,8 @@ uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds996
  */
 uint8_t apds9960_gesture_fifo_clear(apds9960_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4255,8 +4275,8 @@ uint8_t apds9960_gesture_fifo_clear(apds9960_handle_t *handle)
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* get gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 4 register failed.\n");         /* get gesture conf 4 register failed */
        
@@ -4264,8 +4284,8 @@ uint8_t apds9960_gesture_fifo_clear(apds9960_handle_t *handle)
     }
     prev &= ~(1 << 2);                                                                  /* clear config */
     prev |= 1 << 2;                                                                     /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* set gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);       /* set gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: set gesture conf 4 register failed.\n");         /* set gesture conf 4 register failed */
        
@@ -4288,8 +4308,8 @@ uint8_t apds9960_gesture_fifo_clear(apds9960_handle_t *handle)
  */
 uint8_t apds9960_set_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4300,8 +4320,8 @@ uint8_t apds9960_set_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* get gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 4 register failed.\n");         /* get gesture conf 4 register failed */
        
@@ -4309,8 +4329,8 @@ uint8_t apds9960_set_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
     }
     prev &= ~(1 << 1);                                                                  /* clear config */
     prev |= enable << 1;                                                                /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* set gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);       /* set gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: set gesture conf 4 register failed.\n");         /* set gesture conf 4 register failed */
        
@@ -4333,8 +4353,8 @@ uint8_t apds9960_set_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
  */
 uint8_t apds9960_get_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4345,8 +4365,8 @@ uint8_t apds9960_get_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* get gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 4 register failed.\n");         /* get gesture conf 4 register failed */
        
@@ -4370,8 +4390,8 @@ uint8_t apds9960_get_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
  */
 uint8_t apds9960_set_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4382,8 +4402,8 @@ uint8_t apds9960_set_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t ena
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* get gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 4 register failed.\n");         /* get gesture conf 4 register failed */
        
@@ -4391,8 +4411,8 @@ uint8_t apds9960_set_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t ena
     }
     prev &= ~(1 << 0);                                                                  /* clear config */
     prev |= enable << 0;                                                                /* set config */
-    res = _apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* set gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);       /* set gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: set gesture conf 4 register failed.\n");         /* set gesture conf 4 register failed */
        
@@ -4415,8 +4435,8 @@ uint8_t apds9960_set_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t ena
  */
 uint8_t apds9960_get_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4427,8 +4447,8 @@ uint8_t apds9960_get_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t *en
         return 3;                                                                       /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);         /* get gesture conf 4 register */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GCONF4, (uint8_t *)&prev, 1);        /* get gesture conf 4 register */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: get gesture conf 4 register failed.\n");         /* get gesture conf 4 register failed */
        
@@ -4452,8 +4472,8 @@ uint8_t apds9960_get_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t *en
  */
 uint8_t apds9960_get_gesture_fifo_level(apds9960_handle_t *handle, uint8_t *level)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                    /* check handle */
     {
@@ -4464,8 +4484,8 @@ uint8_t apds9960_get_gesture_fifo_level(apds9960_handle_t *handle, uint8_t *leve
         return 3;                                                                          /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GFLVL, (uint8_t *)&prev, 1);             /* get gesture fifo level register */
-    if (res)                                                                               /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GFLVL, (uint8_t *)&prev, 1);            /* get gesture fifo level register */
+    if (res != 0)                                                                          /* check result */
     {
         handle->debug_print("apds9960: get gesture fifo level register failed.\n");        /* get gesture fifo level register failed */
        
@@ -4489,8 +4509,8 @@ uint8_t apds9960_get_gesture_fifo_level(apds9960_handle_t *handle, uint8_t *leve
  */
 uint8_t apds9960_get_gesture_status(apds9960_handle_t *handle, uint8_t *status)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -4501,8 +4521,8 @@ uint8_t apds9960_get_gesture_status(apds9960_handle_t *handle, uint8_t *status)
         return 3;                                                                        /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GSTATUS, (uint8_t *)&prev, 1);         /* get gesture status register */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GSTATUS, (uint8_t *)&prev, 1);        /* get gesture status register */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: get gesture status register failed.\n");          /* get gesture status register failed */
        
@@ -4525,8 +4545,8 @@ uint8_t apds9960_get_gesture_status(apds9960_handle_t *handle, uint8_t *status)
  */
 uint8_t apds9960_force_interrupt(apds9960_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                 /* check handle */
     {
@@ -4538,8 +4558,8 @@ uint8_t apds9960_force_interrupt(apds9960_handle_t *handle)
     }
     
     prev = 0xFF;                                                                        /* set 0xFF */
-    res = _apds9960_iic_write(handle, APDS9960_REG_IFORCE, (uint8_t *)&prev, 1);        /* forces an interrupt */
-    if (res)                                                                            /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_IFORCE, (uint8_t *)&prev, 1);       /* forces an interrupt */
+    if (res != 0)                                                                       /* check result */
     {
         handle->debug_print("apds9960: forces an interrupt failed.\n");                 /* forces an interrupt failed */
        
@@ -4561,8 +4581,8 @@ uint8_t apds9960_force_interrupt(apds9960_handle_t *handle)
  */
 uint8_t apds9960_proximity_interrupt_clear(apds9960_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -4574,8 +4594,8 @@ uint8_t apds9960_proximity_interrupt_clear(apds9960_handle_t *handle)
     }
     
     prev = 0xFF;                                                                         /* set 0xFF */
-    res = _apds9960_iic_write(handle, APDS9960_REG_PICLEAR, (uint8_t *)&prev, 1);        /* proximity interrupt clear */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_PICLEAR, (uint8_t *)&prev, 1);       /* proximity interrupt clear */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: proximity interrupt clear failed.\n");            /* proximity interrupt clear failed */
        
@@ -4597,8 +4617,8 @@ uint8_t apds9960_proximity_interrupt_clear(apds9960_handle_t *handle)
  */
 uint8_t apds9960_als_interrupt_clear(apds9960_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                  /* check handle */
     {
@@ -4610,8 +4630,8 @@ uint8_t apds9960_als_interrupt_clear(apds9960_handle_t *handle)
     }
     
     prev = 0xFF;                                                                         /* set 0xFF */
-    res = _apds9960_iic_write(handle, APDS9960_REG_CICLEAR, (uint8_t *)&prev, 1);        /* als interrupt clear */
-    if (res)                                                                             /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_CICLEAR, (uint8_t *)&prev, 1);       /* als interrupt clear */
+    if (res != 0)                                                                        /* check result */
     {
         handle->debug_print("apds9960: als interrupt clear failed.\n");                  /* als interrupt clear failed */
        
@@ -4633,8 +4653,8 @@ uint8_t apds9960_als_interrupt_clear(apds9960_handle_t *handle)
  */
 uint8_t apds9960_all_non_gesture_interrupt_clear(apds9960_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                      /* check handle */
     {
@@ -4646,10 +4666,10 @@ uint8_t apds9960_all_non_gesture_interrupt_clear(apds9960_handle_t *handle)
     }
     
     prev = 0xFF;                                                                             /* set 0xFF */
-    res = _apds9960_iic_write(handle, APDS9960_REG_AICLEAR, (uint8_t *)&prev, 1);            /* clear all non-gesture interrupts */
-    if (res)                                                                                 /* check result */
+    res = a_apds9960_iic_write(handle, APDS9960_REG_AICLEAR, (uint8_t *)&prev, 1);           /* clear all non-gesture interrupts */
+    if (res != 0)                                                                            /* check result */
     {
-        handle->debug_print("apds9960: clear all non-gesture interrupts failed.\n");        /* clear all non-gesture interrupts failed */
+        handle->debug_print("apds9960: clear all non-gesture interrupts failed.\n");         /* clear all non-gesture interrupts failed */
        
         return 1;                                                                            /* return error */
     }
@@ -4671,8 +4691,8 @@ uint8_t apds9960_all_non_gesture_interrupt_clear(apds9960_handle_t *handle)
  */
 uint8_t apds9960_read_gesture_fifo(apds9960_handle_t *handle, uint8_t (*data)[4], uint8_t *len)
 {
-    volatile uint8_t res;
-    volatile uint8_t level;
+    uint8_t res;
+    uint8_t level;
     
     if (handle == NULL)                                                                         /* check handle */
     {
@@ -4683,8 +4703,8 @@ uint8_t apds9960_read_gesture_fifo(apds9960_handle_t *handle, uint8_t (*data)[4]
         return 3;                                                                               /* return error */
     }
     
-    res = _apds9960_iic_read(handle, APDS9960_REG_GFLVL, (uint8_t *)&level, 1);                 /* get gesture fifo level register */
-    if (res)                                                                                    /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GFLVL, (uint8_t *)&level, 1);                /* get gesture fifo level register */
+    if (res != 0)                                                                               /* check result */
     {
         handle->debug_print("apds9960: get gesture fifo level register failed.\n");             /* get gesture fifo level register failed */
        
@@ -4692,8 +4712,8 @@ uint8_t apds9960_read_gesture_fifo(apds9960_handle_t *handle, uint8_t (*data)[4]
     }
     
     *len = level < (*len) ? level : (*len);
-    res = _apds9960_iic_read(handle, APDS9960_REG_GFIFO_U, (uint8_t *)data, (*len) * 4);        /* read gesture fifo */
-    if (res)                                                                                    /* check result */
+    res = a_apds9960_iic_read(handle, APDS9960_REG_GFIFO_U, (uint8_t *)data, (*len) * 4);       /* read gesture fifo */
+    if (res != 0)                                                                               /* check result */
     {
         handle->debug_print("apds9960: read gesture fifo failed.\n");                           /* read gesture fifo failed */
        
@@ -4727,7 +4747,7 @@ uint8_t apds9960_set_reg(apds9960_handle_t *handle, uint8_t reg, uint8_t *buf, u
         return 3;                                          /* return error */
     }
     
-    if (_apds9960_iic_write(handle, reg, buf, len))        /* write data */
+    if (a_apds9960_iic_write(handle, reg, buf, len) != 0)  /* write data */
     {
         return 1;                                          /* return error */
     }
@@ -4761,7 +4781,7 @@ uint8_t apds9960_get_reg(apds9960_handle_t *handle, uint8_t reg, uint8_t *buf, u
         return 3;                                         /* return error */
     }
     
-    if (_apds9960_iic_read(handle, reg, buf, len))        /* read data */
+    if (a_apds9960_iic_read(handle, reg, buf, len) != 0)  /* read data */
     {
         return 1;                                         /* return error */
     }
