@@ -52,6 +52,8 @@ LibDriver APDS9960是LibDriver推出的APDS9960全功能驅動。 LibDriver APDS
 #### example basic
 
 ```C
+#include "driver_apds9960_basic.h"
+
 uint8_t res;
 uint32_t i, times;
 
@@ -111,6 +113,8 @@ return 0;
 #### example gesture
 
 ```C
+#include "driver_apds9960_gesture.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -270,6 +274,8 @@ return 0;
 #### example interrupt
 
 ```C
+#include "driver_apds9960_interrupt.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
