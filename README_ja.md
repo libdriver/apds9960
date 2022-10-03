@@ -52,6 +52,8 @@ LibDriver APDS9960は、LibDriverによって起動されたAPDS9960の全機能
 #### example basic
 
 ```C
+#include "driver_apds9960_basic.h"
+
 uint8_t res;
 uint32_t i, times;
 
@@ -111,6 +113,8 @@ return 0;
 #### example gesture
 
 ```c
+#include "driver_apds9960_gesture.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -270,6 +274,8 @@ return 0;
 #### example interrupt
 
 ```C
+#include "driver_apds9960_interrupt.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;

@@ -52,6 +52,8 @@ LibDriver APDS9960은 LibDriver에서 출시한 APDS9960의 전체 기능 드라
 #### example basic
 
 ```C
+#include "driver_apds9960_basic.h"
+
 uint8_t res;
 uint32_t i, times;
 
@@ -111,6 +113,8 @@ return 0;
 #### example gesture
 
 ```c
+#include "driver_apds9960_gesture.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -270,6 +274,8 @@ return 0;
 #### example interrupt
 
 ```C
+#include "driver_apds9960_interrupt.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;

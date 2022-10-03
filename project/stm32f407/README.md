@@ -1,6 +1,6 @@
-### 1. chip
+### 1. Chip
 
-#### 1.1 chip info
+#### 1.1 Chip Info
 
 chip name : STM32F407ZGT6.
 
@@ -10,25 +10,25 @@ uart pin: TX/RX PA9/PA10.
 
 iic pin: SCL/SDA PB8/PB9.
 
-int pin: INT PB0
+int pin: INT PB0.
 
-### 2. shell
+### 2. Shell
 
-#### 2.1 shell parameter
+#### 2.1 Shell Parameter
 
-baud rate: 115200
+baud rate: 115200.
 
-data bits : 8
+data bits : 8.
 
-stop bits: 1
+stop bits: 1.
 
-parity: none
+parity: none.
 
-flow control: none
+flow control: none.
 
-### 3. apds9960
+### 3. APDS9960
 
-#### 3.1 command Instruction
+#### 3.1 Command Instruction
 
 ​          apds9960 is a basic command which can test all apds9960 driver function:
 
@@ -56,7 +56,7 @@ flow control: none
 
 ​          -c gesture <times>        run apds9960 gesture function. times means test times. 
 
-#### 3.2 command example
+#### 3.2 Command Example
 
 ```shell
 apds9960 -i

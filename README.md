@@ -29,15 +29,15 @@ LibDriver APDS9960 is the full function driver of APDS9960 launched by LibDriver
 
 /src includes LibDriver APDS9960 source files.
 
-/interface includes LibDriver APDS9960 IIC platform independent template。
+/interface includes LibDriver APDS9960 IIC platform independent template.
 
-/test includes LibDriver APDS9960 driver test code and this code can test the chip necessary function simply。
+/test includes LibDriver APDS9960 driver test code and this code can test the chip necessary function simply.
 
 /example includes LibDriver APDS9960 sample code.
 
 /doc includes LibDriver APDS9960 offline document.
 
-/datasheet includes APDS9960 datasheet。
+/datasheet includes APDS9960 datasheet.
 
 /project includes the common Linux and MCU development board sample code. All projects use the shell script to debug the driver and the detail instruction can be found in each project's README.md.
 
@@ -52,6 +52,8 @@ Add /src, /interface and /example to your project.
 #### example basic
 
 ```C
+#include "driver_apds9960_basic.h"
+
 uint8_t res;
 uint32_t i, times;
 
@@ -111,6 +113,8 @@ return 0;
 #### example gesture
 
 ```C
+#include "driver_apds9960_gesture.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
@@ -270,6 +274,8 @@ return 0;
 #### example interrupt
 
 ```C
+#include "driver_apds9960_interrupt.h"
+
 uint8_t (*g_gpio_irq)(void) = NULL;
 static uint8_t gs_flag;
 uint8_t res;
