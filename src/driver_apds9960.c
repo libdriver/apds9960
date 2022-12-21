@@ -109,7 +109,7 @@
 
 /**
  * @brief      read bytes
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  reg is the iic register address
  * @param[out] *data points to a data buffer
  * @param[in]  len is the data length
@@ -132,7 +132,7 @@ static uint8_t a_apds9960_iic_read(apds9960_handle_t *handle, uint8_t reg, uint8
 
 /**
  * @brief     write bytes
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] reg is the iic register address
  * @param[in] *data points to a data buffer
  * @param[in] len is the data length
@@ -155,7 +155,7 @@ static uint8_t a_apds9960_iic_write(apds9960_handle_t *handle, uint8_t reg, uint
 
 /**
  * @brief     initialize the chip
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 iic initialization failed
@@ -251,7 +251,7 @@ uint8_t apds9960_init(apds9960_handle_t *handle)
 
 /**
  * @brief     close the chip
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 iic deinit failed
@@ -305,7 +305,7 @@ uint8_t apds9960_deinit(apds9960_handle_t *handle)
 
 /**
  * @brief     irq handler
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 run failed
@@ -518,7 +518,7 @@ uint8_t apds9960_irq_handler(apds9960_handle_t *handle)
 
 /**
  * @brief     decode gestures from the fifo data
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] **data points to data buffer
  * @param[in] len is the length of the data buffer
  * @return    status code
@@ -760,7 +760,7 @@ uint8_t apds9960_gesture_decode(apds9960_handle_t *handle, uint8_t (*data)[4], u
 
 /**
  * @brief     set the gesture decode threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the gesture decode threshold
  * @return    status code
  *            - 0 success
@@ -787,7 +787,7 @@ uint8_t apds9960_set_gesture_decode_threshold(apds9960_handle_t *handle, uint8_t
 
 /**
  * @brief      get the gesture decode threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a gesture decode threshold buffer
  * @return     status code
  *             - 0 success
@@ -814,7 +814,7 @@ uint8_t apds9960_get_gesture_decode_threshold(apds9960_handle_t *handle, uint8_t
 
 /**
  * @brief     set the gesture decode sensitivity 1
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] sensitivity is the gesture decode sensitivity
  * @return    status code
  *            - 0 success
@@ -841,7 +841,7 @@ uint8_t apds9960_set_gesture_decode_sensitivity_1(apds9960_handle_t *handle, int
 
 /**
  * @brief      get the gesture decode sensitivity 1
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *sensitivity points to a gesture decode sensitivity buffer
  * @return     status code
  *             - 0 success
@@ -868,7 +868,7 @@ uint8_t apds9960_get_gesture_decode_sensitivity_1(apds9960_handle_t *handle, int
 
 /**
  * @brief     set the gesture decode sensitivity 2
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] sensitivity is the gesture decode sensitivity
  * @return    status code
  *            - 0 success
@@ -895,7 +895,7 @@ uint8_t apds9960_set_gesture_decode_sensitivity_2(apds9960_handle_t *handle, int
 
 /**
  * @brief      get the gesture decode sensitivity 2
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *sensitivity points to a gesture decode sensitivity buffer
  * @return     status code
  *             - 0 success
@@ -922,7 +922,7 @@ uint8_t apds9960_get_gesture_decode_sensitivity_2(apds9960_handle_t *handle, int
 
 /**
  * @brief     set the configuration
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] conf is the chip configuration
  * @param[in] enable is a bool value
  * @return    status code
@@ -968,7 +968,7 @@ uint8_t apds9960_set_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
 
 /**
  * @brief      get the configuration
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  conf is the chip configuration
  * @param[out] *enable points to a bool value buffer
  * @return     status code
@@ -1006,7 +1006,7 @@ uint8_t apds9960_get_conf(apds9960_handle_t *handle, apds9960_conf_t conf, apds9
 
 /**
  * @brief     set the adc integration time
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] integration_time is the adc integration time
  * @return    status code
  *            - 0 success
@@ -1043,8 +1043,8 @@ uint8_t apds9960_set_adc_integration_time(apds9960_handle_t *handle, uint8_t int
 
 /**
  * @brief      get the adc integration time
- * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *integration_time points to a adc integration time buffer
+ * @param[in]  *handle points to an apds9960 handle structure
+ * @param[out] *integration_time points to an adc integration time buffer
  * @return     status code
  *             - 0 success
  *             - 1 get adc integration time failed
@@ -1080,7 +1080,7 @@ uint8_t apds9960_get_adc_integration_time(apds9960_handle_t *handle, uint8_t *in
 
 /**
  * @brief      convert the adc integration time to the register raw data
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  ms is the integration time
  * @param[out] *reg points to a register raw buffer
  * @return     status code
@@ -1107,9 +1107,9 @@ uint8_t apds9960_adc_integration_time_convert_to_register(apds9960_handle_t *han
 
 /**
  * @brief      convert the register raw data to the integration time
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  reg is the register raw data
- * @param[out] *ms points to a adc integration time buffer
+ * @param[out] *ms points to an adc integration time buffer
  * @return     status code
  *             - 0 success
  *             - 2 handle is NULL
@@ -1134,7 +1134,7 @@ uint8_t apds9960_adc_integration_time_convert_to_data(apds9960_handle_t *handle,
 
 /**
  * @brief     set the wait time
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] wait_time is the wait time
  * @return    status code
  *            - 0 success
@@ -1171,7 +1171,7 @@ uint8_t apds9960_set_wait_time(apds9960_handle_t *handle, uint8_t wait_time)
 
 /**
  * @brief      get the wait time
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *wait_time points to a wait time buffer
  * @return     status code
  *             - 0 success
@@ -1208,7 +1208,7 @@ uint8_t apds9960_get_wait_time(apds9960_handle_t *handle, uint8_t *wait_time)
 
 /**
  * @brief      convert the wait time to the register raw data
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  ms is the wait time
  * @param[out] *reg points to a register raw buffer
  * @return     status code
@@ -1254,7 +1254,7 @@ uint8_t apds9960_wait_time_convert_to_register(apds9960_handle_t *handle, float 
 
 /**
  * @brief      convert the register raw data to the wait time
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  reg is the register raw data
  * @param[out] *ms points to a wait time buffer
  * @return     status code
@@ -1300,7 +1300,7 @@ uint8_t apds9960_wait_time_convert_to_data(apds9960_handle_t *handle, uint8_t re
 
 /**
  * @brief     set the als interrupt low threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the low threshold
  * @return    status code
  *            - 0 success
@@ -1338,7 +1338,7 @@ uint8_t apds9960_set_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
 
 /**
  * @brief      get the als interrupt low threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a low threshold buffer
  * @return     status code
  *             - 0 success
@@ -1375,7 +1375,7 @@ uint8_t apds9960_get_als_interrupt_low_threshold(apds9960_handle_t *handle, uint
 
 /**
  * @brief     set the als interrupt high threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the high threshold
  * @return    status code
  *            - 0 success
@@ -1413,7 +1413,7 @@ uint8_t apds9960_set_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
 
 /**
  * @brief      get the als interrupt high threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a high threshold buffer
  * @return     status code
  *             - 0 success
@@ -1450,7 +1450,7 @@ uint8_t apds9960_get_als_interrupt_high_threshold(apds9960_handle_t *handle, uin
 
 /**
  * @brief     set the proximity interrupt low threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the low threshold
  * @return    status code
  *            - 0 success
@@ -1487,7 +1487,7 @@ uint8_t apds9960_set_proximity_interrupt_low_threshold(apds9960_handle_t *handle
 
 /**
  * @brief      get the proximity interrupt low threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a low threshold buffer
  * @return     status code
  *             - 0 success
@@ -1524,7 +1524,7 @@ uint8_t apds9960_get_proximity_interrupt_low_threshold(apds9960_handle_t *handle
 
 /**
  * @brief     set the proximity interrupt high threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the high threshold
  * @return    status code
  *            - 0 success
@@ -1561,7 +1561,7 @@ uint8_t apds9960_set_proximity_interrupt_high_threshold(apds9960_handle_t *handl
 
 /**
  * @brief      get the proximity interrupt high threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a high threshold buffer
  * @return     status code
  *             - 0 success
@@ -1598,7 +1598,7 @@ uint8_t apds9960_get_proximity_interrupt_high_threshold(apds9960_handle_t *handl
 
 /**
  * @brief     set the proximity interrupt cycle
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] cycle is the proximity interrupt cycle
  * @return    status code
  *            - 0 success
@@ -1643,7 +1643,7 @@ uint8_t apds9960_set_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
 
 /**
  * @brief      get the proximity interrupt cycle
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *cycle points to a proximity interrupt cycle buffer
  * @return     status code
  *             - 0 success
@@ -1680,7 +1680,7 @@ uint8_t apds9960_get_proximity_interrupt_cycle(apds9960_handle_t *handle, apds99
 
 /**
  * @brief     set the als interrupt cycle
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] cycle is the als interrupt cycle
  * @return    status code
  *            - 0 success
@@ -1725,8 +1725,8 @@ uint8_t apds9960_set_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
 
 /**
  * @brief      get the als interrupt cycle
- * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *cycle points to a als interrupt cycle buffer
+ * @param[in]  *handle points to an apds9960 handle structure
+ * @param[out] *cycle points to an als interrupt cycle buffer
  * @return     status code
  *             - 0 success
  *             - 1 get als interrupt cycle failed
@@ -1762,7 +1762,7 @@ uint8_t apds9960_get_als_interrupt_cycle(apds9960_handle_t *handle, apds9960_als
 
 /**
  * @brief     enable or disable the wait long
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -1807,7 +1807,7 @@ uint8_t apds9960_set_wait_long(apds9960_handle_t *handle, apds9960_bool_t enable
 
 /**
  * @brief      get the wait long status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -1844,7 +1844,7 @@ uint8_t apds9960_get_wait_long(apds9960_handle_t *handle, apds9960_bool_t *enabl
 
 /**
  * @brief     set the proximity pulse length
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] len is the proximity pulse length
  * @return    status code
  *            - 0 success
@@ -1889,7 +1889,7 @@ uint8_t apds9960_set_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
 
 /**
  * @brief      get the proximity pulse length
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *len points to a proximity pulse length buffer
  * @return     status code
  *             - 0 success
@@ -1926,7 +1926,7 @@ uint8_t apds9960_get_proximity_pulse_length(apds9960_handle_t *handle, apds9960_
 
 /**
  * @brief     set the proximity pulse count
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] count is the proximity pulse count
  * @return    status code
  *            - 0 success
@@ -1978,7 +1978,7 @@ uint8_t apds9960_set_proximity_pulse_count(apds9960_handle_t *handle, uint16_t c
 
 /**
  * @brief      get the proximity pulse count
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *count points to a proximity pulse count buffer
  * @return     status code
  *             - 0 success
@@ -2015,7 +2015,7 @@ uint8_t apds9960_get_proximity_pulse_count(apds9960_handle_t *handle, uint16_t *
 
 /**
  * @brief     set the led current
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] current is the led current
  * @return    status code
  *            - 0 success
@@ -2060,7 +2060,7 @@ uint8_t apds9960_set_led_current(apds9960_handle_t *handle, apds9960_led_current
 
 /**
  * @brief      get the led current
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *current points to a led current buffer
  * @return     status code
  *             - 0 success
@@ -2097,7 +2097,7 @@ uint8_t apds9960_get_led_current(apds9960_handle_t *handle, apds9960_led_current
 
 /**
  * @brief     set the proximity gain
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] gain is the proximity gain
  * @return    status code
  *            - 0 success
@@ -2142,7 +2142,7 @@ uint8_t apds9960_set_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
 
 /**
  * @brief      get the proximity gain
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *gain points to a proximity gain buffer
  * @return     status code
  *             - 0 success
@@ -2179,7 +2179,7 @@ uint8_t apds9960_get_proximity_gain(apds9960_handle_t *handle, apds9960_proximit
 
 /**
  * @brief     set the als color gain
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] gain is the als color gain
  * @return    status code
  *            - 0 success
@@ -2224,8 +2224,8 @@ uint8_t apds9960_set_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
 
 /**
  * @brief      get the als color gain
- * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *gain points to a als color gain buffer
+ * @param[in]  *handle points to an apds9960 handle structure
+ * @param[out] *gain points to an als color gain buffer
  * @return     status code
  *             - 0 success
  *             - 1 get als color gain failed
@@ -2261,7 +2261,7 @@ uint8_t apds9960_get_als_color_gain(apds9960_handle_t *handle, apds9960_als_colo
 
 /**
  * @brief     set the saturation interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] saturation is the saturation interrupt type
  * @param[in] enable is a bool value
  * @return    status code
@@ -2307,7 +2307,7 @@ uint8_t apds9960_set_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
 
 /**
  * @brief      get the saturation interrupt
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  saturation is the saturation interrupt type
  * @param[out] *enable points to a bool value buffer
  * @return     status code
@@ -2345,7 +2345,7 @@ uint8_t apds9960_get_saturation_interrupt(apds9960_handle_t *handle, apds9960_sa
 
 /**
  * @brief     set the led boost
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] boost is the led boost
  * @return    status code
  *            - 0 success
@@ -2390,7 +2390,7 @@ uint8_t apds9960_set_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t b
 
 /**
  * @brief      get the led boost
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *boost points to a led boost buffer
  * @return     status code
  *             - 0 success
@@ -2427,7 +2427,7 @@ uint8_t apds9960_get_led_boost(apds9960_handle_t *handle, apds9960_led_boost_t *
 
 /**
  * @brief      get the status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *status points to a status buffer
  * @return     status code
  *             - 0 success
@@ -2464,7 +2464,7 @@ uint8_t apds9960_get_status(apds9960_handle_t *handle, uint8_t *status)
 
 /**
  * @brief      read the rgbc data
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *red points to a red buffer
  * @param[out] *green points to a green buffer
  * @param[out] *blue points to a blue buffer
@@ -2528,7 +2528,7 @@ uint8_t apds9960_read_rgbc(apds9960_handle_t *handle, uint16_t *red, uint16_t *g
 
 /**
  * @brief      read the proximity data
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *proximity points to a proximity buffer
  * @return     status code
  *             - 0 success
@@ -2565,7 +2565,7 @@ uint8_t apds9960_read_proximity(apds9960_handle_t *handle, uint8_t *proximity)
 
 /**
  * @brief     set the proximity up right offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the proximity offset
  * @return    status code
  *            - 0 success
@@ -2610,7 +2610,7 @@ uint8_t apds9960_set_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
 
 /**
  * @brief      get the proximity up right offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a proximity offset buffer
  * @return     status code
  *             - 0 success
@@ -2655,7 +2655,7 @@ uint8_t apds9960_get_proximity_up_right_offset(apds9960_handle_t *handle, int8_t
 
 /**
  * @brief     set the proximity down left offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the proximity offset
  * @return    status code
  *            - 0 success
@@ -2700,7 +2700,7 @@ uint8_t apds9960_set_proximity_down_left_offset(apds9960_handle_t *handle, int8_
 
 /**
  * @brief      get the proximity down left offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a proximity offset buffer
  * @return     status code
  *             - 0 success
@@ -2745,7 +2745,7 @@ uint8_t apds9960_get_proximity_down_left_offset(apds9960_handle_t *handle, int8_
 
 /**
  * @brief     enable or disable the proximity gain compensation
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -2790,7 +2790,7 @@ uint8_t apds9960_set_proximity_gain_compensation(apds9960_handle_t *handle, apds
 
 /**
  * @brief      get the proximity gain compensation status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -2827,7 +2827,7 @@ uint8_t apds9960_get_proximity_gain_compensation(apds9960_handle_t *handle, apds
 
 /**
  * @brief     enable or disable sleeping after interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -2872,7 +2872,7 @@ uint8_t apds9960_set_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
 
 /**
  * @brief      get the sleeping after interrupt status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -2909,7 +2909,7 @@ uint8_t apds9960_get_sleep_after_interrupt(apds9960_handle_t *handle, apds9960_b
 
 /**
  * @brief     enable or disable the proximity mask
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] mask is the proximity mask
  * @param[in] enable is a bool value
  * @return    status code
@@ -2955,7 +2955,7 @@ uint8_t apds9960_set_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
 
 /**
  * @brief      get the proximity mask status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  mask is the proximity mask
  * @param[out] *enable points to a bool value buffer
  * @return     status code
@@ -2993,7 +2993,7 @@ uint8_t apds9960_get_proximity_mask(apds9960_handle_t *handle, apds9960_proximit
 
 /**
  * @brief     set the gesture proximity enter threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the gesture proximity enter threshold
  * @return    status code
  *            - 0 success
@@ -3030,7 +3030,7 @@ uint8_t apds9960_set_gesture_proximity_enter_threshold(apds9960_handle_t *handle
 
 /**
  * @brief      get the gesture proximity enter threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a gesture proximity enter threshold buffer
  * @return     status code
  *             - 0 success
@@ -3067,7 +3067,7 @@ uint8_t apds9960_get_gesture_proximity_enter_threshold(apds9960_handle_t *handle
 
 /**
  * @brief     set the gesture proximity exit threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the gesture proximity exit threshold
  * @return    status code
  *            - 0 success
@@ -3104,7 +3104,7 @@ uint8_t apds9960_set_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
 
 /**
  * @brief      get the gesture proximity exit threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a gesture proximity exit threshold buffer
  * @return     status code
  *             - 0 success
@@ -3141,7 +3141,7 @@ uint8_t apds9960_get_gesture_proximity_exit_threshold(apds9960_handle_t *handle,
 
 /**
  * @brief     set the gesture fifo threshold
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] threshold is the gesture fifo threshold
  * @return    status code
  *            - 0 success
@@ -3186,7 +3186,7 @@ uint8_t apds9960_set_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
 
 /**
  * @brief      get the gesture fifo threshold
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *threshold points to a gesture fifo threshold buffer
  * @return     status code
  *             - 0 success
@@ -3223,7 +3223,7 @@ uint8_t apds9960_get_gesture_fifo_threshold(apds9960_handle_t *handle, apds9960_
 
 /**
  * @brief     set the gesture exit persistence
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] persistence is the gesture exit persistence
  * @return    status code
  *            - 0 success
@@ -3268,7 +3268,7 @@ uint8_t apds9960_set_gesture_exit_persistence(apds9960_handle_t *handle, apds996
 
 /**
  * @brief      get the gesture exit persistence
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *persistence points to a gesture exit persistence buffer
  * @return     status code
  *             - 0 success
@@ -3305,7 +3305,7 @@ uint8_t apds9960_get_gesture_exit_persistence(apds9960_handle_t *handle, apds996
 
 /**
  * @brief     set the gesture exit mask
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] mask is the exit mask
  * @return    status code
  *            - 0 success
@@ -3357,8 +3357,8 @@ uint8_t apds9960_set_gesture_exit_mask(apds9960_handle_t *handle, uint8_t mask)
 
 /**
  * @brief      get the gesture exit mask
- * @param[in]  *handle points to a apds9960 handle structure
- * @param[out] *mask points to a exit mask buffer
+ * @param[in]  *handle points to an apds9960 handle structure
+ * @param[out] *mask points to an exit mask buffer
  * @return     status code
  *             - 0 success
  *             - 1 get gesture exit mask failed
@@ -3394,7 +3394,7 @@ uint8_t apds9960_get_gesture_exit_mask(apds9960_handle_t *handle, uint8_t *mask)
 
 /**
  * @brief     set the gesture gain
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] gain is the gesture gain
  * @return    status code
  *            - 0 success
@@ -3439,7 +3439,7 @@ uint8_t apds9960_set_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
 
 /**
  * @brief      get the gesture gain
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *gain points to a gesture gain buffer
  * @return     status code
  *             - 0 success
@@ -3476,7 +3476,7 @@ uint8_t apds9960_get_gesture_gain(apds9960_handle_t *handle, apds9960_gesture_ga
 
 /**
  * @brief     set the gesture led current
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] current is the gesture led current
  * @return    status code
  *            - 0 success
@@ -3521,7 +3521,7 @@ uint8_t apds9960_set_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
 
 /**
  * @brief      get the gesture led current
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *current points to a gesture led current buffer
  * @return     status code
  *             - 0 success
@@ -3558,7 +3558,7 @@ uint8_t apds9960_get_gesture_led_current(apds9960_handle_t *handle, apds9960_ges
 
 /**
  * @brief     set the gesture wait time
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] t is the gesture wait time
  * @return    status code
  *            - 0 success
@@ -3603,7 +3603,7 @@ uint8_t apds9960_set_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
 
 /**
  * @brief      get the gesture wait time
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *t points to a gesture wait time buffer
  * @return     status code
  *             - 0 success
@@ -3640,7 +3640,7 @@ uint8_t apds9960_get_gesture_wait_time(apds9960_handle_t *handle, apds9960_gestu
 
 /**
  * @brief     set the gesture up offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the gesture up offset
  * @return    status code
  *            - 0 success
@@ -3685,7 +3685,7 @@ uint8_t apds9960_set_gesture_up_offset(apds9960_handle_t *handle, int8_t offset)
 
 /**
  * @brief      get the gesture up offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a gesture up offset buffer
  * @return     status code
  *             - 0 success
@@ -3730,7 +3730,7 @@ uint8_t apds9960_get_gesture_up_offset(apds9960_handle_t *handle, int8_t *offset
 
 /**
  * @brief     set the gesture down offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the gesture down offset
  * @return    status code
  *            - 0 success
@@ -3775,7 +3775,7 @@ uint8_t apds9960_set_gesture_down_offset(apds9960_handle_t *handle, int8_t offse
 
 /**
  * @brief      get the gesture down offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a gesture down offset buffer
  * @return     status code
  *             - 0 success
@@ -3820,7 +3820,7 @@ uint8_t apds9960_get_gesture_down_offset(apds9960_handle_t *handle, int8_t *offs
 
 /**
  * @brief     set the gesture left offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the gesture left offset
  * @return    status code
  *            - 0 success
@@ -3865,7 +3865,7 @@ uint8_t apds9960_set_gesture_left_offset(apds9960_handle_t *handle, int8_t offse
 
 /**
  * @brief      get the gesture left offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a gesture left offset buffer
  * @return     status code
  *             - 0 success
@@ -3910,7 +3910,7 @@ uint8_t apds9960_get_gesture_left_offset(apds9960_handle_t *handle, int8_t *offs
 
 /**
  * @brief     set the gesture right offset
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] offset is the gesture right offset
  * @return    status code
  *            - 0 success
@@ -3955,7 +3955,7 @@ uint8_t apds9960_set_gesture_right_offset(apds9960_handle_t *handle, int8_t offs
 
 /**
  * @brief      get the gesture right offset
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *offset points to a gesture right offset buffer
  * @return     status code
  *             - 0 success
@@ -4000,7 +4000,7 @@ uint8_t apds9960_get_gesture_right_offset(apds9960_handle_t *handle, int8_t *off
 
 /**
  * @brief     set the gesture pulse length
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] len is the gesture pulse length
  * @return    status code
  *            - 0 success
@@ -4045,7 +4045,7 @@ uint8_t apds9960_set_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
 
 /**
  * @brief      get the gesture pulse length
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *len points to a gesture pulse length buffer
  * @return     status code
  *             - 0 success
@@ -4082,7 +4082,7 @@ uint8_t apds9960_get_gesture_pulse_length(apds9960_handle_t *handle, apds9960_ge
 
 /**
  * @brief     set the gesture pulse count
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] count is the gesture pulse count
  * @return    status code
  *            - 0 success
@@ -4134,7 +4134,7 @@ uint8_t apds9960_set_gesture_pulse_count(apds9960_handle_t *handle, uint16_t cou
 
 /**
  * @brief      get the gesture pulse count
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *count points to a gesture pulse count buffer
  * @return     status code
  *             - 0 success
@@ -4171,7 +4171,7 @@ uint8_t apds9960_get_gesture_pulse_count(apds9960_handle_t *handle, uint16_t *co
 
 /**
  * @brief     set the gesture dimension
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] s is the gesture dimension
  * @return    status code
  *            - 0 success
@@ -4216,7 +4216,7 @@ uint8_t apds9960_set_gesture_dimension(apds9960_handle_t *handle, apds9960_gestu
 
 /**
  * @brief      get the gesture dimension
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *s points to a gesture dimension buffer
  * @return     status code
  *             - 0 success
@@ -4253,7 +4253,7 @@ uint8_t apds9960_get_gesture_dimension_select(apds9960_handle_t *handle, apds996
 
 /**
  * @brief     clear the gesture fifo status
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 gesture fifo clear failed
@@ -4297,7 +4297,7 @@ uint8_t apds9960_gesture_fifo_clear(apds9960_handle_t *handle)
 
 /**
  * @brief     enable or disable the gesture interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -4342,7 +4342,7 @@ uint8_t apds9960_set_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
 
 /**
  * @brief      get the gesture interrupt status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -4379,7 +4379,7 @@ uint8_t apds9960_get_gesture_interrupt(apds9960_handle_t *handle, apds9960_bool_
 
 /**
  * @brief     enable or disable the gesture mode
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -4424,7 +4424,7 @@ uint8_t apds9960_set_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t ena
 
 /**
  * @brief      get the gesture mode status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -4461,7 +4461,7 @@ uint8_t apds9960_get_gesture_mode(apds9960_handle_t *handle, apds9960_bool_t *en
 
 /**
  * @brief      get the gesture fifo level
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *level points to a gesture fifo level buffer
  * @return     status code
  *             - 0 success
@@ -4498,7 +4498,7 @@ uint8_t apds9960_get_gesture_fifo_level(apds9960_handle_t *handle, uint8_t *leve
 
 /**
  * @brief      get the gesture status
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[out] *status points to a status buffer
  * @return     status code
  *             - 0 success
@@ -4535,7 +4535,7 @@ uint8_t apds9960_get_gesture_status(apds9960_handle_t *handle, uint8_t *status)
 
 /**
  * @brief     force an interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 force interrupt failed
@@ -4571,7 +4571,7 @@ uint8_t apds9960_force_interrupt(apds9960_handle_t *handle)
 
 /**
  * @brief     clear the proximity interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 proximity interrupt clear failed
@@ -4607,7 +4607,7 @@ uint8_t apds9960_proximity_interrupt_clear(apds9960_handle_t *handle)
 
 /**
  * @brief     clear the als interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 als interrupt clear failed
@@ -4643,7 +4643,7 @@ uint8_t apds9960_als_interrupt_clear(apds9960_handle_t *handle)
 
 /**
  * @brief     clear the all not gesture interrupt
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 all non gesture interrupt clear failed
@@ -4679,7 +4679,7 @@ uint8_t apds9960_all_non_gesture_interrupt_clear(apds9960_handle_t *handle)
 
 /**
  * @brief         read data from the gesture fifo
- * @param[in]     *handle points to a apds9960 handle structure
+ * @param[in]     *handle points to an apds9960 handle structure
  * @param[out]    **data points to a data buffer
  * @param[in,out] *len points to a data length buffer
  * @return        status code
@@ -4725,7 +4725,7 @@ uint8_t apds9960_read_gesture_fifo(apds9960_handle_t *handle, uint8_t (*data)[4]
 
 /**
  * @brief     set the chip register
- * @param[in] *handle points to a apds9960 handle structure
+ * @param[in] *handle points to an apds9960 handle structure
  * @param[in] reg is the iic register address
  * @param[in] *buf points to a data buffer
  * @param[in] len is the data buffer length
@@ -4759,7 +4759,7 @@ uint8_t apds9960_set_reg(apds9960_handle_t *handle, uint8_t reg, uint8_t *buf, u
 
 /**
  * @brief      get the chip register
- * @param[in]  *handle points to a apds9960 handle structure
+ * @param[in]  *handle points to an apds9960 handle structure
  * @param[in]  reg is the iic register address
  * @param[out] *buf points to a data buffer
  * @param[in]  len is the data buffer length
@@ -4793,7 +4793,7 @@ uint8_t apds9960_get_reg(apds9960_handle_t *handle, uint8_t reg, uint8_t *buf, u
 
 /**
  * @brief      get chip's information
- * @param[out] *info points to a apds9960 info structure
+ * @param[out] *info points to an apds9960 info structure
  * @return     status code
  *             - 0 success
  *             - 2 handle is NULL

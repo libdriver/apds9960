@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__interrupt__test_8c_s
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="driver__apds9960__interrupt__test_8h.html">driver_apds9960_interrupt_test.h</a>&quot;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <a class="code" href="structapds9960__handle__s.html">apds9960_handle_t</a> gs_handle;        </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> uint8_t gs_flag;                    </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> <span class="keyword">volatile</span> uint8_t gs_flag;           </div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="group__apds9960__test__driver.html#ga18dad97dfb9073420ff4072758e32b7b">   49</a></span>&#160;uint8_t <a class="code" href="group__apds9960__test__driver.html#ga18dad97dfb9073420ff4072758e32b7b">apds9960_interrupt_test_irq_handler</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="group__apds9960__basic__driver.html#ga680335216e34d8b3c4e6dc51aaa53207">apds9960_irq_handler</a>(&amp;gs_handle) != 0)</div>

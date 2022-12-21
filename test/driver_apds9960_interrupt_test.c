@@ -37,7 +37,7 @@
 #include "driver_apds9960_interrupt_test.h"
 
 static apds9960_handle_t gs_handle;        /**< apds9960 handle */
-static uint8_t gs_flag;                    /**< flag */
+static volatile uint8_t gs_flag;           /**< flag */
 
 /**
  * @brief  interrupt test irq

@@ -1443,9 +1443,9 @@ Functions</h2></td></tr>
 <p>convert the register raw data to the integration time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">reg</td><td>is the register raw data </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*ms</td><td>points to a adc integration time buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*ms</td><td>points to an adc integration time buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1496,7 +1496,7 @@ Functions</h2></td></tr>
 <p>convert the adc integration time to the register raw data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ms</td><td>is the integration time </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*reg</td><td>points to a register raw buffer </td></tr>
   </table>
@@ -1533,7 +1533,7 @@ Functions</h2></td></tr>
 <p>clear the all not gesture interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1569,7 +1569,7 @@ Functions</h2></td></tr>
 <p>clear the als interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1605,7 +1605,7 @@ Functions</h2></td></tr>
 <p>close the chip </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1642,7 +1642,7 @@ Functions</h2></td></tr>
 <p>force an interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1694,7 +1694,7 @@ Functions</h2></td></tr>
 <p>decode gestures from the fifo data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">**data</td><td>points to data buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>is the length of the data buffer </td></tr>
   </table>
@@ -1733,7 +1733,7 @@ Functions</h2></td></tr>
 <p>clear the gesture fifo status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1779,8 +1779,8 @@ Functions</h2></td></tr>
 <p>get the adc integration time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*integration_time</td><td>points to a adc integration time buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*integration_time</td><td>points to an adc integration time buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1826,8 +1826,8 @@ Functions</h2></td></tr>
 <p>get the als color gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*gain</td><td>points to a als color gain buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*gain</td><td>points to an als color gain buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1873,8 +1873,8 @@ Functions</h2></td></tr>
 <p>get the als interrupt cycle </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*cycle</td><td>points to a als interrupt cycle buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*cycle</td><td>points to an als interrupt cycle buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1920,7 +1920,7 @@ Functions</h2></td></tr>
 <p>get the als interrupt high threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a high threshold buffer </td></tr>
   </table>
   </dd>
@@ -1967,7 +1967,7 @@ Functions</h2></td></tr>
 <p>get the als interrupt low threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a low threshold buffer </td></tr>
   </table>
   </dd>
@@ -2020,7 +2020,7 @@ Functions</h2></td></tr>
 <p>get the configuration </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">conf</td><td>is the chip configuration </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
@@ -2068,7 +2068,7 @@ Functions</h2></td></tr>
 <p>get the gesture decode sensitivity 1 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*sensitivity</td><td>points to a gesture decode sensitivity buffer </td></tr>
   </table>
   </dd>
@@ -2115,7 +2115,7 @@ Functions</h2></td></tr>
 <p>get the gesture decode sensitivity 2 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*sensitivity</td><td>points to a gesture decode sensitivity buffer </td></tr>
   </table>
   </dd>
@@ -2162,7 +2162,7 @@ Functions</h2></td></tr>
 <p>get the gesture decode threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a gesture decode threshold buffer </td></tr>
   </table>
   </dd>
@@ -2209,7 +2209,7 @@ Functions</h2></td></tr>
 <p>get the gesture dimension </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*s</td><td>points to a gesture dimension buffer </td></tr>
   </table>
   </dd>
@@ -2256,7 +2256,7 @@ Functions</h2></td></tr>
 <p>get the gesture down offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a gesture down offset buffer </td></tr>
   </table>
   </dd>
@@ -2303,8 +2303,8 @@ Functions</h2></td></tr>
 <p>get the gesture exit mask </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*mask</td><td>points to a exit mask buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*mask</td><td>points to an exit mask buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -2350,7 +2350,7 @@ Functions</h2></td></tr>
 <p>get the gesture exit persistence </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*persistence</td><td>points to a gesture exit persistence buffer </td></tr>
   </table>
   </dd>
@@ -2397,7 +2397,7 @@ Functions</h2></td></tr>
 <p>get the gesture fifo level </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*level</td><td>points to a gesture fifo level buffer </td></tr>
   </table>
   </dd>
@@ -2444,7 +2444,7 @@ Functions</h2></td></tr>
 <p>get the gesture fifo threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a gesture fifo threshold buffer </td></tr>
   </table>
   </dd>
@@ -2491,7 +2491,7 @@ Functions</h2></td></tr>
 <p>get the gesture gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*gain</td><td>points to a gesture gain buffer </td></tr>
   </table>
   </dd>
@@ -2538,7 +2538,7 @@ Functions</h2></td></tr>
 <p>get the gesture interrupt status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
   </dd>
@@ -2585,7 +2585,7 @@ Functions</h2></td></tr>
 <p>get the gesture led current </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*current</td><td>points to a gesture led current buffer </td></tr>
   </table>
   </dd>
@@ -2632,7 +2632,7 @@ Functions</h2></td></tr>
 <p>get the gesture left offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a gesture left offset buffer </td></tr>
   </table>
   </dd>
@@ -2679,7 +2679,7 @@ Functions</h2></td></tr>
 <p>get the gesture mode status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
   </dd>
@@ -2726,7 +2726,7 @@ Functions</h2></td></tr>
 <p>get the gesture proximity enter threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a gesture proximity enter threshold buffer </td></tr>
   </table>
   </dd>
@@ -2773,7 +2773,7 @@ Functions</h2></td></tr>
 <p>get the gesture proximity exit threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a gesture proximity exit threshold buffer </td></tr>
   </table>
   </dd>
@@ -2820,7 +2820,7 @@ Functions</h2></td></tr>
 <p>get the gesture pulse count </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*count</td><td>points to a gesture pulse count buffer </td></tr>
   </table>
   </dd>
@@ -2867,7 +2867,7 @@ Functions</h2></td></tr>
 <p>get the gesture pulse length </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*len</td><td>points to a gesture pulse length buffer </td></tr>
   </table>
   </dd>
@@ -2914,7 +2914,7 @@ Functions</h2></td></tr>
 <p>get the gesture right offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a gesture right offset buffer </td></tr>
   </table>
   </dd>
@@ -2961,7 +2961,7 @@ Functions</h2></td></tr>
 <p>get the gesture status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*status</td><td>points to a status buffer </td></tr>
   </table>
   </dd>
@@ -3008,7 +3008,7 @@ Functions</h2></td></tr>
 <p>get the gesture up offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a gesture up offset buffer </td></tr>
   </table>
   </dd>
@@ -3055,7 +3055,7 @@ Functions</h2></td></tr>
 <p>get the gesture wait time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*t</td><td>points to a gesture wait time buffer </td></tr>
   </table>
   </dd>
@@ -3102,7 +3102,7 @@ Functions</h2></td></tr>
 <p>get the led boost </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*boost</td><td>points to a led boost buffer </td></tr>
   </table>
   </dd>
@@ -3149,7 +3149,7 @@ Functions</h2></td></tr>
 <p>get the led current </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*current</td><td>points to a led current buffer </td></tr>
   </table>
   </dd>
@@ -3196,7 +3196,7 @@ Functions</h2></td></tr>
 <p>get the proximity down left offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a proximity offset buffer </td></tr>
   </table>
   </dd>
@@ -3243,7 +3243,7 @@ Functions</h2></td></tr>
 <p>get the proximity gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*gain</td><td>points to a proximity gain buffer </td></tr>
   </table>
   </dd>
@@ -3290,7 +3290,7 @@ Functions</h2></td></tr>
 <p>get the proximity gain compensation status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
   </dd>
@@ -3337,7 +3337,7 @@ Functions</h2></td></tr>
 <p>get the proximity interrupt cycle </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*cycle</td><td>points to a proximity interrupt cycle buffer </td></tr>
   </table>
   </dd>
@@ -3384,7 +3384,7 @@ Functions</h2></td></tr>
 <p>get the proximity interrupt high threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a high threshold buffer </td></tr>
   </table>
   </dd>
@@ -3431,7 +3431,7 @@ Functions</h2></td></tr>
 <p>get the proximity interrupt low threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*threshold</td><td>points to a low threshold buffer </td></tr>
   </table>
   </dd>
@@ -3484,7 +3484,7 @@ Functions</h2></td></tr>
 <p>get the proximity mask status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>is the proximity mask </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
@@ -3532,7 +3532,7 @@ Functions</h2></td></tr>
 <p>get the proximity pulse count </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*count</td><td>points to a proximity pulse count buffer </td></tr>
   </table>
   </dd>
@@ -3579,7 +3579,7 @@ Functions</h2></td></tr>
 <p>get the proximity pulse length </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*len</td><td>points to a proximity pulse length buffer </td></tr>
   </table>
   </dd>
@@ -3626,7 +3626,7 @@ Functions</h2></td></tr>
 <p>get the proximity up right offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*offset</td><td>points to a proximity offset buffer </td></tr>
   </table>
   </dd>
@@ -3679,7 +3679,7 @@ Functions</h2></td></tr>
 <p>get the saturation interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">saturation</td><td>is the saturation interrupt type </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
@@ -3727,7 +3727,7 @@ Functions</h2></td></tr>
 <p>get the sleeping after interrupt status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
   </dd>
@@ -3774,7 +3774,7 @@ Functions</h2></td></tr>
 <p>get the status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*status</td><td>points to a status buffer </td></tr>
   </table>
   </dd>
@@ -3821,7 +3821,7 @@ Functions</h2></td></tr>
 <p>get the wait long status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
   </table>
   </dd>
@@ -3868,7 +3868,7 @@ Functions</h2></td></tr>
 <p>get the wait time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*wait_time</td><td>points to a wait time buffer </td></tr>
   </table>
   </dd>
@@ -3905,7 +3905,7 @@ Functions</h2></td></tr>
 <p>get chip's information </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">*info</td><td>points to a apds9960 info structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*info</td><td>points to an apds9960 info structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -3939,7 +3939,7 @@ Functions</h2></td></tr>
 <p>initialize the chip </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -3977,7 +3977,7 @@ Functions</h2></td></tr>
 <p>irq handler </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -4013,7 +4013,7 @@ Functions</h2></td></tr>
 <p>clear the proximity interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -4065,7 +4065,7 @@ Functions</h2></td></tr>
 <p>read data from the gesture fifo </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">**data</td><td>points to a data buffer </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">*len</td><td>points to a data length buffer </td></tr>
   </table>
@@ -4113,7 +4113,7 @@ Functions</h2></td></tr>
 <p>read the proximity data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*proximity</td><td>points to a proximity buffer </td></tr>
   </table>
   </dd>
@@ -4178,7 +4178,7 @@ Functions</h2></td></tr>
 <p>read the rgbc data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*red</td><td>points to a red buffer </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*green</td><td>points to a green buffer </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*blue</td><td>points to a blue buffer </td></tr>
@@ -4228,7 +4228,7 @@ Functions</h2></td></tr>
 <p>set the adc integration time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">integration_time</td><td>is the adc integration time </td></tr>
   </table>
   </dd>
@@ -4275,7 +4275,7 @@ Functions</h2></td></tr>
 <p>set the als color gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gain</td><td>is the als color gain </td></tr>
   </table>
   </dd>
@@ -4322,7 +4322,7 @@ Functions</h2></td></tr>
 <p>set the als interrupt cycle </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">cycle</td><td>is the als interrupt cycle </td></tr>
   </table>
   </dd>
@@ -4369,7 +4369,7 @@ Functions</h2></td></tr>
 <p>set the als interrupt high threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the high threshold </td></tr>
   </table>
   </dd>
@@ -4416,7 +4416,7 @@ Functions</h2></td></tr>
 <p>set the als interrupt low threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the low threshold </td></tr>
   </table>
   </dd>
@@ -4469,7 +4469,7 @@ Functions</h2></td></tr>
 <p>set the configuration </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">conf</td><td>is the chip configuration </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
@@ -4517,7 +4517,7 @@ Functions</h2></td></tr>
 <p>set the gesture decode sensitivity 1 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sensitivity</td><td>is the gesture decode sensitivity </td></tr>
   </table>
   </dd>
@@ -4564,7 +4564,7 @@ Functions</h2></td></tr>
 <p>set the gesture decode sensitivity 2 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sensitivity</td><td>is the gesture decode sensitivity </td></tr>
   </table>
   </dd>
@@ -4611,7 +4611,7 @@ Functions</h2></td></tr>
 <p>set the gesture decode threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the gesture decode threshold </td></tr>
   </table>
   </dd>
@@ -4658,7 +4658,7 @@ Functions</h2></td></tr>
 <p>set the gesture dimension </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>is the gesture dimension </td></tr>
   </table>
   </dd>
@@ -4705,7 +4705,7 @@ Functions</h2></td></tr>
 <p>set the gesture down offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the gesture down offset </td></tr>
   </table>
   </dd>
@@ -4752,7 +4752,7 @@ Functions</h2></td></tr>
 <p>set the gesture exit mask </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>is the exit mask </td></tr>
   </table>
   </dd>
@@ -4800,7 +4800,7 @@ Functions</h2></td></tr>
 <p>set the gesture exit persistence </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">persistence</td><td>is the gesture exit persistence </td></tr>
   </table>
   </dd>
@@ -4847,7 +4847,7 @@ Functions</h2></td></tr>
 <p>set the gesture fifo threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the gesture fifo threshold </td></tr>
   </table>
   </dd>
@@ -4894,7 +4894,7 @@ Functions</h2></td></tr>
 <p>set the gesture gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gain</td><td>is the gesture gain </td></tr>
   </table>
   </dd>
@@ -4941,7 +4941,7 @@ Functions</h2></td></tr>
 <p>enable or disable the gesture interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
   </dd>
@@ -4988,7 +4988,7 @@ Functions</h2></td></tr>
 <p>set the gesture led current </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">current</td><td>is the gesture led current </td></tr>
   </table>
   </dd>
@@ -5035,7 +5035,7 @@ Functions</h2></td></tr>
 <p>set the gesture left offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the gesture left offset </td></tr>
   </table>
   </dd>
@@ -5082,7 +5082,7 @@ Functions</h2></td></tr>
 <p>enable or disable the gesture mode </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
   </dd>
@@ -5129,7 +5129,7 @@ Functions</h2></td></tr>
 <p>set the gesture proximity enter threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the gesture proximity enter threshold </td></tr>
   </table>
   </dd>
@@ -5176,7 +5176,7 @@ Functions</h2></td></tr>
 <p>set the gesture proximity exit threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the gesture proximity exit threshold </td></tr>
   </table>
   </dd>
@@ -5223,7 +5223,7 @@ Functions</h2></td></tr>
 <p>set the gesture pulse count </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>is the gesture pulse count </td></tr>
   </table>
   </dd>
@@ -5271,7 +5271,7 @@ Functions</h2></td></tr>
 <p>set the gesture pulse length </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>is the gesture pulse length </td></tr>
   </table>
   </dd>
@@ -5318,7 +5318,7 @@ Functions</h2></td></tr>
 <p>set the gesture right offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the gesture right offset </td></tr>
   </table>
   </dd>
@@ -5365,7 +5365,7 @@ Functions</h2></td></tr>
 <p>set the gesture up offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the gesture up offset </td></tr>
   </table>
   </dd>
@@ -5412,7 +5412,7 @@ Functions</h2></td></tr>
 <p>set the gesture wait time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>is the gesture wait time </td></tr>
   </table>
   </dd>
@@ -5459,7 +5459,7 @@ Functions</h2></td></tr>
 <p>set the led boost </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">boost</td><td>is the led boost </td></tr>
   </table>
   </dd>
@@ -5506,7 +5506,7 @@ Functions</h2></td></tr>
 <p>set the led current </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">current</td><td>is the led current </td></tr>
   </table>
   </dd>
@@ -5553,7 +5553,7 @@ Functions</h2></td></tr>
 <p>set the proximity down left offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the proximity offset </td></tr>
   </table>
   </dd>
@@ -5600,7 +5600,7 @@ Functions</h2></td></tr>
 <p>set the proximity gain </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">gain</td><td>is the proximity gain </td></tr>
   </table>
   </dd>
@@ -5647,7 +5647,7 @@ Functions</h2></td></tr>
 <p>enable or disable the proximity gain compensation </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
   </dd>
@@ -5694,7 +5694,7 @@ Functions</h2></td></tr>
 <p>set the proximity interrupt cycle </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">cycle</td><td>is the proximity interrupt cycle </td></tr>
   </table>
   </dd>
@@ -5741,7 +5741,7 @@ Functions</h2></td></tr>
 <p>set the proximity interrupt high threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the high threshold </td></tr>
   </table>
   </dd>
@@ -5788,7 +5788,7 @@ Functions</h2></td></tr>
 <p>set the proximity interrupt low threshold </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>is the low threshold </td></tr>
   </table>
   </dd>
@@ -5841,7 +5841,7 @@ Functions</h2></td></tr>
 <p>enable or disable the proximity mask </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mask</td><td>is the proximity mask </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
@@ -5889,7 +5889,7 @@ Functions</h2></td></tr>
 <p>set the proximity pulse count </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>is the proximity pulse count </td></tr>
   </table>
   </dd>
@@ -5937,7 +5937,7 @@ Functions</h2></td></tr>
 <p>set the proximity pulse length </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>is the proximity pulse length </td></tr>
   </table>
   </dd>
@@ -5984,7 +5984,7 @@ Functions</h2></td></tr>
 <p>set the proximity up right offset </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>is the proximity offset </td></tr>
   </table>
   </dd>
@@ -6037,7 +6037,7 @@ Functions</h2></td></tr>
 <p>set the saturation interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">saturation</td><td>is the saturation interrupt type </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
@@ -6085,7 +6085,7 @@ Functions</h2></td></tr>
 <p>enable or disable sleeping after interrupt </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
   </dd>
@@ -6132,7 +6132,7 @@ Functions</h2></td></tr>
 <p>enable or disable the wait long </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
   </table>
   </dd>
@@ -6179,7 +6179,7 @@ Functions</h2></td></tr>
 <p>set the wait time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">wait_time</td><td>is the wait time </td></tr>
   </table>
   </dd>
@@ -6232,7 +6232,7 @@ Functions</h2></td></tr>
 <p>convert the register raw data to the wait time </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">reg</td><td>is the register raw data </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*ms</td><td>points to a wait time buffer </td></tr>
   </table>
@@ -6286,7 +6286,7 @@ Functions</h2></td></tr>
 <p>convert the wait time to the register raw data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a apds9960 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to an apds9960 handle structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ms</td><td>is the wait time </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">*reg</td><td>points to a register raw buffer </td></tr>
   </table>

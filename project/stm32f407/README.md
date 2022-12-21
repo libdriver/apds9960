@@ -2,60 +2,106 @@
 
 #### 1.1 Chip Info
 
-chip name : STM32F407ZGT6.
+Chip Name: STM32F407ZGT6.
 
-extern oscillator : 8MHz.
+Extern Oscillator: 8MHz.
 
-uart pin: TX/RX PA9/PA10.
+UART Pin: TX/RX PA9/PA10.
 
-iic pin: SCL/SDA PB8/PB9.
+IIC Pin: SCL/SDA PB8/PB9.
 
-int pin: INT PB0.
+INT Pin: INT PB0.
 
-### 2. Shell
+### 2. Development and Debugging
 
-#### 2.1 Shell Parameter
+#### 2.1 Integrated Development Environment
 
-baud rate: 115200.
+LidDriver provides both Keil and IAR integrated development environment projects.
 
-data bits : 8.
+MDK is the Keil ARM project and your Keil version must be 5 or higher.Keil ARM project needs STMicroelectronics STM32F4 Series Device Family Pack and you can download from https://www.keil.com/dd2/stmicroelectronics/stm32f407zgtx.
 
-stop bits: 1.
+EW is the IAR ARM project and your IAR version must be 9 or higher.
 
-parity: none.
+#### 2.2 Serial Port Parameter
 
-flow control: none.
+Baud Rate: 115200.
+
+Data Bits : 8.
+
+Stop Bits: 1.
+
+Parity: None.
+
+Flow Control: None.
+
+#### 2.3 Serial Port Assistant
+
+We use '\n' to wrap lines.If your serial port assistant displays exceptions (e.g. the displayed content does not divide lines), please modify the configuration of your serial port assistant or replace one that supports '\n' parsing.
 
 ### 3. APDS9960
 
 #### 3.1 Command Instruction
 
-​          apds9960 is a basic command which can test all apds9960 driver function:
+1. Show apds9960 chip and driver information.
 
-​          -i         show apds9960 chip and driver information.
+   ```shell
+   apds9960 (-i | --information)
+   ```
 
-​          -h        show apds9960 help.
+2. Show apds9960 help.
 
-​          -p        show apds9960 pin connections of the current board.
+   ```shell
+   apds9960 (-h | --help)
+   ```
 
-​          -t (reg | read <times> | int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold> | gesture <times>) 
+3. Show apds9960 pin connections of the current board.
 
-​          -t reg         run apds9960 register test.
+   ```shell
+   apds9960 (-p | --port)
+   ```
 
-​          -t read <times>        run apds9960 read test. times means test times.         
+4. Run apds9960 register test.
 
-​          -t int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>            run apds9960 interrupt test. times means test times. alslowthreshold is the als low threshold. alshighthreshold is the als high threshold. proximitylowthreshold is the proximity low threshold. proximityhighthreshold is the proximity high threshold.
+   ```shell
+   apds9960 (-t reg | --test=reg)
+   ```
 
-​          -t gesture <times>        run apds9960 gesture test. times means test times.   
+5. Run apds9960 read test, times means test times.
 
-​          -c (read <times> | int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold> | gesture <times>)  
+   ```shell
+   apds9960 (-t read | --test=read) [--times=<num>]
+   ```
 
-​          -c read <times>        run apds9960 read function. times means test times.         
+6. Run apds9960 interrupt test, times means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
 
-​          -c int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>            run apds9960 interrupt function. times means test times. alslowthreshold is the als low threshold. alshighthreshold is the als high threshold. proximitylowthreshold is the proximity low threshold. proximityhighthreshold is the proximity high threshold.
+   ```shell
+   apds9960 (-t int | --test=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>] [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
+   ```
 
-​          -c gesture <times>        run apds9960 gesture function. times means test times. 
+7. Run apds9960 gesture test, times means test times.
 
+   ```shell
+   apds9960 (-t gesture | --test=gesture) [--times=<num>]
+   ```
+
+8. Run apds9960 read function, times means test times.
+
+   ```shell
+   apds9960 (-e read | --example=read) [--times=<num>]
+   ```
+
+9. Run apds9960 interrupt function, times means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
+
+   ```shell
+   apds9960 (-e int | --example=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>] [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
+   ```
+
+10. Run apds9960 gesture function, times means test times.
+
+    ```shell
+    apds9960 (-e gesture | --example=gesture)  [--times=<num>]
+    ```
+    
 #### 3.2 Command Example
 
 ```shell
@@ -123,22 +169,22 @@ apds9960: check config ok.
 apds9960: disable als.
 apds9960: check config ok.
 apds9960: apds9960_set_adc_integration_time/apds9960_get_adc_integration_time test.
-apds9960: set adc integration time 0xB0.
+apds9960: set adc integration time 0xB5.
 apds9960: check adc integration time ok.
 apds9960: apds9960_set_wait_time/apds9960_get_wait_time test.
-apds9960: set wait time 0xCB.
+apds9960: set wait time 0x5A.
 apds9960: check wait time ok.
 apds9960: apds9960_set_als_interrupt_low_threshold/apds9960_get_als_interrupt_low_threshold test.
-apds9960: set als interrupt low threshold 0x7B49.
+apds9960: set als interrupt low threshold 0x6239.
 apds9960: check als interrupt low threshold ok.
 apds9960: apds9960_set_als_interrupt_high_threshold/apds9960_get_als_interrupt_high_threshold test.
-apds9960: set als interrupt high threshold 0xD868.
+apds9960: set als interrupt high threshold 0xE768.
 apds9960: check als interrupt high threshold ok.
 apds9960: apds9960_set_proximity_interrupt_low_threshold/apds9960_get_proximity_interrupt_low_threshold test.
-apds9960: set proximity interrupt low threshold 0x07.
+apds9960: set proximity interrupt low threshold 0xE8.
 apds9960: check proximity interrupt low threshold ok.
 apds9960: apds9960_set_proximity_interrupt_high_threshold/apds9960_get_proximity_interrupt_high_threshold test.
-apds9960: set proximity interrupt high threshold 0x45.
+apds9960: set proximity interrupt high threshold 0xC9.
 apds9960: check proximity interrupt high threshold ok.
 apds9960: apds9960_set_proximity_interrupt_cycle/apds9960_get_proximity_interrupt_cycle test.
 apds9960: set proximity interrupt every cycle.
@@ -221,7 +267,7 @@ apds9960: check proximity pulse length ok.
 apds9960: proximity pulse length 32 us.
 apds9960: check proximity pulse length ok.
 apds9960: apds9960_set_proximity_pulse_count/apds9960_get_proximity_pulse_count test.
-apds9960: set proximity pulse count 45.
+apds9960: set proximity pulse count 37.
 apds9960: check proximity pulse count ok.
 apds9960: apds9960_set_led_current/apds9960_get_led_current test.
 apds9960: set led current 100 mA.
@@ -269,10 +315,10 @@ apds9960: check led boost ok.
 apds9960: set led boost 300%.
 apds9960: check led boost ok.
 apds9960: apds9960_set_proximity_up_right_offset/apds9960_get_proximity_up_right_offset test.
-apds9960: set proximity up right offset 127.
+apds9960: set proximity up right offset 92.
 apds9960: check proximity up right offset ok.
 apds9960: apds9960_set_proximity_down_left_offset/apds9960_get_proximity_down_left_offset test.
-apds9960: set proximity down left offset -19.
+apds9960: set proximity down left offset -31.
 apds9960: check proximity down left offset ok.
 apds9960: apds9960_set_proximity_gain_compensation/apds9960_get_proximity_gain_compensation test.
 apds9960: enable proximity gain compensation.
@@ -302,10 +348,10 @@ apds9960: check proximity mask ok.
 apds9960: disable proximity mask right.
 apds9960: check proximity mask ok.
 apds9960: apds9960_set_gesture_proximity_enter_threshold/apds9960_get_gesture_proximity_enter_threshold test.
-apds9960: set gesture proximity enter threshold 0xC4.
+apds9960: set gesture proximity enter threshold 0x30.
 apds9960: check gesture proximity enter threshold ok.
 apds9960: apds9960_set_gesture_proximity_exit_threshold/apds9960_get_gesture_proximity_exit_threshold test.
-apds9960: set gesture proximity exit threshold 0x6C.
+apds9960: set gesture proximity exit threshold 0xC1.
 apds9960: check gesture proximity exit threshold ok.
 apds9960: apds9960_set_gesture_fifo_threshold/apds9960_get_gesture_fifo_threshold test.
 apds9960: set gesture fifo threshold 1 dataset.
@@ -326,7 +372,7 @@ apds9960: check gesture exit persistence ok.
 apds9960: set gesture exit persistence 7th.
 apds9960: check gesture exit persistence ok.
 apds9960: apds9960_set_gesture_exit_mask/apds9960_get_gesture_exit_mask test.
-apds9960: set gesture exit mask 0x7.
+apds9960: set gesture exit mask 0x6.
 apds9960: check gesture exit mask ok.
 apds9960: apds9960_set_gesture_gain/apds9960_get_gesture_gain test.
 apds9960: set gesture gain 1x.
@@ -364,16 +410,16 @@ apds9960: check gesture wait time ok.
 apds9960: set gesture wait time 39.2 ms.
 apds9960: check gesture wait time ok.
 apds9960: apds9960_set_gesture_up_offset/apds9960_get_gesture_up_offset test.
-apds9960: set gesture up offset 58.
+apds9960: set gesture up offset 90.
 apds9960: check gesture up offset ok.
 apds9960: apds9960_set_gesture_down_offset/apds9960_get_gesture_down_offset test.
-apds9960: set gesture down offset -97.
+apds9960: set gesture down offset -89.
 apds9960: check gesture down offset ok.
 apds9960: apds9960_set_gesture_left_offset/apds9960_get_gesture_left_offset test.
-apds9960: set gesture left offset 101.
+apds9960: set gesture left offset 63.
 apds9960: check gesture left offset ok.
 apds9960: apds9960_set_gesture_right_offset/apds9960_get_gesture_right_offset test.
-apds9960: set gesture right offset -33.
+apds9960: set gesture right offset -93.
 apds9960: check gesture right offset ok.
 apds9960: apds9960_set_gesture_pulse_length/apds9960_get_gesture_pulse_length test.
 apds9960: set gesture pulse length 4 us.
@@ -385,7 +431,7 @@ apds9960: check gesture pulse length ok.
 apds9960: set gesture pulse length 32 us.
 apds9960: check gesture pulse length ok.
 apds9960: apds9960_set_gesture_pulse_count/apds9960_get_gesture_pulse_count test.
-apds9960: set gesture pulse count 50.
+apds9960: set gesture pulse count 7.
 apds9960: check gesture pulse count ok.
 apds9960: apds9960_set_gesture_dimension/apds9960_get_gesture_dimension_select test.
 apds9960: set both pairs active.
@@ -405,20 +451,20 @@ apds9960: check gesture mode ok.
 apds9960: disable gesture mode.
 apds9960: check gesture mode ok.
 apds9960: apds9960_set_gesture_decode_threshold/apds9960_get_gesture_decode_threshold test.
-apds9960: set gesture decode threshold 0x64.
+apds9960: set gesture decode threshold 0x1B.
 apds9960: check gesture decode threshold ok.
 apds9960: apds9960_set_gesture_decode_sensitivity_1/apds9960_get_gesture_decode_sensitivity_1 test.
-apds9960: set gesture decode sensitivity 1 29497.
+apds9960: set gesture decode sensitivity 1 11377.
 apds9960: check gesture decode sensitivity ok.
 apds9960: apds9960_set_gesture_decode_sensitivity_2/apds9960_get_gesture_decode_sensitivity_2 test.
-apds9960: set gesture decode sensitivity 2 58941.
+apds9960: set gesture decode sensitivity 2 36539.
 apds9960: check gesture decode sensitivity ok.
 apds9960: apds9960_adc_integration_time_convert_to_register/apds9960_adc_integration_time_convert_to_data test.
-apds9960: set adc integration time 35.00.
-apds9960: check adc integration time 36.14.
+apds9960: set adc integration time 49.90.
+apds9960: check adc integration time 50.04.
 apds9960: apds9960_wait_time_convert_to_register/apds9960_wait_time_convert_to_data test.
-apds9960: set wait time 36.20.
-apds9960: check wait time 38.92.
+apds9960: set wait time 94.90.
+apds9960: check wait time 97.30.
 apds9960: apds9960_get_status test.
 apds9960: status is 0x00.
 apds9960: apds9960_get_gesture_fifo_level test.
@@ -439,7 +485,7 @@ apds9960: finish register test.
 ```
 
 ```shell
-apds9960 -t read 3
+apds9960 -t read --times=3
 
 apds9960: chip is Broadcom APDS9960.
 apds9960: manufacturer is Broadcom.
@@ -451,26 +497,26 @@ apds9960: max current is 100.00mA.
 apds9960: max temperature is 85.0C.
 apds9960: min temperature is -40.0C.
 apds9960: start read test.
-apds9960: red is 0x006F.
-apds9960: green is 0x00D5.
-apds9960: blue is 0x0091.
-apds9960: clear is 0x006F.
-apds9960: proximity is 0x05.
-apds9960: red is 0x006F.
-apds9960: green is 0x00D5.
-apds9960: blue is 0x008F.
-apds9960: clear is 0x0076.
-apds9960: proximity is 0x04.
-apds9960: red is 0x006F.
-apds9960: green is 0x00D5.
-apds9960: blue is 0x008F.
-apds9960: clear is 0x006F.
-apds9960: proximity is 0x06.
+apds9960: red is 0x0022.
+apds9960: green is 0x002F.
+apds9960: blue is 0x0018.
+apds9960: clear is 0x004D.
+apds9960: proximity is 0x0F.
+apds9960: red is 0x0022.
+apds9960: green is 0x002F.
+apds9960: blue is 0x0018.
+apds9960: clear is 0x004D.
+apds9960: proximity is 0x11.
+apds9960: red is 0x0022.
+apds9960: green is 0x002F.
+apds9960: blue is 0x0018.
+apds9960: clear is 0x004D.
+apds9960: proximity is 0x0E.
 apds9960: finish read test.
 ```
 
 ```shell
-apds9960 -t gesture 6
+apds9960 -t gesture --times=6
 
 apds9960: chip is Broadcom APDS9960.
 apds9960: manufacturer is Broadcom.
@@ -492,7 +538,7 @@ apds9960: finish gesture test.
 ```
 
 ```shell
-apds9960 -t int 3 1 2000 1 150
+apds9960 -t int --times=3 --als-high-threshold=2000 --als-low-threshold=1 --proximity-high-threshold=150 --proximity-low-threshold=1
 
 apds9960: chip is Broadcom APDS9960.
 apds9960: manufacturer is Broadcom.
@@ -504,40 +550,37 @@ apds9960: max current is 100.00mA.
 apds9960: max temperature is 85.0C.
 apds9960: min temperature is -40.0C.
 apds9960: start interrupt test.
-apds9960: proximity is 0xF8.
 apds9960: proximity is 0xFF.
-apds9960: red is 0x0087.
-apds9960: green is 0x0037.
-apds9960: blue is 0x008F.
-apds9960: clear is 0x0057.
+apds9960: proximity is 0xFF.
+apds9960: proximity is 0xFF.
 apds9960: finish interrupt test.
 ```
 
 ```shell
-apds9960 -c read 3
+apds9960 -e read --times=3
 
 1/3.
-apds9960: red is 0x00C9.
-apds9960: green is 0x00E1.
-apds9960: blue is 0x00B9.
-apds9960: clear is 0x00E3.
-apds9960: proximity is 0xA7.
+apds9960: red is 0x0020.
+apds9960: green is 0x002E.
+apds9960: blue is 0x0017.
+apds9960: clear is 0x004A.
+apds9960: proximity is 0x09.
 2/3.
-apds9960: red is 0x00CB.
-apds9960: green is 0x00E4.
-apds9960: blue is 0x00C0.
-apds9960: clear is 0x00D3.
-apds9960: proximity is 0xB5.
+apds9960: red is 0x0020.
+apds9960: green is 0x002E.
+apds9960: blue is 0x0017.
+apds9960: clear is 0x004A.
+apds9960: proximity is 0x0D.
 3/3.
-apds9960: red is 0x00A8.
-apds9960: green is 0x00C7.
-apds9960: blue is 0x00AB.
-apds9960: clear is 0x00F6.
-apds9960: proximity is 0x51.
+apds9960: red is 0x0021.
+apds9960: green is 0x002E.
+apds9960: blue is 0x0018.
+apds9960: clear is 0x004C.
+apds9960: proximity is 0x0C.
 ```
 
 ```shell
-apds9960 -c gesture 6
+apds9960 -e gesture --times=6
 
 apds9960: irq gesture right.
 apds9960: irq gesture left.
@@ -548,38 +591,51 @@ apds9960: irq gesture near.
 ```
 
 ```shell
-apds9960 -c int 3 1 2000 1 150
+apds9960 -e int --times=3 --als-high-threshold=2000 --als-low-threshold=1 --proximity-high-threshold=150 --proximity-low-threshold=1
 
-apds9960: proximity is 0xCF.
-apds9960: proximity is 0xFF.
-apds9960: red is 0x0097.
-apds9960: green is 0x003F.
-apds9960: blue is 0x0097.
-apds9960: clear is 0x00AF.
+apds9960: red is 0x0026.
+apds9960: green is 0x00DD.
+apds9960: blue is 0x004F.
+apds9960: clear is 0x00CB.
+apds9960: red is 0x003E.
+apds9960: green is 0x005D.
+apds9960: blue is 0x005D.
+apds9960: clear is 0x008F.
+apds9960: red is 0x00D8.
+apds9960: green is 0x007C.
+apds9960: blue is 0x00DF.
+apds9960: clear is 0x009F.
 ```
 
 ```shell
 apds9960 -h
 
-apds9960 -i
-	show apds9960 chip and driver information.
-apds9960 -h
-	show apds9960 help.
-apds9960 -p
-	show apds9960 pin connections of the current board.
-apds9960 -t reg
-	run apds9960 register test.
-apds9960 -t read <times>
-	run apds9960 read test.times means test times.
-apds9960 -t int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>
-	run apds9960 interrupt test.times means test times.alslowthreshold is the als low threshold.alshighthreshold is the als high threshold.proximitylowthreshold is the proximity low threshold.proximityhighthreshold is the proximity high threshold.
-apds9960 -t gesture <times>
-	run apds9960 gesture test.times means test times.
-apds9960 -c read <times>
-	run apds9960 read function.times means test times.
-apds9960 -c gesture <times>
-	run apds9960 gesture function.times means test times.
-apds9960 -c int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>
-	run apds9960 interrupt function.times means test times.alslowthreshold is the als low threshold.alshighthreshold is the als high threshold.proximitylowthreshold is the proximity low threshold.proximityhighthreshold is the proximity high threshold.
+Usage:
+  apds9960 (-i | --information)
+  apds9960 (-h | --help)
+  apds9960 (-p | --port)
+  apds9960 (-t reg | --test=reg)
+  apds9960 (-t read | --test=read) [--times=<num>]
+  apds9960 (-t int | --test=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>]
+           [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
+  apds9960 (-t gesture | --test=gesture) [--times=<num>]
+  apds9960 (-e read | --example=read) [--times=<num>]
+  apds9960 (-e int | --example=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>]
+           [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
+  apds9960 (-e gesture | --example=gesture)  [--times=<num>]
+
+Options:
+      --als-high-threshold=<ahigh>          Set the als interrupt high threshold.([default: 1000])
+      --als-low-threshold=<alow>            Set the als interrupt low threshold.([default: 1])
+  -e <read | int | gesture>, --example=<read | int | gesture>
+                                            Run the driver example.
+  -h, --help                                Show the help.
+  -i, --information                         Show the chip information.
+  -p, --port                                Display the pin connections of the current board.
+      --proximity-high-threshold=<phigh>    Set the proximity high threshold.([default: 128])
+      --proximity-low-threshold=<plow>      Set the proximity low threshold.([default: 1])
+  -t <reg | read | int | gesture>, --test=<reg | read | int | gesture>
+                                            Run the driver test.
+      --times=<num>                         Set the running times.([default: 3])
 ```
 
