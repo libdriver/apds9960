@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture__test_8c_sou
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <a class="code" href="structapds9960__handle__s.html">apds9960_handle_t</a> gs_handle;        </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> uint8_t gs_data[32][4];             </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> uint8_t gs_flag;                    </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> <span class="keyword">volatile</span> uint8_t gs_flag;           </div>
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="group__apds9960__test__driver.html#ga56f720d35c33f2a81d9cffc1dea4ca8f">   50</a></span>&#160;uint8_t <a class="code" href="group__apds9960__test__driver.html#ga56f720d35c33f2a81d9cffc1dea4ca8f">apds9960_gesture_test_irq_handler</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="group__apds9960__basic__driver.html#ga680335216e34d8b3c4e6dc51aaa53207">apds9960_irq_handler</a>(&amp;gs_handle) != 0)</div>

@@ -42,10 +42,11 @@
 #include "driver_apds9960_read_test.h"
 #include "driver_apds9960_register_test.h"
 #include "gpio.h"
+#include <getopt.h>
 #include <stdlib.h>
 
 uint8_t (*g_gpio_irq)(void) = NULL;        /**< gpio irq */
-static uint8_t gs_flag;                    /**< flag */
+static volatile uint8_t gs_flag;           /**< flag */
 
 /**
  * @brief     gesture callback
@@ -293,375 +294,463 @@ static void a_interrupt_callback(uint8_t type)
  */
 uint8_t apds9960(uint8_t argc, char **argv)
 {
+    int c;
+    int longindex = 0;
+    const char short_options[] = "hipe:t:";
+    const struct option long_options[] =
+    {
+        {"help", no_argument, NULL, 'h'},
+        {"information", no_argument, NULL, 'i'},
+        {"port", no_argument, NULL, 'p'},
+        {"example", required_argument, NULL, 'e'},
+        {"test", required_argument, NULL, 't'},
+        {"als-high-threshold", required_argument, NULL, 1},
+        {"als-low-threshold", required_argument, NULL, 2},
+        {"proximity-high-threshold", required_argument, NULL, 3},
+        {"proximity-low-threshold", required_argument, NULL, 4},
+        {"times", required_argument, NULL, 5},
+        {NULL, 0, NULL, 0},
+    };
+    char type[32] = "unknow";
+    uint32_t times = 3;
+    uint16_t alow = 1;
+    uint16_t ahigh = 1000;
+    uint8_t plow = 1;
+    uint8_t phigh = 128;
+
+    /* if no params */
     if (argc == 1)
     {
+        /* goto the help */
         goto help;
     }
-    else if (argc == 2)
+    
+    /* init 0 */
+    optind = 0;
+    
+    /* parse */
+    do
     {
-        if (strcmp("-i", argv[1]) == 0)
+        /* parse the args */
+        c = getopt_long(argc, argv, short_options, long_options, &longindex);
+        
+        /* judge the result */
+        switch (c)
         {
-            apds9960_info_t info;
-            
-            /* print apds9960 info */
-            apds9960_info(&info);
-            apds9960_interface_debug_print("apds9960: chip is %s.\n", info.chip_name);
-            apds9960_interface_debug_print("apds9960: manufacturer is %s.\n", info.manufacturer_name);
-            apds9960_interface_debug_print("apds9960: interface is %s.\n", info.interface);
-            apds9960_interface_debug_print("apds9960: driver version is %d.%d.\n", info.driver_version / 1000, (info.driver_version % 1000) / 100);
-            apds9960_interface_debug_print("apds9960: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
-            apds9960_interface_debug_print("apds9960: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
-            apds9960_interface_debug_print("apds9960: max current is %0.2fmA.\n", info.max_current_ma);
-            apds9960_interface_debug_print("apds9960: max temperature is %0.1fC.\n", info.temperature_max);
-            apds9960_interface_debug_print("apds9960: min temperature is %0.1fC.\n", info.temperature_min);
-            
-            return 0;
-        }
-        else if (strcmp("-p", argv[1]) == 0)
-        {
-            /* print pin connection */
-            apds9960_interface_debug_print("apds9960: SCL connected to GPIO3(BCM).\n");
-            apds9960_interface_debug_print("apds9960: SDA connected to GPIO2(BCM).\n");
-            apds9960_interface_debug_print("apds9960: INT connected to GPIO17(BCM).\n");
-            
-            return 0;
-        }
-        else if (strcmp("-h", argv[1]) == 0)
-        {
-            /* show apds9960 help */
-            
-            help:
-            
-            apds9960_interface_debug_print("apds9960 -i\n\tshow apds9960 chip and driver information.\n");
-            apds9960_interface_debug_print("apds9960 -h\n\tshow apds9960 help.\n");
-            apds9960_interface_debug_print("apds9960 -p\n\tshow apds9960 pin connections of the current board.\n");
-            apds9960_interface_debug_print("apds9960 -t reg\n\trun apds9960 register test.\n");
-            apds9960_interface_debug_print("apds9960 -t read <times>\n\trun apds9960 read test.times means test times.\n");
-            apds9960_interface_debug_print("apds9960 -t int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>\n\t");
-            apds9960_interface_debug_print("run apds9960 interrupt test.times means test times.alslowthreshold is the als low threshold."
-                                           "alshighthreshold is the als high threshold.proximitylowthreshold is the proximity low threshold.proximityhighthreshold is the proximity high threshold.\n");
-            apds9960_interface_debug_print("apds9960 -t gesture <times>\n\trun apds9960 gesture test.times means test times.\n");
-            apds9960_interface_debug_print("apds9960 -c read <times>\n\trun apds9960 read function.times means test times.\n");
-            apds9960_interface_debug_print("apds9960 -c gesture <times>\n\trun apds9960 gesture function.times means test times.\n");
-            apds9960_interface_debug_print("apds9960 -c int <times> <alslowthreshold> <alshighthreshold> <proximitylowthreshold> <proximityhighthreshold>\n\t");
-            apds9960_interface_debug_print("run apds9960 interrupt function.times means test times.alslowthreshold is the als low threshold.alshighthreshold is the als high threshold.");
-            apds9960_interface_debug_print("proximitylowthreshold is the proximity low threshold.proximityhighthreshold is the proximity high threshold.\n");
-            
-            return 0;
-        }
-        else
-        {
-            return 5;
-        }
-    }
-    else if (argc == 3)
-    {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
-        {
-            if (strcmp("reg", argv[2]) == 0)
+            /* help */
+            case 'h' :
             {
-                /* run reg test */
-                if (apds9960_register_test() != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "h");
+                
+                break;
             }
-            /* param is invalid */
-            else
+            
+            /* information */
+            case 'i' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "i");
+                
+                break;
+            }
+            
+            /* port */
+            case 'p' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "p");
+                
+                break;
+            }
+            
+            /* example */
+            case 'e' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "e_%s", optarg);
+                
+                break;
+            }
+            
+            /* test */
+            case 't' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "t_%s", optarg);
+                
+                break;
+            }
+            
+            /* als-high-threshold */
+            case 1 :
+            {
+                /* set the als high threshold */
+                ahigh = atol(optarg);
+                
+                break;
+            }
+            
+            /* als-low-threshold */
+            case 2 :
+            {
+                /* set the als low threshold */
+                alow = atol(optarg);
+                
+                break;
+            }
+            
+            /* proximity-high-threshold */
+            case 3 :
+            {
+                /* set proximity high threshold */
+                phigh = atol(optarg);
+                
+                break;
+            }
+             
+            /* proximity-low-threshold */
+            case 4 :
+            {
+                /* set proximity low threshold */
+                plow = atol(optarg);
+                
+                break;
+            }
+            
+            /* running times */
+            case 5 :
+            {
+                /* set the times */
+                times = atol(optarg);
+                
+                break;
+            } 
+            
+            /* the end */
+            case -1 :
+            {
+                break;
+            }
+            
+            /* others */
+            default :
             {
                 return 5;
             }
         }
-        /* param is invalid */
+    } while (c != -1);
+
+    /* run the function */
+    if (strcmp("t_reg", type) == 0)
+    {
+        /* run reg test */
+        if (apds9960_register_test() != 0)
+        {
+            return 1;
+        }
         else
         {
-            return 5;
+            return 0;
         }
     }
-    else if (argc == 4)
+    else if (strcmp("t_read", type) == 0)
     {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
+        /* run read test */
+        if (apds9960_read_test(times) != 0)
         {
-            if (strcmp("read", argv[2]) == 0)
-            {
-                /* run read test */
-                if (apds9960_read_test(atoi(argv[3])) != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else if (strcmp("gesture", argv[2]) == 0)
-            {
-                /* gpio interrupt init */
-                g_gpio_irq = apds9960_gesture_test_irq_handler;
-                if (gpio_interrupt_init() != 0)
-                {
-                    g_gpio_irq = NULL;
-                }
-                
-                /* run gesture test */
-                if (apds9960_gesture_test(atoi(argv[3])) != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                else
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 0;
-                }
-            }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
+            return 1;
         }
-        /* run function */
-        else if (strcmp("-c", argv[1]) == 0)
+        else
         {
-            if (strcmp("read", argv[2]) == 0)
+            return 0;
+        }
+    }
+    else if (strcmp("t_int", type) == 0)
+    {
+        /* set gpio irq */
+        g_gpio_irq = apds9960_interrupt_test_irq_handler;
+        
+        /* gpio init */
+        if (gpio_interrupt_init() != 0)
+        {
+            g_gpio_irq = NULL;
+        }
+        
+        /* run interrupt test */
+        if (apds9960_interrupt_test(times, alow, ahigh, plow, phigh) != 0)
+        {
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* gpio deinit */
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0;
+    }
+    else if (strcmp("t_gesture", type) == 0)
+    {
+        /* set gpio irq */
+        g_gpio_irq = apds9960_gesture_test_irq_handler;
+        
+        /* gpio init */
+        if (gpio_interrupt_init() != 0)
+        {
+            g_gpio_irq = NULL;
+        }
+        
+        /* run gesture test */
+        if (apds9960_gesture_test(times) != 0)
+        {
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* gpio deinit */
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0;
+    }
+    else if (strcmp("e_read", type) == 0)
+    {
+        uint8_t res;
+        uint32_t i;
+        
+        /* basic init */
+        res = apds9960_basic_init();
+        if (res != 0)
+        {
+            return 1;
+        }
+        
+        /* 1000 ms */
+        apds9960_interface_delay_ms(1000);
+        
+        /* loop */
+        for (i = 0; i < times; i++)
+        {
+            uint8_t proximity;
+            uint16_t red, green, blue, clear;
+            
+            /* read rgbc */
+            res = apds9960_basic_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
+            if (res != 0)
             {
-                uint8_t res;
-                uint32_t i, times;
-                
-                times = atoi(argv[3]);
-                res = apds9960_basic_init();
-                if (res != 0)
-                {
-                    return 1;
-                }
-                
-                /* 1000 ms */
-                apds9960_interface_delay_ms(1000);
-                
-                for (i = 0; i < times; i++)
-                {
-                    uint8_t proximity;
-                    uint16_t red, green, blue, clear;
-                    
-                    /* read rgbc */
-                    res = apds9960_basic_read_rgbc((uint16_t *)&red, (uint16_t *)&green, (uint16_t *)&blue, (uint16_t *)&clear);
-                    if (res != 0)
-                    {
-                        apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
-                        (void)apds9960_basic_deinit();
-                        
-                        return 1;
-                    }
-                    
-                    /* read proximity */
-                    res = apds9960_basic_read_proximity((uint8_t *)&proximity);
-                    if (res != 0)
-                    {
-                        apds9960_interface_debug_print("apds9960: read proximity failed.\n");
-                        (void)apds9960_basic_deinit();
-                        
-                        return 1;
-                    }
-                    
-                    /* output */
-                    apds9960_interface_debug_print("%d/%d.\n", i + 1, times);
-                    apds9960_interface_debug_print("apds9960: red is 0x%04X.\n", red);
-                    apds9960_interface_debug_print("apds9960: green is 0x%04X.\n", green);
-                    apds9960_interface_debug_print("apds9960: blue is 0x%04X.\n", blue);
-                    apds9960_interface_debug_print("apds9960: clear is 0x%04X.\n", clear);
-                    apds9960_interface_debug_print("apds9960: proximity is 0x%02X.\n", proximity);
-                    
-                    /* 1000 ms */
-                    apds9960_interface_delay_ms(1000);
-                }
-                
-                /* deinit */
+                apds9960_interface_debug_print("apds9960: read rgbc failed.\n");
                 (void)apds9960_basic_deinit();
                 
-                return 0;
+                return 1;
             }
-            else if (strcmp("gesture", argv[2]) == 0)
+            
+            /* read proximity */
+            res = apds9960_basic_read_proximity((uint8_t *)&proximity);
+            if (res != 0)
             {
-                uint8_t res;
-                uint32_t i, times;
+                apds9960_interface_debug_print("apds9960: read proximity failed.\n");
+                (void)apds9960_basic_deinit();
                 
-                times = atoi(argv[3]);
-                
-                /* gpio interrupt init */
-                g_gpio_irq = apds9960_gesture_irq_handler;
-                if (gpio_interrupt_init() != 0)
-                {
-                    g_gpio_irq = NULL;
-                }
-                
-                res = apds9960_gesture_init(a_gesture_callback);
-                if (res != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                
-                gs_flag = 0;
-                for (i = 0; i < times; i++)
-                {
-                    while (1)
-                    {
-                        if (gs_flag != 0)
-                        {
-                            gs_flag = 0;
-                            
-                            /* 1000 ms */
-                            apds9960_interface_delay_ms(100);
-                            
-                            break;
-                        }
-                        else
-                        {
-                            /* 1000 ms */
-                            apds9960_interface_delay_ms(100); 
-                            
-                            continue;
-                        }
-                    }
-                }
-                
-                (void)apds9960_gesture_deinit();
-                (void)gpio_interrupt_deinit();
-                g_gpio_irq = NULL;
-                
-                return 0;
+                return 1;
             }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
+            
+            /* output */
+            apds9960_interface_debug_print("%d/%d.\n", i + 1, times);
+            apds9960_interface_debug_print("apds9960: red is 0x%04X.\n", red);
+            apds9960_interface_debug_print("apds9960: green is 0x%04X.\n", green);
+            apds9960_interface_debug_print("apds9960: blue is 0x%04X.\n", blue);
+            apds9960_interface_debug_print("apds9960: clear is 0x%04X.\n", clear);
+            apds9960_interface_debug_print("apds9960: proximity is 0x%02X.\n", proximity);
+            
+            /* 1000 ms */
+            apds9960_interface_delay_ms(1000);
         }
-        /* param is invalid */
-        else
-        {
-            return 5;
-        }
+        
+        /* deinit */
+        (void)apds9960_basic_deinit();
+        
+        return 0;
     }
-    else if (argc == 8)
+    else if (strcmp("e_gesture", type) == 0)
     {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
+        uint8_t res;
+        uint32_t i;
+        
+        /* set gpio irq */
+        g_gpio_irq = apds9960_gesture_irq_handler;
+        
+        /* gpio init */
+        if (gpio_interrupt_init() != 0)
         {
-            if (strcmp("int", argv[2]) == 0)
+            g_gpio_irq = NULL;
+        }
+        
+        /* gesture init */
+        res = apds9960_gesture_init(a_gesture_callback);
+        if (res != 0)
+        {
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* loop */
+        gs_flag = 0;
+        for (i = 0; i < times; i++)
+        {
+            while (1)
             {
-                /* gpio interrupt init */
-                g_gpio_irq = apds9960_interrupt_test_irq_handler;
-                if (gpio_interrupt_init() != 0)
+                if (gs_flag != 0)
                 {
-                    g_gpio_irq = NULL;
-                }
-                
-                /* run interrupt test */
-                if (apds9960_interrupt_test(atoi(argv[3]), (uint16_t)atoi(argv[4]),
-                                            (uint16_t)atoi(argv[5]), (uint8_t)atoi(argv[6]), (uint8_t)atoi(argv[7])) != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
+                    gs_flag = 0;
                     
-                    return 1;
+                    /* 1000 ms */
+                    apds9960_interface_delay_ms(100);
+                    
+                    break;
                 }
                 else
                 {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
+                    /* 1000 ms */
+                    apds9960_interface_delay_ms(100); 
                     
-                    return 0;
+                    continue;
                 }
-            }
-            /* param is invalid */
-            else
-            {
-                return 5;
             }
         }
-        /* run function */
-        else if (strcmp("-c", argv[1]) == 0)
-        {
-            if (strcmp("int", argv[2]) == 0)
-            {
-                uint32_t i, times;
-                
-                times = atoi(argv[3]);
-                
-                /* gpio interrupt init */
-                g_gpio_irq = apds9960_interrupt_irq_handler;
-                if (gpio_interrupt_init() != 0)
-                {
-                    g_gpio_irq = NULL;
-                }
-                
-                /* run interrupt function */
-                if (apds9960_interrupt_init(a_interrupt_callback, (uint16_t)atoi(argv[4]),
-                                           (uint16_t)atoi(argv[5]), (uint8_t)atoi(argv[6]), (uint8_t)atoi(argv[7])) != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                
-                gs_flag = 0;
-                for (i = 0; i < times; i++)
-                {
-                    while (1)
-                    {
-                        if (gs_flag != 0)
-                        {
-                            gs_flag = 0;
-                            
-                            /* 1000 ms */
-                            apds9960_interface_delay_ms(100);
-                            
-                            break;
-                        }
-                        else
-                        {
-                            /* 1000 ms */
-                            apds9960_interface_delay_ms(100); 
-                            
-                            continue;
-                        }
-                    }
-                }
-                
-                (void)apds9960_interrupt_deinit();
-                (void)gpio_interrupt_deinit();
-                g_gpio_irq = NULL;
-                
-                return 0;
-            }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
-        }
-        /* param is invalid */
-        else
-        {
-            return 5;
-        }
+        
+        /* deinit */
+        (void)apds9960_gesture_deinit();
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0;
     }
-    /* param is invalid */
+    else if (strcmp("e_int", type) == 0)
+    {
+        uint32_t i;
+        
+        /* set gpio irq */
+        g_gpio_irq = apds9960_interrupt_irq_handler;
+        
+        /* gpio init */
+        if (gpio_interrupt_init() != 0)
+        {
+            g_gpio_irq = NULL;
+        }
+        
+        /* run interrupt function */
+        if (apds9960_interrupt_init(a_interrupt_callback, alow, ahigh, plow, phigh) != 0)
+        {
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* loop */
+        gs_flag = 0;
+        for (i = 0; i < times; i++)
+        {
+            while (1)
+            {
+                if (gs_flag != 0)
+                {
+                    gs_flag = 0;
+                    
+                    /* 1000 ms */
+                    apds9960_interface_delay_ms(100);
+                    
+                    break;
+                }
+                else
+                {
+                    /* 1000 ms */
+                    apds9960_interface_delay_ms(100); 
+                    
+                    continue;
+                }
+            }
+        }
+        
+        /* deinit */
+        (void)apds9960_interrupt_deinit();
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0;
+    }
+    else if (strcmp("h", type) == 0)
+    {
+        help:
+        apds9960_interface_debug_print("Usage:\n");
+        apds9960_interface_debug_print("  apds9960 (-i | --information)\n");
+        apds9960_interface_debug_print("  apds9960 (-h | --help)\n");
+        apds9960_interface_debug_print("  apds9960 (-p | --port)\n");
+        apds9960_interface_debug_print("  apds9960 (-t reg | --test=reg)\n");
+        apds9960_interface_debug_print("  apds9960 (-t read | --test=read) [--times=<num>]\n");
+        apds9960_interface_debug_print("  apds9960 (-t int | --test=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>]\n");
+        apds9960_interface_debug_print("           [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]\n");
+        apds9960_interface_debug_print("  apds9960 (-t gesture | --test=gesture) [--times=<num>]\n");
+        apds9960_interface_debug_print("  apds9960 (-e read | --example=read) [--times=<num>]\n");
+        apds9960_interface_debug_print("  apds9960 (-e int | --example=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>]\n");
+        apds9960_interface_debug_print("           [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]\n");
+        apds9960_interface_debug_print("  apds9960 (-e gesture | --example=gesture)  [--times=<num>]\n");
+        apds9960_interface_debug_print("\n");
+        apds9960_interface_debug_print("Options:\n");
+        apds9960_interface_debug_print("      --als-high-threshold=<ahigh>          Set the als interrupt high threshold.([default: 1000])\n");
+        apds9960_interface_debug_print("      --als-low-threshold=<alow>            Set the als interrupt low threshold.([default: 1])\n");
+        apds9960_interface_debug_print("  -e <read | int | gesture>, --example=<read | int | gesture>\n");
+        apds9960_interface_debug_print("                                            Run the driver example.\n");
+        apds9960_interface_debug_print("  -h, --help                                Show the help.\n");
+        apds9960_interface_debug_print("  -i, --information                         Show the chip information.\n");
+        apds9960_interface_debug_print("  -p, --port                                Display the pin connections of the current board.\n");
+        apds9960_interface_debug_print("      --proximity-high-threshold=<phigh>    Set the proximity high threshold.([default: 128])\n");
+        apds9960_interface_debug_print("      --proximity-low-threshold=<plow>      Set the proximity low threshold.([default: 1])\n");
+        apds9960_interface_debug_print("  -t <reg | read | int | gesture>, --test=<reg | read | int | gesture>\n");
+        apds9960_interface_debug_print("                                            Run the driver test.\n");
+        apds9960_interface_debug_print("      --times=<num>                         Set the running times.([default: 3])\n");
+        
+        return 0;
+    }
+    else if (strcmp("i", type) == 0)
+    {
+        apds9960_info_t info;
+        
+        /* print apds9960 info */
+        apds9960_info(&info);
+        apds9960_interface_debug_print("apds9960: chip is %s.\n", info.chip_name);
+        apds9960_interface_debug_print("apds9960: manufacturer is %s.\n", info.manufacturer_name);
+        apds9960_interface_debug_print("apds9960: interface is %s.\n", info.interface);
+        apds9960_interface_debug_print("apds9960: driver version is %d.%d.\n", info.driver_version / 1000, (info.driver_version % 1000) / 100);
+        apds9960_interface_debug_print("apds9960: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
+        apds9960_interface_debug_print("apds9960: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
+        apds9960_interface_debug_print("apds9960: max current is %0.2fmA.\n", info.max_current_ma);
+        apds9960_interface_debug_print("apds9960: max temperature is %0.1fC.\n", info.temperature_max);
+        apds9960_interface_debug_print("apds9960: min temperature is %0.1fC.\n", info.temperature_min);
+        
+        return 0;
+    }
+    else if (strcmp("p", type) == 0)
+    {
+        /* print pin connection */
+        apds9960_interface_debug_print("apds9960: SCL connected to GPIO3(BCM).\n");
+        apds9960_interface_debug_print("apds9960: SDA connected to GPIO2(BCM).\n");
+        apds9960_interface_debug_print("apds9960: INT connected to GPIO17(BCM).\n");
+        
+        return 0;
+    }
     else
     {
         return 5;
