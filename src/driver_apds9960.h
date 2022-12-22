@@ -394,7 +394,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     initialize apds9960_handle_t structure
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] STRUCTURE is apds9960_handle_t
  * @note      none
  */
@@ -402,7 +402,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link iic_init function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to an iic_init function address
  * @note      none
  */
@@ -410,7 +410,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link iic_deinit function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to an iic_deinit function address
  * @note      none
  */
@@ -418,7 +418,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link iic_read function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to an iic_read function address
  * @note      none
  */
@@ -426,7 +426,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link iic_write function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to an iic_write function address
  * @note      none
  */
@@ -434,7 +434,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link delay_ms function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to a delay_ms function address
  * @note      none
  */
@@ -442,7 +442,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link debug_print function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to a debug_print function address
  * @note      none
  */
@@ -450,7 +450,7 @@ typedef struct apds9960_info_s
 
 /**
  * @brief     link receive_callback function
- * @param[in] HANDLE points to a apds9960 handle structure
+ * @param[in] HANDLE points to an apds9960 handle structure
  * @param[in] FUC points to a receive_callback function address
  * @note      none
  */
