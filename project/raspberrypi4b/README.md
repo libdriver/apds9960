@@ -100,40 +100,40 @@ find_package(apds9960 REQUIRED)
    apds9960 (-t reg | --test=reg)
    ```
 
-5. Run apds9960 read test, times means test times.
+5. Run apds9960 read test, num means test times.
 
    ```shell
    apds9960 (-t read | --test=read) [--times=<num>]
    ```
 
-6. Run apds9960 interrupt test, times means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
+6. Run apds9960 interrupt test, num means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
 
    ```shell
    apds9960 (-t int | --test=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>] [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
    ```
 
-7. Run apds9960 gesture test, times means test times.
+7. Run apds9960 gesture test, num means test times.
 
    ```shell
    apds9960 (-t gesture | --test=gesture) [--times=<num>]
    ```
 
-8. Run apds9960 read function, times means test times.
+8. Run apds9960 read function, num means test times.
 
    ```shell
    apds9960 (-e read | --example=read) [--times=<num>]
    ```
 
-9. Run apds9960 interrupt function, times means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
+9. Run apds9960 interrupt function, num means test times, alow is the als low threshold, ahigh is the als high threshold, plow is the proximity low threshold and phigh is the proximity high threshold.
 
    ```shell
    apds9960 (-e int | --example=int) [--times=<num>] [--als-high-threshold=<ahigh>] [--als-low-threshold=<alow>] [--proximity-high-threshold=<phigh>] [--proximity-low-threshold=<plow>]
    ```
 
-10. Run apds9960 gesture function, times means test times.
+10. Run apds9960 gesture function, num means test times.
 
     ```shell
-    apds9960 (-e gesture | --example=gesture)  [--times=<num>]
+    apds9960 (-e gesture | --example=gesture) [--times=<num>]
     ```
 
 #### 3.2 Command Example
