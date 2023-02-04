@@ -44,7 +44,7 @@
 #define IIC_DEVICE_NAME "/dev/i2c-1"        /**< iic device name */
 
 /**
- * @brief iic device hanble definition
+ * @brief iic device handle definition
  */
 static int gs_fd;                           /**< iic handle */
 
@@ -193,7 +193,7 @@ void apds9960_interface_receive_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_CPSAT :
         {
-            apds9960_interface_debug_print("apds9960: irq clear photodiode saturation.\n");
+            apds9960_interface_debug_print("apds9960: irq clear photo diode saturation.\n");
             
             break;
         }

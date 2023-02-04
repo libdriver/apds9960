@@ -113,7 +113,7 @@ static void a_gesture_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_CPSAT :
         {
-            apds9960_interface_debug_print("apds9960: irq clear photodiode saturation.\n");
+            apds9960_interface_debug_print("apds9960: irq clear photo diode saturation.\n");
             
             break;
         }
@@ -215,7 +215,7 @@ static void a_interrupt_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_CPSAT :
         {
-            apds9960_interface_debug_print("apds9960: irq clear photodiode saturation.\n");
+            apds9960_interface_debug_print("apds9960: irq clear photo diode saturation.\n");
             
             break;
         }
@@ -311,7 +311,7 @@ uint8_t apds9960(uint8_t argc, char **argv)
         {"times", required_argument, NULL, 5},
         {NULL, 0, NULL, 0},
     };
-    char type[33] = "unknow";
+    char type[33] = "unknown";
     uint32_t times = 3;
     uint16_t alow = 1;
     uint16_t ahigh = 1000;
@@ -784,7 +784,7 @@ int main(uint8_t argc, char **argv)
     }
     else
     {
-        apds9960_interface_debug_print("apds9960: unknow status code.\n");
+        apds9960_interface_debug_print("apds9960: unknown status code.\n");
     }
 
     return 0;

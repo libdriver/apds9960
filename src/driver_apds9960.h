@@ -190,7 +190,7 @@ typedef enum
 typedef enum
 {
     APDS9960_SATURATION_INTERRUPT_PROXIMITY        = 7,        /**< proximity saturation interrupt */
-    APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE = 6,        /**< clear photodiode saturation interrupt */
+    APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE = 6,        /**< clear photo diode saturation interrupt */
 } apds9960_saturation_interrupt_t;
 
 /**
@@ -209,7 +209,7 @@ typedef enum
  */
 typedef enum
 {
-    APDS9960_STATUS_CPSAT  = 7,        /**< clear photodiode saturation */
+    APDS9960_STATUS_CPSAT  = 7,        /**< clear photo diode saturation */
     APDS9960_STATUS_PGSAT  = 6,        /**< indicates that an analog saturation event occurred during a previous proximity or gesture cycle */
     APDS9960_STATUS_PINT   = 5,        /**< proximity interrupt */
     APDS9960_STATUS_AINT   = 4,        /**< als interrupt */
@@ -331,7 +331,7 @@ typedef enum
     APDS9960_INTERRUPT_STATUS_GESTURE_FAR   = 10,       /**< gesture far */
     APDS9960_INTERRUPT_STATUS_GFOV          = 9,        /**< gesture fifo overflow */
     APDS9960_INTERRUPT_STATUS_GVALID        = 8,        /**< gesture fifo data */
-    APDS9960_INTERRUPT_STATUS_CPSAT         = 7,        /**< clear photodiode saturation */
+    APDS9960_INTERRUPT_STATUS_CPSAT         = 7,        /**< clear photo diode saturation */
     APDS9960_INTERRUPT_STATUS_PGSAT         = 6,        /**< indicates that an analog saturation event occurred during a previous proximity or gesture cycle */
     APDS9960_INTERRUPT_STATUS_PINT          = 5,        /**< proximity interrupt */
     APDS9960_INTERRUPT_STATUS_AINT          = 4,        /**< als interrupt */

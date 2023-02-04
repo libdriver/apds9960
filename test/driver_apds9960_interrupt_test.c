@@ -117,7 +117,7 @@ static void a_callback(uint8_t type)
         }
         case APDS9960_INTERRUPT_STATUS_CPSAT :
         {
-            apds9960_interface_debug_print("apds9960: irq clear photodiode saturation.\n");
+            apds9960_interface_debug_print("apds9960: irq clear photo diode saturation.\n");
             
             break;
         }
@@ -495,7 +495,7 @@ uint8_t apds9960_interrupt_test(uint32_t times, uint16_t als_low_threshold, uint
         return 1;
     }
     
-    /* enable clear photodiode saturation interrupt */
+    /* enable clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE, APDS9960_BOOL_TRUE);
     if (res != 0)
     {

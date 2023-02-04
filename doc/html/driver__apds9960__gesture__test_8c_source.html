@@ -163,7 +163,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture__test_8c_sou
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            uint8_t res;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            uint8_t len;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment">/* read gestrue fifo */</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment">/* read gesture fifo */</span></div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            len = 32;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            res = <a class="code" href="group__apds9960__basic__driver.html#ga11d5f7998af7c0391e6620fc0d9785cb">apds9960_read_gesture_fifo</a>(&amp;gs_handle, gs_data, (uint8_t *)&amp;len);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">if</span> (res != 0)</div>
@@ -185,7 +185,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture__test_8c_sou
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__apds9960__basic__driver.html#gga2adfe5035f20626af9cb97d49e9ece7da0f117e72d8e56127ff237edfb9981725">APDS9960_INTERRUPT_STATUS_CPSAT</a> :</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <a class="code" href="group__apds9960__interface__driver.html#gaf73c140213d066a9725766e18762b7a5">apds9960_interface_debug_print</a>(<span class="stringliteral">&quot;apds9960: irq clear photodiode saturation.\n&quot;</span>);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <a class="code" href="group__apds9960__interface__driver.html#gaf73c140213d066a9725766e18762b7a5">apds9960_interface_debug_print</a>(<span class="stringliteral">&quot;apds9960: irq clear photo diode saturation.\n&quot;</span>);</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            </div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div>
@@ -521,7 +521,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture__test_8c_sou
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    }</div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    </div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="comment">/* enable clear photodiode saturation interrupt */</span></div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="comment">/* enable clear photo diode saturation interrupt */</span></div>
 <div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    res = <a class="code" href="group__apds9960__basic__driver.html#ga389d45a3c7dd24a8133f91e7c2902873">apds9960_set_saturation_interrupt</a>(&amp;gs_handle, <a class="code" href="group__apds9960__basic__driver.html#ggacbd89215828085a9f38b045c97151765ab1ba874a5b0536ca0a0045d4c93a6c99">APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE</a>, <a class="code" href="group__apds9960__basic__driver.html#gga89cdfa1d1dc79f83bcab7dfcf2cdd4d1aa96678427d9877404b101e29961fea10">APDS9960_BOOL_TRUE</a>);</div>
 <div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    <span class="keywordflow">if</span> (res != 0)</div>
 <div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    {</div>

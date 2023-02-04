@@ -73,7 +73,7 @@ static void a_gesture_callback(uint8_t type)
             uint8_t res;
             uint8_t len;
             
-            /* read gestrue fifo */
+            /* read gesture fifo */
             len = 32;
             res = apds9960_read_gesture_fifo(&gs_handle, gs_data, (uint8_t *)&len);
             if (res != 0)
@@ -111,7 +111,7 @@ static void a_gesture_callback(uint8_t type)
 
 /**
  * @brief     gesture example init
- * @param[in] *callback points to a callback funciton
+ * @param[in] *callback points to a callback function
  * @return    status code
  *            - 0 success
  *            - 1 init failed
@@ -382,7 +382,7 @@ uint8_t apds9960_gesture_init(void (*callback)(uint8_t type))
         return 1;
     }
     
-    /* set clear photodiode saturation interrupt */
+    /* set clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE, APDS9960_GESTURE_DEFAULT_SATURATION_INTERRUPT_CLEAR_PHOTODIODE);
     if (res != 0)
     {
