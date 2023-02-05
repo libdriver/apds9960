@@ -159,7 +159,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__interrupt__test_8c_s
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__apds9960__basic__driver.html#gga2adfe5035f20626af9cb97d49e9ece7da0f117e72d8e56127ff237edfb9981725">APDS9960_INTERRUPT_STATUS_CPSAT</a> :</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <a class="code" href="group__apds9960__interface__driver.html#gaf73c140213d066a9725766e18762b7a5">apds9960_interface_debug_print</a>(<span class="stringliteral">&quot;apds9960: irq clear photodiode saturation.\n&quot;</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <a class="code" href="group__apds9960__interface__driver.html#gaf73c140213d066a9725766e18762b7a5">apds9960_interface_debug_print</a>(<span class="stringliteral">&quot;apds9960: irq clear photo diode saturation.\n&quot;</span>);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            </div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
@@ -525,7 +525,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__interrupt__test_8c_s
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;        <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    }</div>
 <div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    </div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="comment">/* enable clear photodiode saturation interrupt */</span></div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="comment">/* enable clear photo diode saturation interrupt */</span></div>
 <div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    res = <a class="code" href="group__apds9960__basic__driver.html#ga389d45a3c7dd24a8133f91e7c2902873">apds9960_set_saturation_interrupt</a>(&amp;gs_handle, <a class="code" href="group__apds9960__basic__driver.html#ggacbd89215828085a9f38b045c97151765ab1ba874a5b0536ca0a0045d4c93a6c99">APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE</a>, <a class="code" href="group__apds9960__basic__driver.html#gga89cdfa1d1dc79f83bcab7dfcf2cdd4d1aa96678427d9877404b101e29961fea10">APDS9960_BOOL_TRUE</a>);</div>
 <div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">if</span> (res != 0)</div>
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    {</div>

@@ -102,7 +102,7 @@ uint8_t apds9960_gesture_irq_handler(void);
 
 /**
  * @brief     gesture example init
- * @param[in] *callback points to a callback funciton
+ * @param[in] *callback points to a callback function
  * @return    status code
  *            - 0 success
  *            - 1 init failed

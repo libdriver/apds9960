@@ -337,7 +337,7 @@ uint8_t apds9960_read_test(uint32_t times)
         return 1;
     }
     
-    /* disable clear photodiode saturation interrupt */
+    /* disable clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE, APDS9960_BOOL_FALSE);
     if (res != 0)
     {

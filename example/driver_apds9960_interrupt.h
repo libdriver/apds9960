@@ -99,7 +99,7 @@ uint8_t apds9960_interrupt_irq_handler(void);
 
 /**
  * @brief     interrupt example init
- * @param[in] *callback points to a callback funciton
+ * @param[in] *callback points to a callback function
  * @param[in] als_low_threshold is the als low threshold
  * @param[in] als_high_threshold is the als high threshold
  * @param[in] proximity_low_threshold is the proximity low threshold

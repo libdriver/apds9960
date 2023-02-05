@@ -59,7 +59,7 @@ uint8_t apds9960_interrupt_irq_handler(void)
 
 /**
  * @brief     interrupt example init
- * @param[in] *callback points to a callback funciton
+ * @param[in] *callback points to a callback function
  * @param[in] als_low_threshold is the als low threshold
  * @param[in] als_high_threshold is the als high threshold
  * @param[in] proximity_low_threshold is the proximity low threshold
@@ -334,7 +334,7 @@ uint8_t apds9960_interrupt_init(void (*callback)(uint8_t type), uint16_t als_low
         return 1;
     }
     
-    /* set clear photodiode saturation interrupt */
+    /* set clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE, APDS9960_INTERRUPT_DEFAULT_SATURATION_INTERRUPT_CLEAR_PHOTODIODE);
     if (res != 0)
     {

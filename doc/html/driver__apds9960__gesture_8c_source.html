@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture_8c_source.ht
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            uint8_t res;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            uint8_t len;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment">/* read gestrue fifo */</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment">/* read gesture fifo */</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            len = 32;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            res = <a class="code" href="group__apds9960__basic__driver.html#ga11d5f7998af7c0391e6620fc0d9785cb">apds9960_read_gesture_fifo</a>(&amp;gs_handle, gs_data, (uint8_t *)&amp;len);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">if</span> (res != 0)</div>
@@ -416,7 +416,7 @@ $(document).ready(function(){initNavTree('driver__apds9960__gesture_8c_source.ht
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    }</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">/* set clear photodiode saturation interrupt */</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">/* set clear photo diode saturation interrupt */</span></div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    res = <a class="code" href="group__apds9960__basic__driver.html#ga389d45a3c7dd24a8133f91e7c2902873">apds9960_set_saturation_interrupt</a>(&amp;gs_handle, <a class="code" href="group__apds9960__basic__driver.html#ggacbd89215828085a9f38b045c97151765ab1ba874a5b0536ca0a0045d4c93a6c99">APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE</a>, <a class="code" href="group__apds9960__example__driver.html#ga57be83de1ed51b7f9d794187b1f5fccd">APDS9960_GESTURE_DEFAULT_SATURATION_INTERRUPT_CLEAR_PHOTODIODE</a>);</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordflow">if</span> (res != 0)</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    {</div>

@@ -1629,7 +1629,7 @@ uint8_t apds9960_register_test(void)
     }
     apds9960_interface_debug_print("apds9960: check saturation interrupt %s.\n", enable == APDS9960_BOOL_TRUE ? "ok" : "error");
     
-    /* disable clear photodiode saturation interrupt */
+    /* disable clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_FALSE);
     if (res != 0)
     {
@@ -1638,7 +1638,7 @@ uint8_t apds9960_register_test(void)
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: disable clear photodiode saturation interrupt.\n");
+    apds9960_interface_debug_print("apds9960: disable clear photo diode saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
     if (res != 0)
     {
@@ -1647,9 +1647,9 @@ uint8_t apds9960_register_test(void)
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: check clear photodiode saturation interrupt %s.\n", enable == APDS9960_BOOL_FALSE ? "ok" : "error");
+    apds9960_interface_debug_print("apds9960: check clear photo diode saturation interrupt %s.\n", enable == APDS9960_BOOL_FALSE ? "ok" : "error");
     
-    /* enable clear photodiode saturation interrupt */
+    /* enable clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, APDS9960_BOOL_TRUE);
     if (res != 0)
     {
@@ -1658,7 +1658,7 @@ uint8_t apds9960_register_test(void)
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: enable clear photodiode saturation interrupt.\n");
+    apds9960_interface_debug_print("apds9960: enable clear photo diode saturation interrupt.\n");
     res = apds9960_get_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_PROXIMITY, &enable);
     if (res != 0)
     {
@@ -1667,7 +1667,7 @@ uint8_t apds9960_register_test(void)
         
         return 1;
     }
-    apds9960_interface_debug_print("apds9960: check clear photodiode saturation interrupt %s.\n", enable == APDS9960_BOOL_TRUE ? "ok" : "error");
+    apds9960_interface_debug_print("apds9960: check clear photo diode saturation interrupt %s.\n", enable == APDS9960_BOOL_TRUE ? "ok" : "error");
     
     /* apds9960_set_led_boost/apds9960_get_led_boost test */
     apds9960_interface_debug_print("apds9960: apds9960_set_led_boost/apds9960_get_led_boost test.\n");

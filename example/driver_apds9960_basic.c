@@ -309,7 +309,7 @@ uint8_t apds9960_basic_init(void)
         return 1;
     }
     
-    /* set clear photodiode saturation interrupt */
+    /* set clear photo diode saturation interrupt */
     res = apds9960_set_saturation_interrupt(&gs_handle, APDS9960_SATURATION_INTERRUPT_CLEAR_PHOTODIODE, APDS9960_BASIC_DEFAULT_SATURATION_INTERRUPT_CLEAR_PHOTODIODE);
     if (res != 0)
     {
