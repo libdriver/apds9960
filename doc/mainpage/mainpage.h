@@ -1,6 +1,6 @@
 /**
  * @mainpage  LibDriver APDS9960
- * @brief     libdriver apds9960 is a full function driver of apds9960 and it can run in both MCU and Linux platform.
+ * @brief     LibDriver APDS9960 is a full function driver of APDS9960 and it can run in both MCU and Linux platform.
  * @version   1.0.0
  * @author    Shifeng Li
  *
