@@ -653,10 +653,10 @@ uint8_t apds9960_basic_deinit(void)
 
 /**
  * @brief      basic example read rgbc
- * @param[out] *red points to a red buffer
- * @param[out] *green points to a green buffer
- * @param[out] *blue points to a blue buffer
- * @param[out] *clear points to a clear buffer
+ * @param[out] *red pointer to a red buffer
+ * @param[out] *green pointer to a green buffer
+ * @param[out] *blue pointer to a blue buffer
+ * @param[out] *clear pointer to a clear buffer
  * @return     status code
  *             - 0 success
  *             - 1 read rgbc failed
@@ -676,7 +676,7 @@ uint8_t apds9960_basic_read_rgbc(uint16_t *red, uint16_t *green, uint16_t *blue,
 
 /**
  * @brief      basic example read proximity
- * @param[out] *proximity points to a proximity buffer
+ * @param[out] *proximity pointer to a proximity buffer
  * @return     status code
  *             - 0 success
  *             - 1 read proximity failed

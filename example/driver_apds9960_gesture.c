@@ -61,7 +61,7 @@ uint8_t apds9960_gesture_irq_handler(void)
 
 /**
  * @brief     gesture callback
- * @param[in] type is the interrupt type
+ * @param[in] type interrupt type
  * @note      none
  */
 static void a_gesture_callback(uint8_t type)
@@ -111,7 +111,7 @@ static void a_gesture_callback(uint8_t type)
 
 /**
  * @brief     gesture example init
- * @param[in] *callback points to a callback function
+ * @param[in] *callback pointer to a callback function
  * @return    status code
  *            - 0 success
  *            - 1 init failed

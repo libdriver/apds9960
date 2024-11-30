@@ -61,7 +61,7 @@ uint8_t apds9960_gesture_test_irq_handler(void)
 
 /**
  * @brief     interface receive callback
- * @param[in] type is the interrupt type
+ * @param[in] type interrupt type
  * @note      none
  */
 static void a_callback(uint8_t type)
@@ -190,7 +190,7 @@ static void a_callback(uint8_t type)
 
 /**
  * @brief     gesture test
- * @param[in] times is the test times
+ * @param[in] times test times
  * @return    status code
  *            - 0 success
  *            - 1 test failed
