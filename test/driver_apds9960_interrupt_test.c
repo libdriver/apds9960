@@ -60,7 +60,7 @@ uint8_t apds9960_interrupt_test_irq_handler(void)
 
 /**
  * @brief     interface receive callback
- * @param[in] type is the interrupt type
+ * @param[in] type interrupt type
  * @note      none
  */
 static void a_callback(uint8_t type)
@@ -193,11 +193,11 @@ static void a_callback(uint8_t type)
 
 /**
  * @brief     interrupt test
- * @param[in] times is the test times
- * @param[in] als_low_threshold is the als low threshold
- * @param[in] als_high_threshold is the als high threshold
- * @param[in] proximity_low_threshold is the proximity low threshold
- * @param[in] proximity_high_threshold is the proximity high threshold
+ * @param[in] times test times
+ * @param[in] als_low_threshold als low threshold
+ * @param[in] als_high_threshold als high threshold
+ * @param[in] proximity_low_threshold proximity low threshold
+ * @param[in] proximity_high_threshold proximity high threshold
  * @return    status code
  *            - 0 success
  *            - 1 test failed

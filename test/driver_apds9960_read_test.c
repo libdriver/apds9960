@@ -40,7 +40,7 @@ static apds9960_handle_t gs_handle;        /**< apds9960 handle */
 
 /**
  * @brief     register test
- * @param[in] times is the test times
+ * @param[in] times test times
  * @return    status code
  *            - 0 success
  *            - 1 test failed

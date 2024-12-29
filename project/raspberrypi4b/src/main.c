@@ -50,7 +50,7 @@ static volatile uint8_t gs_flag;           /**< flag */
 
 /**
  * @brief     gesture callback
- * @param[in] type is the interrupt type
+ * @param[in] type interrupt type
  * @note      none
  */
 static void a_gesture_callback(uint8_t type)
@@ -158,7 +158,7 @@ static void a_gesture_callback(uint8_t type)
 
 /**
  * @brief     interrupt receive callback
- * @param[in] type is the interrupt type
+ * @param[in] type interrupt type
  * @note      none
  */
 static void a_interrupt_callback(uint8_t type)
@@ -284,8 +284,8 @@ static void a_interrupt_callback(uint8_t type)
 
 /**
  * @brief     apds9960 full function
- * @param[in] argc is arg numbers
- * @param[in] **argv is the arg address
+ * @param[in] argc arg numbers
+ * @param[in] **argv arg address
  * @return    status code
  *            - 0 success
  *            - 1 run failed
@@ -759,8 +759,8 @@ uint8_t apds9960(uint8_t argc, char **argv)
 
 /**
  * @brief     main function
- * @param[in] argc is arg numbers
- * @param[in] **argv is the arg address
+ * @param[in] argc arg numbers
+ * @param[in] **argv arg address
  * @return    status code
  *             - 0 success
  * @note      none
