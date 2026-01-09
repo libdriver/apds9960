@@ -2518,10 +2518,10 @@ uint8_t apds9960_read_rgbc(apds9960_handle_t *handle, uint16_t *red, uint16_t *g
        
         return 1;                                                                        /* return error */
     }
-    *red = (uint16_t)(((uint16_t)buf[3] << 0) | buf[2]);                                 /* set the red */
-    *green = (uint16_t)(((uint16_t)buf[5] << 0) | buf[4]);                               /* set the green */
-    *blue = (uint16_t)(((uint16_t)buf[7] << 0) | buf[6]);                                /* set the blue */
-    *clear = (uint16_t)(((uint16_t)buf[1] << 0) | buf[0]);                               /* set the clear */
+    *red = (uint16_t)(((uint16_t)buf[3] << 8) | buf[2]);                                 /* set the red */
+    *green = (uint16_t)(((uint16_t)buf[5] << 8) | buf[4]);                               /* set the green */
+    *blue = (uint16_t)(((uint16_t)buf[7] << 8) | buf[6]);                                /* set the blue */
+    *clear = (uint16_t)(((uint16_t)buf[1] << 8) | buf[0]);                               /* set the clear */
     
     return 0;                                                                            /* success return 0 */
 }
