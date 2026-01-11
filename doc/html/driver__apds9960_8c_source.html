@@ -2086,10 +2086,10 @@ $(function(){initNavTree('driver__apds9960_8c_source.html','',''); });
 <div class="line"><a id="l02518" name="l02518"></a><span class="lineno"> 2518</span>       </div>
 <div class="line"><a id="l02519" name="l02519"></a><span class="lineno"> 2519</span>        <span class="keywordflow">return</span> 1;                                                                        <span class="comment">/* return error */</span></div>
 <div class="line"><a id="l02520" name="l02520"></a><span class="lineno"> 2520</span>    }</div>
-<div class="line"><a id="l02521" name="l02521"></a><span class="lineno"> 2521</span>    *red = (uint16_t)(((uint16_t)buf[3] &lt;&lt; 0) | buf[2]);                                 <span class="comment">/* set the red */</span></div>
-<div class="line"><a id="l02522" name="l02522"></a><span class="lineno"> 2522</span>    *green = (uint16_t)(((uint16_t)buf[5] &lt;&lt; 0) | buf[4]);                               <span class="comment">/* set the green */</span></div>
-<div class="line"><a id="l02523" name="l02523"></a><span class="lineno"> 2523</span>    *blue = (uint16_t)(((uint16_t)buf[7] &lt;&lt; 0) | buf[6]);                                <span class="comment">/* set the blue */</span></div>
-<div class="line"><a id="l02524" name="l02524"></a><span class="lineno"> 2524</span>    *clear = (uint16_t)(((uint16_t)buf[1] &lt;&lt; 0) | buf[0]);                               <span class="comment">/* set the clear */</span></div>
+<div class="line"><a id="l02521" name="l02521"></a><span class="lineno"> 2521</span>    *red = (uint16_t)(((uint16_t)buf[3] &lt;&lt; 8) | buf[2]);                                 <span class="comment">/* set the red */</span></div>
+<div class="line"><a id="l02522" name="l02522"></a><span class="lineno"> 2522</span>    *green = (uint16_t)(((uint16_t)buf[5] &lt;&lt; 8) | buf[4]);                               <span class="comment">/* set the green */</span></div>
+<div class="line"><a id="l02523" name="l02523"></a><span class="lineno"> 2523</span>    *blue = (uint16_t)(((uint16_t)buf[7] &lt;&lt; 8) | buf[6]);                                <span class="comment">/* set the blue */</span></div>
+<div class="line"><a id="l02524" name="l02524"></a><span class="lineno"> 2524</span>    *clear = (uint16_t)(((uint16_t)buf[1] &lt;&lt; 8) | buf[0]);                               <span class="comment">/* set the clear */</span></div>
 <div class="line"><a id="l02525" name="l02525"></a><span class="lineno"> 2525</span>    </div>
 <div class="line"><a id="l02526" name="l02526"></a><span class="lineno"> 2526</span>    <span class="keywordflow">return</span> 0;                                                                            <span class="comment">/* success return 0 */</span></div>
 <div class="line"><a id="l02527" name="l02527"></a><span class="lineno"> 2527</span>}</div>
